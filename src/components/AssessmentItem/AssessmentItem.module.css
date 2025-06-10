@@ -1,0 +1,67 @@
+.itemCard {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.itemHeader {
+  margin-bottom: var(--spacing-md);
+}
+
+.itemTitle {
+  font-size: var(--font-size-subtitle2);
+  line-height: var(--line-height-subtitle2);
+  font-weight: var(--font-weight-subtitle2);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.itemDetails {
+  font-size: var(--font-size-bodyS);
+  line-height: var(--line-height-bodyS);
+  color: var(--color-text-secondary);
+}
+
+.detailsList {
+  list-style: disc;
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+}
+
+.detailsList li {
+  margin-bottom: var(--spacing-xs);
+}
+
+.detailsList li:last-child {
+  margin-bottom: 0;
+}
+
+.expandButton {
+  background: none;
+  border: none;
+  color: var(--color-primary-600);
+  font-size: var(--font-size-bodyS);
+  font-weight: var(--font-weight-button);
+  cursor: pointer;
+  margin-top: var(--spacing-xs);
+  padding: 0;
+}
+
+.expandButton:hover {
+  color: var(--color-primary-800);
+}
+
+.statusButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+@media (max-width: 48rem) {
+  .statusButtons {
+    flex-direction: column;
+  }
+}
