@@ -46,15 +46,7 @@ export const AssessmentPage: React.FC<AssessmentPageProps> = ({
   const categoryScore = calculateCategoryScore(currentCat.id);
 
   return (
-    <div className={styles.container}>
-      <CategoryTabs
-        selectedAppType={selectedAppType}
-        currentCategory={currentCategory}
-        onCategoryChange={onCategoryChange}
-        onResetAssessment={onResetAssessment}
-        calculateCategoryScore={calculateCategoryScore}
-      />
-
+    <div className="max-w-6xl mx-auto p-6">
       <AssessmentCategory
         title={currentCat.title}
         items={items}

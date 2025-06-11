@@ -9,24 +9,21 @@ interface AppTypeSelectorProps {
 
 export const AppTypeSelector: React.FC<AppTypeSelectorProps> = ({ onSelectAppType }) => {
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-          <h1 className={styles.title}>User Experience Readiness</h1>
-        </div>
-        <p className={styles.subtitle}>Select the type of application you're assessing to begin</p>
+    <div className="max-w-4xl mx-auto p-8">
+      <div className="text-center mb-12">
+        <p className="text-lg text-gray-600 mb-8">Select the type of application you're assessing to begin</p>
       </div>
       
-      <div className={styles.grid}>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {appTypes.map(type => (
           <button
             key={type.id}
             onClick={() => onSelectAppType(type.id)}
-            className={styles.appTypeCard}
+            className="bg-white border-2 border-gray-200 rounded-xl p-8 text-center hover:border-blue-300 hover:shadow-lg transition-all duration-200 hover:-translate-y-1"
           >
-            <span className={styles.appTypeIcon}>{type.icon}</span>
-            <h3 className={styles.appTypeTitle}>{type.title}</h3>
-            <p className={styles.appTypeDescription}>{type.description}</p>
+            <span className="text-4xl mb-4 block">{type.icon}</span>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">{type.title}</h3>
+            <p className="text-gray-600">{type.description}</p>
           </button>
         ))}
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { AppBar } from './components/AppBar/AppBar';
 import { AppTypeSelector } from './components/AppTypeSelector/AppTypeSelector';
 import { AssessmentPage } from './pages/AssessmentPage/AssessmentPage';
 import { ResultsView } from './components/ResultsView/ResultsView';
@@ -12,9 +13,12 @@ function App() {
     selectedAppType,
     setSelectedAppType,
     currentCategory,
+    currentStep,
+    completedSteps,
     responses,
     showResults,
     setShowResults,
+    handleStepChange,
     getItemsForCategory,
     calculateCategoryScore,
     calculateOverallScore,
@@ -27,6 +31,26 @@ function App() {
     isLastCategory,
   } = useAssessment();
 
+  const overallScore = calculateOverallScore();
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <AppBar
+        selectedAppType={selectedAppType}
+        currentStep={currentStep}
+        completedSteps={completedSteps}
+        onStepClick={handleStepChange}
+        onResetAssessment={resetAssessment}
+        overallProgress={overallScore}
+      />
+      
+      <div style={{ paddingTop: '80px' }}>
+        {renderCurrentView()}
+      </div>
+    </div>
+  );
+
+  function renderCurrentView() {
   // App type selection screen
   if (!selectedAppType) {
     return <AppTypeSelector onSelectAppType={setSelectedAppType} />;
@@ -34,7 +58,6 @@ function App() {
 
   // Results screen
   if (showResults) {
-    const overallScore = calculateOverallScore();
     const categoryScores = categories.map(cat => ({
       ...cat,
       score: calculateCategoryScore(cat.id)
@@ -68,6 +91,7 @@ function App() {
       calculateCategoryScore={calculateCategoryScore}
     />
   );
+  }
 }
 
 export default App;
