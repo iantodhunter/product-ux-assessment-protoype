@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AssessmentResponse, AppType } from '../types/assessment';
 import { categories, statusOptions } from '../data/assessmentData';
 
