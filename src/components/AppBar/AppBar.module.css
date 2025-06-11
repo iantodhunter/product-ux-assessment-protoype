@@ -11,7 +11,8 @@
 }
 
 .container {
-  max-width: 100%;
+  max-width: 1980px;
+  margin: 0 auto;
   height: 100%;
   padding: 0 var(--spacing-lg);
   display: flex;
@@ -20,16 +21,101 @@
   gap: var(--spacing-lg);
 }
 
+.titleContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-primary-300);
+  color: var(--color-text-primary);
+}
+
+.dropdown {
+  position: relative;
+}
+
 .titleSection {
   flex-shrink: 0;
   min-width: 200px;
 }
 
 .title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
   font-size: var(--font-size-h5);
   font-weight: var(--font-weight-h5);
   color: var(--color-text-primary);
   margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+}
+
+.title:hover {
+  background: var(--color-surface-hover);
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  min-width: 200px;
+  margin-top: var(--spacing-xs);
+}
+
+.dropdownItem {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-md);
+  text-align: left;
+  background: none;
+  border: none;
+  font-size: var(--font-size-body);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+  background: var(--color-surface-hover);
+}
+
+.dropdownItem:first-child {
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.dropdownItem:last-child {
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
 }
 
 .stepperSection {

@@ -19,7 +19,7 @@ export const ResultsView: React.FC<ResultsViewProps> = ({
   const selectedApp = appTypes.find(t => t.id === selectedAppType);
 
   return (
-    <div className={styles.container}>
+    <div className="max-w-7xl mx-auto p-6">
       <div className={styles.resultsCard}>
         <div className={styles.resultsHeader}>
           <h2 className={styles.resultsTitle}>Assessment Results</h2>

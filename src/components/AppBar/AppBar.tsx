@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check } from 'lucide-react';
+import { Check, ChevronDown, ArrowLeft } from 'lucide-react';
 import { AppType } from '../../types/assessment';
 import { appTypes } from '../../data/assessmentData';
 import styles from './AppBar.module.css';
@@ -11,6 +11,8 @@ interface AppBarProps {
   onStepClick: (step: number) => void;
   onResetAssessment: () => void;
   overallProgress: number;
+  showBackButton?: boolean;
+  onBack?: () => void;
 }
 
 const steps = [
@@ -28,8 +30,11 @@ export const AppBar: React.FC<AppBarProps> = ({
   completedSteps,
   onStepClick,
   onResetAssessment,
-  overallProgress
+  overallProgress,
+  showBackButton = false,
+  onBack
 }) => {
+  const [showDropdown, setShowDropdown] = React.useState(false);
   const selectedApp = appTypes.find(t => t.id === selectedAppType);
   
   const getStepLabel = (step: typeof steps[0]) => {
@@ -42,8 +47,8 @@ export const AppBar: React.FC<AppBarProps> = ({
   const getStepState = (stepId: number) => {
     if (completedSteps.includes(stepId)) return 'completed';
     if (stepId === currentStep) return 'active';
-    if (stepId === 0) return 'available'; // First step always available
-    if (completedSteps.includes(0)) {
+    if (stepId === 0) return 'available';
+    if (completedSteps.includes(0) && selectedAppType) {
       // After first step is completed, steps 1-4 are available
       if (stepId <= 4) return 'available';
       // Step 5 (Readiness Review) requires all previous steps
@@ -62,7 +67,32 @@ export const AppBar: React.FC<AppBarProps> = ({
       <div className={styles.container}>
         {/* Left Section - Title */}
         <div className={styles.titleSection}>
-          <h1 className={styles.title}>User Experience Readiness</h1>
+          <div className={styles.titleContainer}>
+            {showBackButton && (
+              <button onClick={onBack} className={styles.backButton}>
+                <ArrowLeft size={20} />
+              </button>
+            )}
+            <div className={styles.dropdown}>
+              <button 
+                className={styles.title}
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                User Experience Readiness
+                <ChevronDown size={20} className={styles.chevron} />
+              </button>
+              {showDropdown && (
+                <div className={styles.dropdownMenu}>
+                  <button className={styles.dropdownItem}>
+                    Data Readiness
+                  </button>
+                  <button className={styles.dropdownItem}>
+                    Go-to-Market Readiness
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Center Section - Stepper */}

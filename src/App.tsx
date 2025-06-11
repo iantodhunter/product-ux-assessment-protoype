@@ -32,9 +32,25 @@ function App() {
   } = useAssessment();
 
   const overallScore = calculateOverallScore();
+  
+  const handleBack = () => {
+    if (showResults) {
+      setShowResults(false);
+    } else if (selectedAppType) {
+      if (currentStep === 1) {
+        // Go back to product selection
+        resetAssessment();
+      } else {
+        // Go to previous step
+        handleStepChange(currentStep - 1);
+      }
+    }
+  };
+  
+  const shouldShowBackButton = selectedAppType || showResults;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#f9fafb' }}>
       <AppBar
         selectedAppType={selectedAppType}
         currentStep={currentStep}
@@ -42,9 +58,11 @@ function App() {
         onStepClick={handleStepChange}
         onResetAssessment={resetAssessment}
         overallProgress={overallScore}
+        showBackButton={shouldShowBackButton}
+        onBack={handleBack}
       />
       
-      <div style={{ paddingTop: '80px' }}>
+      <div style={{ paddingTop: '80px', maxWidth: '1980px', margin: '0 auto' }}>
         {renderCurrentView()}
       </div>
     </div>
