@@ -11,9 +11,7 @@ export const AppTypeSelector: React.FC<AppTypeSelectorProps> = ({ onSelectAppTyp
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
-          <h1 className={styles.title}>User Experience Readiness</h1>
-        </div>
+        <h1 className={styles.title}>User Experience Readiness</h1>
         <p className={styles.subtitle}>Select the type of application you're assessing to begin</p>
       </div>
       

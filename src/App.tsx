@@ -2,6 +2,7 @@ import React from 'react';
 import { AppTypeSelector } from './components/AppTypeSelector/AppTypeSelector';
 import { AssessmentPage } from './pages/AssessmentPage/AssessmentPage';
 import { ResultsView } from './components/ResultsView/ResultsView';
+import { AppBar } from './components/AppBar/AppBar';
 import { useAssessment } from './hooks/useAssessment';
 import { categories } from './data/assessmentData';
 import './styles/variables.css';
@@ -15,6 +16,10 @@ function App() {
     responses,
     showResults,
     setShowResults,
+    currentStep,
+    completedSteps,
+    unlockedSteps,
+    handleStepClick,
     getItemsForCategory,
     calculateCategoryScore,
     calculateOverallScore,
@@ -27,10 +32,23 @@ function App() {
     isLastCategory,
   } = useAssessment();
 
+  // Calculate current category progress for app bar
+  const currentCategoryProgress = selectedAppType && !showResults 
+    ? calculateCategoryScore(categories[currentCategory]?.id || '') 
+    : 0;
   // App type selection screen
   if (!selectedAppType) {
     return <AppTypeSelector onSelectAppType={setSelectedAppType} />;
   }
+  // Show app bar for all screens after app type selection
+  const appBarProps = {
+    currentStep,
+    completedSteps,
+    unlockedSteps,
+    selectedAppType,
+    categoryProgress: currentCategoryProgress,
+    onStepClick: handleStepClick,
+  };
 
   // Results screen
   if (showResults) {
@@ -41,23 +59,26 @@ function App() {
     }));
 
     return (
+      <>
+        <AppBar {...appBarProps} />
       <ResultsView
         selectedAppType={selectedAppType}
         overallScore={overallScore}
         categoryScores={categoryScores}
         onResetAssessment={resetAssessment}
       />
+      </>
     );
   }
 
   // Assessment screen
   return (
+    <>
+      <AppBar {...appBarProps} />
     <AssessmentPage
       selectedAppType={selectedAppType}
       currentCategory={currentCategory}
       responses={responses}
-      onCategoryChange={goToCategory}
-      onResetAssessment={resetAssessment}
       onResponse={handleResponse}
       onPrevious={previousCategory}
       onNext={nextCategory}
@@ -67,6 +88,7 @@ function App() {
       getItemsForCategory={getItemsForCategory}
       calculateCategoryScore={calculateCategoryScore}
     />
+    </>
   );
 }
 

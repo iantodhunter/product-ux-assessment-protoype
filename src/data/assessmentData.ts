@@ -16,8 +16,8 @@ export const appTypes: AppType[] = [
   {
     id: 'other',
     title: 'Hardware/Device',
-    description: 'Industrial hardware or measurement device',
-    icon: '🤖'
+    description: 'Devices or onboard HMIs',
+    icon: '🏭'
   }
 ];
 
