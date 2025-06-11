@@ -89,3 +89,6 @@ const OldComponent = () => {
           </button>
         ))}
       </div>
+    </div>
+  );
+};
