@@ -10,18 +10,20 @@
   font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: all 0.2s ease;
-  background: var(--color-surface);
-  color: var(--color-text-secondary);
-  border-color: var(--color-border);
+  background: white;
+  color: var(--color-neutral-500);
+  border-color: var(--color-neutral-200);
 }
 
 .statusButton:hover {
-  background: var(--color-surface-hover);
+  border-color: var(--color-neutral-400);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
 }
 
 .statusButton.selected {
-  transform: scale(1.02);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .statusButton.success {

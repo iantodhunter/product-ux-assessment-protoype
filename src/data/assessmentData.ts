@@ -15,16 +15,16 @@ export const appTypes: AppType[] = [
   },
   {
     id: 'other',
-    title: 'Other Device',
-    description: 'Mobile, tablet, or other device',
-    icon: '📱'
+    title: 'Hardware/Device',
+    description: 'Industrial hardware or measurement device',
+    icon: '🤖'
   }
 ];
 
 export const statusOptions: StatusOption[] = [
   { id: 'complete', label: 'Complete', color: 'success', score: 100 },
-  { id: 'short', label: 'Work Planned (Short Term)', color: 'info', score: 50 },
-  { id: 'long', label: 'Work Planned (Long Term)', color: 'warning', score: 25 },
+  { id: 'short', label: 'Next 6 Months', color: 'info', score: 50 },
+  { id: 'long', label: 'Next 2 Years', color: 'warning', score: 25 },
   { id: 'not-planned', label: 'Not Planned', color: 'error', score: 0 },
   { id: 'na', label: 'Not Applicable', color: 'neutral', score: null }
 ];
@@ -42,18 +42,13 @@ export const categories: AssessmentCategory[] = [
         },
         {
           id: 'app-selector',
-          title: 'User can access other Nexus apps through selector',
+          title: 'Other Nexus apps through app switcher available',
           details: []
-        },
-        {
-          id: 'platform-links',
-          title: 'User can access Nexus platform features through in-app links/buttons',
-          details: ['Compute, libraries, other apps accessible']
         },
         {
           id: 'ui-consistency',
-          title: 'User experience interoperability - consistent UI/context when moving between apps',
-          details: []
+          title: 'App interoperability',
+          details: ['A user working on one project who opens that project details view in a different app maintains the context they were working in. With no differences in data and should feel seamless. And likewise vice versa.']
         },
         {
           id: 'account-access',
@@ -62,7 +57,7 @@ export const categories: AssessmentCategory[] = [
         },
         {
           id: 'org-visibility',
-          title: 'User can see current organization from main page',
+          title: 'User can see current organization',
           details: []
         },
         {
