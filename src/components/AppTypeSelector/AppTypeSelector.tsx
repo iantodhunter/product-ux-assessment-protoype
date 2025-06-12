@@ -32,7 +32,6 @@ export const AppTypeSelector: React.FC<AppTypeSelectorProps> = ({ onSelectAppTyp
               <h3 className={styles.appTypeTitle}>{type.title}</h3>
               <p className={styles.appTypeDescription}>{type.description}</p>
             </button>
-          );
         ))}
       </div>
     </div>
