@@ -9,48 +9,44 @@
   line-height: var(--line-height-bodyS);
   font-weight: var(--font-weight-button);
   cursor: pointer;
-  transition: all 0.2s ease;
-  background: white;
-  color: var(--color-neutral-500);
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-600);
   border-color: var(--color-neutral-200);
 }
 
 .statusButton:hover {
-  border-color: var(--color-neutral-400);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transform: scale(1.02);
+  border-color: var(--color-neutral-300);
 }
 
 .statusButton.selected {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.statusButton.success {
+.statusButton.selected.success {
   background: var(--color-success-50);
   color: var(--color-success-800);
   border-color: var(--color-success-300);
 }
 
-.statusButton.info {
+.statusButton.selected.info {
   background: var(--color-info-50);
   color: var(--color-info-800);
   border-color: var(--color-info-300);
 }
 
-.statusButton.warning {
+.statusButton.selected.warning {
   background: var(--color-warning-50);
   color: var(--color-warning-800);
   border-color: var(--color-warning-300);
 }
 
-.statusButton.error {
+.statusButton.selected.error {
   background: var(--color-error-50);
   color: var(--color-error-800);
   border-color: var(--color-error-300);
 }
 
-.statusButton.neutral {
+.statusButton.selected.neutral {
   background: var(--color-neutral-50);
   color: var(--color-neutral-800);
   border-color: var(--color-neutral-300);

@@ -23,7 +23,7 @@ export const StatusButton: React.FC<StatusButtonProps> = ({ option, isSelected, 
   return (
     <button
       onClick={() => onClick(option.id)}
-      className={`${styles.statusButton} ${styles[option.color]} ${isSelected ? styles.selected : ''}`}
+      className={`${styles.statusButton} ${isSelected ? `${styles.selected} ${styles[option.color]}` : ''}`}
     >
       <Icon className={styles.icon} />
       {option.label}

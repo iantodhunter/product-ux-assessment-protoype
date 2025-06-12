@@ -48,7 +48,7 @@ export const AppBar: React.FC<AppBarProps> = ({
     if (completedSteps.includes(stepId)) return 'completed';
     if (stepId === currentStep) return 'active';
     if (stepId === 0) return 'available';
-    if (completedSteps.includes(0) && selectedAppType) {
+    if (selectedAppType) {
       // After first step is completed, steps 1-4 are available
       if (stepId <= 4) return 'available';
       // Step 5 (Readiness Review) requires all previous steps

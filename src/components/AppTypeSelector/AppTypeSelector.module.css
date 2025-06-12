@@ -1,33 +1,26 @@
 .container {
-  max-width: 80rem;
+  max-width: 1980px;
   margin: 0 auto;
-  padding: var(--spacing-lg);
+  padding: var(--spacing-xxxl);
 }
 
 .header {
   text-align: center;
-  margin-bottom: var(--spacing-xxxl);
-}
-
-.title {
-  font-size: var(--font-size-h4);
-  line-height: var(--line-height-h1);
-  font-weight: var(--font-weight-h1);
-  letter-spacing: var(--letter-spacing-h1);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: 4rem;
 }
 
 .subtitle {
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
+  font-size: var(--font-size-subtitle1);
+  line-height: var(--line-height-subtitle1);
   color: var(--color-text-secondary);
 }
 
 .grid {
   display: grid;
-  gap: var(--spacing-lg);
+  gap: 3rem;
   grid-template-columns: 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @media (min-width: 48rem) {
@@ -39,35 +32,40 @@
 .appTypeCard {
   background: var(--color-surface);
   border: 2px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
   cursor: pointer;
-  transition: all 0.2s ease;
   text-align: center;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-lg);
 }
 
 .appTypeCard:hover {
   border-color: var(--color-primary-300);
-  box-shadow: 0 4px 12px rgba(0, 151, 186, 0.1);
-  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 151, 186, 0.15);
+  transform: translateY(-4px) scale(1.02);
 }
 
 .appTypeIcon {
-  font-size: 2.5rem;
-  margin-bottom: var(--spacing-md);
-  display: block;
-}
-
-.appTypeTitle {
-  font-size: var(--font-size-h6);
-  line-height: var(--line-height-h6);
-  font-weight: var(--font-weight-h6);
-  color: var(--color-text-primary);
+  color: var(--color-primary-600);
   margin-bottom: var(--spacing-sm);
 }
 
+.appTypeTitle {
+  font-size: var(--font-size-h5);
+  line-height: var(--line-height-h5);
+  font-weight: var(--font-weight-h5);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
 .appTypeDescription {
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
+  font-size: var(--font-size-subtitle2);
+  line-height: var(--line-height-subtitle2);
   color: var(--color-text-secondary);
+  margin: 0;
 }
