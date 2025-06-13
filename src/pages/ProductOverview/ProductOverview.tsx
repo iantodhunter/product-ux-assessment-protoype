@@ -9,7 +9,8 @@ interface ProductOverviewProps {
   pmEmail?: string;
   readinessSections: ReadinessSection[];
   onProductUpdate: (updates: { name?: string; pmName?: string; pmEmail?: string }) => void;
-  onSectionClick: (sectionId: 'data' | 'ux' | 'gtm') => void;
+  onProductSave: () => void;
+  onSectionClick?: (sectionId: 'data' | 'ux' | 'gtm') => void;
 }
 
 const sectionIcons = {
@@ -30,6 +31,7 @@ export const ProductOverview: React.FC<ProductOverviewProps> = ({
   pmEmail,
   readinessSections,
   onProductUpdate,
+  onProductSave
   onSectionClick
 }) => {
   const [isEditing, setIsEditing] = useState(!productName);
@@ -47,6 +49,10 @@ export const ProductOverview: React.FC<ProductOverviewProps> = ({
         pmEmail: formData.pmEmail.trim() || undefined
       });
       setIsEditing(false);
+      // Auto-advance to next step after saving
+      setTimeout(() => {
+        onProductSave();
+      }, 500);
     }
   };
 
@@ -160,7 +166,7 @@ export const ProductOverview: React.FC<ProductOverviewProps> = ({
               return (
                 <button
                   key={section.id}
-                  onClick={() => onSectionClick(section.id)}
+                  onClick={() => onSectionClick?.(section.id)}
                   className={`${styles.readinessCard} ${styles[section.status]}`}
                 >
                   <div className={styles.cardIcon}>

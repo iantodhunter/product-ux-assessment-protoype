@@ -106,21 +106,24 @@ export const useReadiness = () => {
   };
 
   const getStepStatus = (stepId: string): 'complete' | 'current' | 'available' | 'locked' => {
-    if (stepId === currentView) return 'current';
     
     switch (stepId) {
       case 'overview':
-        return readinessState.product ? 'complete' : 'available';
+        if (stepId === currentView) return 'current';
+        return readinessState.product?.name ? 'complete' : 'available';
       
       case 'data':
+        if (stepId === currentView) return 'current';
         if (!readinessState.product) return 'locked';
         return readinessState.dataLevel !== null ? 'complete' : 'available';
       
       case 'ux':
+        if (stepId === currentView) return 'current';
         if (!readinessState.product || readinessState.dataLevel === null) return 'locked';
         return Object.keys(readinessState.uxResponses).length >= 10 ? 'complete' : 'available';
       
       case 'gtm':
+        if (stepId === currentView) return 'current';
         if (!readinessState.product || readinessState.dataLevel === null || Object.keys(readinessState.uxResponses).length < 10) return 'locked';
         const requiredGTMQuestions = gtmQuestions.filter(q => q.required);
         const completedGTMQuestions = requiredGTMQuestions.filter(q => 
@@ -129,6 +132,7 @@ export const useReadiness = () => {
         return completedGTMQuestions.length === requiredGTMQuestions.length ? 'complete' : 'available';
       
       case 'review':
+        if (stepId === currentView) return 'current';
         const sections = getReadinessSections();
         const allComplete = sections.every(section => section.status === 'complete');
         if (!readinessState.product) return 'locked';

@@ -122,6 +122,7 @@ function App() {
             pmEmail={readinessState.product?.pmEmail}
             readinessSections={getReadinessSections()}
             onProductUpdate={updateProduct}
+            onProductSave={() => setCurrentView('data')}
             onSectionClick={handleSectionClick}
           />
         );
