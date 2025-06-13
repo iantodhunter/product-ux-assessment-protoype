@@ -9,10 +9,13 @@ interface AssessmentCategoryProps {
     id: string;
     title: string;
     details: string[];
+    mediaUrl?: string;
   }>;
   responses: AssessmentResponse;
   categoryScore: number;
   onResponse: (itemId: string, status: string) => void;
+  visibleItemsCount?: number;
+  totalItemsCount?: number;
 }
 
 export const AssessmentCategory: React.FC<AssessmentCategoryProps> = ({
@@ -21,6 +24,8 @@ export const AssessmentCategory: React.FC<AssessmentCategoryProps> = ({
   responses,
   categoryScore,
   onResponse,
+  visibleItemsCount,
+  totalItemsCount,
 }) => {
   return (
     <div className={styles.categoryContainer}>
@@ -29,16 +34,23 @@ export const AssessmentCategory: React.FC<AssessmentCategoryProps> = ({
         <div className={styles.progressInfo}>
           <span className={styles.progressLabel}>Category Progress:</span>
           <span className={styles.progressScore}>{categoryScore}%</span>
+          {visibleItemsCount && totalItemsCount && (
+            <span className={styles.progressItems}>
+              ({visibleItemsCount}/{totalItemsCount} items)
+            </span>
+          )}
         </div>
       </div>
 
       <div className={styles.itemsList}>
-        {items.map(item => (
+        {items.map((item, index) => (
           <AssessmentItem
             key={item.id}
             item={item}
             response={responses[item.id]}
             onResponse={onResponse}
+            isVisible={true}
+            animationDelay={index * 100}
           />
         ))}
       </div>

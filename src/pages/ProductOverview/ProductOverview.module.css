@@ -44,7 +44,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: 24px; /* 24px vertical spacing between form groups */
 }
 
 .formGroup {
@@ -54,24 +54,26 @@
 
 .label {
   font-size: var(--font-size-subtitle2);
-  font-weight: var(--font-weight-subtitle2);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-sm);
+  font-weight: 500; /* Font weight 500 */
+  color: var(--color-text-secondary); /* Secondary text color */
+  margin-bottom: 8px; /* 8px margin bottom from label to input */
 }
 
 .input {
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  min-height: 48px; /* 48px minimum height */
+  padding: 12px 16px; /* 12px 16px padding */
+  border: 1px solid var(--color-neutral-300); /* Border with neutral-300 */
+  border-radius: 8px; /* 8px border radius */
   font-size: var(--font-size-body);
   color: var(--color-text-primary);
   background: var(--color-surface);
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--color-primary-600);
+  border-color: var(--color-primary-500); /* Primary-500 border on focus */
+  box-shadow: 0 0 0 3px rgba(0, 114, 140, 0.1); /* 3px shadow effect */
 }
 
 .input::placeholder {
@@ -80,7 +82,7 @@
 
 .formActions {
   display: flex;
-  gap: var(--spacing-md);
+  gap: 32px; /* 32px spacing for unrelated groups */
   margin-top: var(--spacing-md);
 }
 
@@ -252,6 +254,7 @@
   
   .formActions {
     flex-direction: column;
+    gap: 16px; /* Reduce gap on mobile */
   }
   
   .sectionHeader {

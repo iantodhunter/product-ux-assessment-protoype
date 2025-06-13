@@ -19,6 +19,8 @@ export interface DataReadinessLevel {
   id: 0 | 1 | 2 | 3;
   title: string;
   description: string;
+  userSee?: string;
+  examples?: string;
   videoUrl?: string | null;
 }
 

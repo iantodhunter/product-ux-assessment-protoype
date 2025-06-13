@@ -43,6 +43,11 @@
   font-size: var(--font-size-subtitle2);
 }
 
+.progressItems {
+  font-size: var(--font-size-bodyS);
+  color: var(--color-primary-600);
+}
+
 .itemsList {
   display: flex;
   flex-direction: column;

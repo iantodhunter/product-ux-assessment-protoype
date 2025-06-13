@@ -32,23 +32,26 @@ export const statusOptions: StatusOption[] = [
 export const categories: AssessmentCategory[] = [
   {
     id: 'experience',
-    title: 'Experience Architecture',
+    title: 'UX',
     items: {
       universal: [
         {
           id: 'nexus-auth',
           title: 'Uses Nexus authentication',
-          details: []
+          details: [],
+          mediaUrl: 'https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=800'
         },
         {
           id: 'app-selector',
           title: 'Other Nexus apps through app switcher available',
-          details: []
+          details: [],
+          mediaUrl: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800'
         },
         {
           id: 'ui-consistency',
           title: 'App interoperability',
-          details: ['A user working on one project who opens that project details view in a different app maintains the context they were working in. With no differences in data and should feel seamless. And likewise vice versa.']
+          details: ['A user working on one project who opens that project details view in a different app maintains the context they were working in. With no differences in data and should feel seamless. And likewise vice versa.'],
+          mediaUrl: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800'
         },
         {
           id: 'account-access',
@@ -167,13 +170,14 @@ export const categories: AssessmentCategory[] = [
   },
   {
     id: 'frontend',
-    title: 'Frontend Implementation',
+    title: 'User Interface',
     items: {
       universal: [
         {
           id: 'brand-implementation',
           title: 'Brand Implementation: Uses design system colors and logos as defined by Nexus branding guidelines',
-          details: []
+          details: [],
+          mediaUrl: 'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800'
         },
         {
           id: 'color-contrast',
@@ -239,7 +243,7 @@ export const categories: AssessmentCategory[] = [
   },
   {
     id: 'content',
-    title: 'Content Design',
+    title: 'Content',
     items: {
       universal: [
         {
@@ -284,7 +288,7 @@ export const categories: AssessmentCategory[] = [
   },
   {
     id: 'performance',
-    title: 'Performance & Analytics',
+    title: 'Analytics',
     items: {
       universal: [
         {

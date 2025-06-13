@@ -42,18 +42,17 @@ export const ProductOverview: React.FC<ProductOverviewProps> = ({
   });
 
   const handleSave = () => {
-    if (formData.name.trim()) {
-      onProductUpdate({
-        name: formData.name.trim(),
-        pmName: formData.pmName.trim() || undefined,
-        pmEmail: formData.pmEmail.trim() || undefined
-      });
-      setIsEditing(false);
-      // Auto-advance to next step after saving
-      setTimeout(() => {
-        onProductSave();
-      }, 500);
-    }
+    // Allow saving even with empty fields (all optional for testing)
+    onProductUpdate({
+      name: formData.name.trim() || 'Untitled Product',
+      pmName: formData.pmName.trim() || undefined,
+      pmEmail: formData.pmEmail.trim() || undefined
+    });
+    setIsEditing(false);
+    // Auto-advance to next step after saving
+    setTimeout(() => {
+      onProductSave();
+    }, 500);
   };
 
   const handleCancel = () => {
@@ -84,14 +83,13 @@ export const ProductOverview: React.FC<ProductOverviewProps> = ({
           <div className={styles.form}>
             <div className={styles.formGroup}>
               <label className={styles.label}>
-                Product Name *
+                Product Name
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className={styles.input}
                   placeholder="Enter product name"
-                  required
                 />
               </label>
             </div>
@@ -125,7 +123,6 @@ export const ProductOverview: React.FC<ProductOverviewProps> = ({
             <div className={styles.formActions}>
               <button
                 onClick={handleSave}
-                disabled={!formData.name.trim()}
                 className={styles.saveButton}
               >
                 Save

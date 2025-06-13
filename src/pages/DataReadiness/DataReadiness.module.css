@@ -52,7 +52,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .radioButton {
@@ -74,11 +74,38 @@
   flex: 1;
 }
 
+.levelContent {
+  margin-bottom: var(--spacing-lg);
+}
+
 .levelDescription {
   font-size: var(--font-size-body);
   color: var(--color-text-secondary);
-  margin: 0 0 var(--spacing-lg) 0;
+  margin: 0 0 var(--spacing-md) 0;
   line-height: var(--line-height-body);
+}
+
+.userSeeSection,
+.examplesSection {
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--color-neutral-50);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--color-primary-200);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-bodyS);
+  font-weight: var(--font-weight-button);
+  color: var(--color-primary-700);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.sectionContent {
+  font-size: var(--font-size-bodyS);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-bodyS);
 }
 
 .videoButton {
@@ -145,6 +172,7 @@
   z-index: 1001;
   pointer-events: none;
   transform: translateY(-50%);
+  transition: transform 0.1s ease-out;
 }
 
 .tooltipContent {

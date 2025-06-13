@@ -16,6 +16,7 @@ export interface AssessmentItem {
   id: string;
   title: string;
   details: string[];
+  mediaUrl?: string;
 }
 
 export interface AssessmentCategory {

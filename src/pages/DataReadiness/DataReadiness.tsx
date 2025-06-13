@@ -33,10 +33,18 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
   const handleMouseEnter = (level: DataReadinessLevel, event: React.MouseEvent) => {
     if (level.videoUrl) {
       setHoveredLevel(level.id);
-      const rect = event.currentTarget.getBoundingClientRect();
       setTooltipPosition({
-        x: rect.right + 10,
-        y: rect.top
+        x: event.clientX + 10,
+        y: event.clientY - 10
+      });
+    }
+  };
+
+  const handleMouseMove = (event: React.MouseEvent) => {
+    if (hoveredLevel !== null) {
+      setTooltipPosition({
+        x: event.clientX + 10,
+        y: event.clientY - 10
       });
     }
   };
@@ -44,73 +52,91 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
   const handleMouseLeave = () => {
     setHoveredLevel(null);
   };
+
   return (
     <>
       <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Data Readiness Assessment</h1>
-        <p className={styles.description}>
-          Select the level that best describes your application's current data architecture and management capabilities.
-        </p>
-      </div>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Data Readiness Assessment</h1>
+          <p className={styles.description}>
+            Select the level that best describes your application's current data architecture and management capabilities.
+          </p>
+        </div>
 
-      <div className={styles.levelsContainer}>
-        {dataReadinessLevels.map(level => (
-          <div
-            key={level.id}
-            className={`${styles.levelCard} ${selectedLevel === level.id ? styles.selected : ''}`}
-            onClick={() => onLevelSelect(level.id)}
-            onMouseEnter={(e) => handleMouseEnter(level, e)}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className={styles.levelHeader}>
-              <div className={styles.radioButton}>
-                <input
-                  type="radio"
-                  name="dataLevel"
-                  value={level.id}
-                  checked={selectedLevel === level.id}
-                  onChange={() => onLevelSelect(level.id)}
-                  className={styles.radioInput}
-                />
+        <div className={styles.levelsContainer}>
+          {dataReadinessLevels.map(level => (
+            <div
+              key={level.id}
+              className={`${styles.levelCard} ${selectedLevel === level.id ? styles.selected : ''}`}
+              onClick={() => onLevelSelect(level.id)}
+              onMouseEnter={(e) => handleMouseEnter(level, e)}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className={styles.levelHeader}>
+                <div className={styles.radioButton}>
+                  <input
+                    type="radio"
+                    name="dataLevel"
+                    value={level.id}
+                    checked={selectedLevel === level.id}
+                    onChange={() => onLevelSelect(level.id)}
+                    className={styles.radioInput}
+                  />
+                </div>
+                <h3 className={styles.levelTitle}>{level.title}</h3>
               </div>
-              <h3 className={styles.levelTitle}>{level.title}</h3>
+              
+              <div className={styles.levelContent}>
+                <p className={styles.levelDescription}>{level.description}</p>
+                
+                {level.userSee && (
+                  <div className={styles.userSeeSection}>
+                    <h4 className={styles.sectionTitle}>What users see:</h4>
+                    <p className={styles.sectionContent}>{level.userSee}</p>
+                  </div>
+                )}
+                
+                {level.examples && (
+                  <div className={styles.examplesSection}>
+                    <h4 className={styles.sectionTitle}>Examples:</h4>
+                    <p className={styles.sectionContent}>{level.examples}</p>
+                  </div>
+                )}
+              </div>
+              
+              {level.videoUrl && (
+                <button 
+                  className={styles.videoButton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleVideoClick(level.videoUrl!);
+                  }}
+                >
+                  <Play size={16} />
+                  See an example
+                </button>
+              )}
+              
+              {level.videoUrl === null && (
+                <div className={styles.comingSoon}>
+                  <span>Video Coming Soon</span>
+                </div>
+              )}
             </div>
-            
-            <p className={styles.levelDescription}>{level.description}</p>
-            
-            {level.videoUrl && (
-              <button 
-                className={styles.videoButton}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleVideoClick(level.videoUrl!);
-                }}
-              >
-                <Play size={16} />
-                Watch Overview Video
-              </button>
-            )}
-            
-            {level.videoUrl === null && (
-              <div className={styles.comingSoon}>
-                <span>Video Coming Soon</span>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <div className={styles.actions}>
-        <button
-          onClick={onContinue}
-          disabled={selectedLevel === null}
-          className={styles.continueButton}
-        >
-          Save & Continue
-        </button>
+        <div className={styles.actions}>
+          <button
+            onClick={onContinue}
+            disabled={selectedLevel === null}
+            className={styles.continueButton}
+          >
+            Save & Continue
+          </button>
+        </div>
       </div>
-    </div>
 
       {/* Video Tooltip */}
       {hoveredLevel !== null && (
@@ -141,6 +167,7 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
           </div>
         </div>
       )}
+
       {/* Video Modal */}
       {videoModalOpen && (
         <div className={styles.videoModal} onClick={closeVideoModal}>

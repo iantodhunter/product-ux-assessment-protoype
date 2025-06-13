@@ -21,6 +21,60 @@
   margin: 0;
 }
 
+.appTypeSelector {
+  margin-bottom: var(--spacing-md); /* 16px margin bottom */
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-lg);
+}
+
+.appTypeSelectorTitle {
+  font-size: var(--font-size-subtitle1);
+  font-weight: var(--font-weight-subtitle1);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.appTypeCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-md);
+}
+
+.appTypeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.appTypeCard:hover {
+  border-color: var(--color-primary-300);
+  background: var(--color-surface-hover);
+}
+
+.appTypeCard.selected {
+  border-color: var(--color-primary-600);
+  background: var(--color-primary-50);
+}
+
+.appTypeIcon {
+  font-size: 2rem;
+}
+
+.appTypeLabel {
+  font-size: var(--font-size-subtitle2);
+  font-weight: var(--font-weight-subtitle2);
+  color: var(--color-text-primary);
+}
+
 .categoryTabs {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -75,7 +129,8 @@
 }
 
 @media (max-width: 768px) {
-  .categoryTabs {
+  .categoryTabs,
+  .appTypeCards {
     grid-template-columns: 1fr;
   }
 }
