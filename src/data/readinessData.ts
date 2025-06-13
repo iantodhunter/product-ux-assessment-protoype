@@ -5,7 +5,7 @@ export const dataReadinessLevels: DataReadinessLevel[] = [
     id: 0,
     title: 'Level 0 - Basic Data Structure',
     description: 'Your application has basic data organization with simple file storage or basic database structure. Data is primarily stored locally or in simple formats.',
-    videoUrl: 'https://example.com/level-0-video'
+    videoUrl: 'https://cdn.sanity.io/media-libraries/mlGuplABjaY2/files/c18aa33c5a6c04049ff57bc621ba24d4ab5cd83a.mp4'
   },
   {
     id: 1,
