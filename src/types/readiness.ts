@@ -16,10 +16,10 @@ export interface ReadinessSection {
 }
 
 export interface DataReadinessLevel {
-  id: 0 | 1 | 2;
+  id: 0 | 1 | 2 | 3;
   title: string;
   description: string;
-  videoUrl?: string;
+  videoUrl?: string | null;
 }
 
 export interface GTMQuestion {

@@ -17,6 +17,8 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
 }) => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
+  const [hoveredLevel, setHoveredLevel] = useState<number | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   const handleVideoClick = (videoUrl: string) => {
     setCurrentVideoUrl(videoUrl);
@@ -28,6 +30,20 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
     setCurrentVideoUrl('');
   };
 
+  const handleMouseEnter = (level: DataReadinessLevel, event: React.MouseEvent) => {
+    if (level.videoUrl) {
+      setHoveredLevel(level.id);
+      const rect = event.currentTarget.getBoundingClientRect();
+      setTooltipPosition({
+        x: rect.right + 10,
+        y: rect.top
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredLevel(null);
+  };
   return (
     <>
       <div className={styles.container}>
@@ -44,6 +60,8 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
             key={level.id}
             className={`${styles.levelCard} ${selectedLevel === level.id ? styles.selected : ''}`}
             onClick={() => onLevelSelect(level.id)}
+            onMouseEnter={(e) => handleMouseEnter(level, e)}
+            onMouseLeave={handleMouseLeave}
           >
             <div className={styles.levelHeader}>
               <div className={styles.radioButton}>
@@ -73,6 +91,12 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
                 Watch Overview Video
               </button>
             )}
+            
+            {level.videoUrl === null && (
+              <div className={styles.comingSoon}>
+                <span>Video Coming Soon</span>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -88,6 +112,35 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
       </div>
     </div>
 
+      {/* Video Tooltip */}
+      {hoveredLevel !== null && (
+        <div 
+          className={styles.videoTooltip}
+          style={{
+            left: tooltipPosition.x,
+            top: tooltipPosition.y
+          }}
+        >
+          <div className={styles.tooltipContent}>
+            <div className={styles.tooltipHeader}>
+              <Play size={16} />
+              <span>Video Example</span>
+            </div>
+            <div className={styles.tooltipVideo}>
+              <video
+                src={dataReadinessLevels.find(l => l.id === hoveredLevel)?.videoUrl || ''}
+                muted
+                autoPlay
+                loop
+                className={styles.tooltipVideoElement}
+              />
+            </div>
+            <div className={styles.tooltipFooter}>
+              Click to watch full video
+            </div>
+          </div>
+        </div>
+      )}
       {/* Video Modal */}
       {videoModalOpen && (
         <div className={styles.videoModal} onClick={closeVideoModal}>

@@ -100,6 +100,19 @@
   background: var(--color-primary-700);
 }
 
+.comingSoon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-600);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-bodyS);
+  font-weight: var(--font-weight-button);
+}
+
 .actions {
   display: flex;
   justify-content: flex-start;
@@ -127,13 +140,63 @@
   cursor: not-allowed;
 }
 
+.videoTooltip {
+  position: fixed;
+  z-index: 1001;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.tooltipContent {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  width: 280px;
+}
+
+.tooltipHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background: var(--color-primary-50);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-bodyS);
+  font-weight: var(--font-weight-button);
+  color: var(--color-primary-700);
+}
+
+.tooltipVideo {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+}
+
+.tooltipVideoElement {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tooltipFooter {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-neutral-50);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-caption);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
 .videoModal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,37 +206,38 @@
 
 .videoModalContent {
   position: relative;
-  background: var(--color-surface);
+  background: transparent;
   border-radius: var(--radius-md);
-  padding: var(--spacing-lg);
-  max-width: 90vw;
+  padding: 0;
+  width: 80vw;
   max-height: 90vh;
-  width: 800px;
+  max-width: 1200px;
 }
 
 .closeButton {
   position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  top: -40px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  border: none;
   border-radius: var(--radius-sm);
   padding: var(--spacing-sm);
   cursor: pointer;
   z-index: 1001;
   transition: all 0.2s ease;
+  color: white;
 }
 
 .closeButton:hover {
-  background: var(--color-surface-hover);
-  border-color: var(--color-primary-300);
+  background: rgba(0, 0, 0, 0.9);
 }
 
 .video {
   width: 100%;
   height: auto;
   border-radius: var(--radius-sm);
-  max-height: 70vh;
+  max-height: 80vh;
+  background: black;
 }
 
 @media (max-width: 768px) {
@@ -190,12 +254,20 @@
     align-self: flex-start;
   }
   
+  .videoTooltip {
+    display: none; /* Hide tooltips on mobile */
+  }
+  
   .videoModalContent {
     width: 95vw;
-    padding: var(--spacing-md);
   }
   
   .video {
-    max-height: 60vh;
+    max-height: 70vh;
+  }
+  
+  .closeButton {
+    top: -35px;
+    right: 5px;
   }
 }

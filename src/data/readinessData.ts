@@ -11,13 +11,19 @@ export const dataReadinessLevels: DataReadinessLevel[] = [
     id: 1,
     title: 'Level 1 - Structured Data Management',
     description: 'Your application uses structured databases with proper relationships, basic APIs, and some data validation. Data is organized and accessible programmatically.',
-    videoUrl: 'https://example.com/level-1-video'
+    videoUrl: 'https://cdn.sanity.io/media-libraries/mlGuplABjaY2/files/fe4f84651011ed1091cf765c264cd6eaf3a84be3.mp4'
   },
   {
     id: 2,
     title: 'Level 2 - Advanced Data Architecture',
     description: 'Your application has enterprise-grade data architecture with real-time synchronization, comprehensive APIs, advanced security, and scalable data management systems.',
-    videoUrl: 'https://example.com/level-2-video'
+    videoUrl: 'https://cdn.sanity.io/media-libraries/mlGuplABjaY2/files/006672d141921dd3add0e61e4770711a27534757.mp4'
+  },
+  {
+    id: 3,
+    title: 'Level 3 - Enterprise Data Platform',
+    description: 'Your application features a comprehensive enterprise data platform with advanced analytics, machine learning integration, and full data governance capabilities.',
+    videoUrl: null // Coming soon
   }
 ];
 
