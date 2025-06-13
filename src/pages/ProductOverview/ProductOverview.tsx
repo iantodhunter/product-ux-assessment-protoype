@@ -31,7 +31,7 @@ export const ProductOverview: React.FC<ProductOverviewProps> = ({
   pmEmail,
   readinessSections,
   onProductUpdate,
-  onProductSave
+  onProductSave,
   onSectionClick
 }) => {
   const [isEditing, setIsEditing] = useState(!productName);
