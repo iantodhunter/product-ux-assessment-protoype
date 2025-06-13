@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play } from 'lucide-react';
+import { Play, X } from 'lucide-react';
 import { DataReadinessLevel } from '../../types/readiness';
 import { dataReadinessLevels } from '../../data/readinessData';
 import styles from './DataReadiness.module.css';
@@ -15,8 +15,22 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
   onLevelSelect,
   onContinue
 }) => {
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
+
+  const handleVideoClick = (videoUrl: string) => {
+    setCurrentVideoUrl(videoUrl);
+    setVideoModalOpen(true);
+  };
+
+  const closeVideoModal = () => {
+    setVideoModalOpen(false);
+    setCurrentVideoUrl('');
+  };
+
   return (
-    <div className={styles.container}>
+    <>
+      <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Data Readiness Assessment</h1>
         <p className={styles.description}>
@@ -48,7 +62,13 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
             <p className={styles.levelDescription}>{level.description}</p>
             
             {level.videoUrl && (
-              <button className={styles.videoButton}>
+              <button 
+                className={styles.videoButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleVideoClick(level.videoUrl!);
+                }}
+              >
                 <Play size={16} />
                 Watch Overview Video
               </button>
@@ -67,5 +87,25 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
         </button>
       </div>
     </div>
+
+      {/* Video Modal */}
+      {videoModalOpen && (
+        <div className={styles.videoModal} onClick={closeVideoModal}>
+          <div className={styles.videoModalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.closeButton} onClick={closeVideoModal}>
+              <X size={24} />
+            </button>
+            <video
+              src={currentVideoUrl}
+              controls
+              autoPlay
+              className={styles.video}
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
