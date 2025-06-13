@@ -78,8 +78,9 @@ export const useReadiness = () => {
     const gtmStatus = completedGTMQuestions.length === 0 ? 'not-started' : 
                      completedGTMQuestions.length === requiredGTMQuestions.length ? 'complete' : 'in-progress';
 
-    // UX status calculation would need to be integrated with existing UX assessment logic
-    const uxStatus = Object.keys(readinessState.uxResponses).length === 0 ? 'not-started' : 'in-progress';
+    // UX status calculation
+    const uxStatus = Object.keys(readinessState.uxResponses).length === 0 ? 'not-started' : 
+                     Object.keys(readinessState.uxResponses).length >= 10 ? 'complete' : 'in-progress';
 
     return [
       {
@@ -92,7 +93,7 @@ export const useReadiness = () => {
         title: 'UX Readiness',
         status: uxStatus,
         completedItems: Object.keys(readinessState.uxResponses).length,
-        totalItems: 50 // This would need to be calculated from actual UX items
+        totalItems: 50
       },
       {
         id: 'gtm',
@@ -102,6 +103,40 @@ export const useReadiness = () => {
         totalItems: requiredGTMQuestions.length
       }
     ];
+  };
+
+  const getStepStatus = (stepId: string): 'complete' | 'current' | 'available' | 'locked' => {
+    if (stepId === currentView) return 'current';
+    
+    switch (stepId) {
+      case 'overview':
+        return readinessState.product ? 'complete' : 'available';
+      
+      case 'data':
+        if (!readinessState.product) return 'locked';
+        return readinessState.dataLevel !== null ? 'complete' : 'available';
+      
+      case 'ux':
+        if (!readinessState.product || readinessState.dataLevel === null) return 'locked';
+        return Object.keys(readinessState.uxResponses).length >= 10 ? 'complete' : 'available';
+      
+      case 'gtm':
+        if (!readinessState.product || readinessState.dataLevel === null || Object.keys(readinessState.uxResponses).length < 10) return 'locked';
+        const requiredGTMQuestions = gtmQuestions.filter(q => q.required);
+        const completedGTMQuestions = requiredGTMQuestions.filter(q => 
+          readinessState.gtmResponses[q.id]?.trim()
+        );
+        return completedGTMQuestions.length === requiredGTMQuestions.length ? 'complete' : 'available';
+      
+      case 'review':
+        const sections = getReadinessSections();
+        const allComplete = sections.every(section => section.status === 'complete');
+        if (!readinessState.product) return 'locked';
+        return allComplete ? 'available' : 'locked';
+      
+      default:
+        return 'locked';
+    }
   };
 
   const resetReadiness = () => {
@@ -124,6 +159,7 @@ export const useReadiness = () => {
     updateGTMResponse,
     updateUXResponse,
     getReadinessSections,
+    getStepStatus,
     resetReadiness
   };
 };

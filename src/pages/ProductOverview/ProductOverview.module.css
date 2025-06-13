@@ -1,7 +1,6 @@
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--spacing-xl);
+  max-width: 100%;
+  padding: 0;
 }
 
 .productSection {
@@ -242,10 +241,6 @@
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: var(--spacing-md);
-  }
-  
   .productSection,
   .readinessSection {
     padding: var(--spacing-lg);

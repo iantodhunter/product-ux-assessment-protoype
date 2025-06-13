@@ -1,11 +1,10 @@
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--spacing-xl);
+  max-width: 100%;
+  padding: 0;
 }
 
 .header {
-  text-align: center;
+  text-align: left;
   margin-bottom: var(--spacing-xxxl);
 }
 
@@ -76,10 +75,6 @@
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: var(--spacing-md);
-  }
-  
   .categoryTabs {
     grid-template-columns: 1fr;
   }

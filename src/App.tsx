@@ -1,5 +1,6 @@
 import React from 'react';
-import { ReadinessNavigation } from './components/ReadinessNavigation/ReadinessNavigation';
+import { LeftStepper } from './components/LeftStepper/LeftStepper';
+import { TopHeader } from './components/TopHeader/TopHeader';
 import { ProductOverview } from './pages/ProductOverview/ProductOverview';
 import { DataReadiness } from './pages/DataReadiness/DataReadiness';
 import { UXAssessment } from './components/UXAssessment/UXAssessment';
@@ -7,7 +8,6 @@ import { GTMReadiness } from './pages/GTMReadiness/GTMReadiness';
 import { FinalReview } from './pages/FinalReview/FinalReview';
 import { useReadiness } from './hooks/useReadiness';
 import { useAssessment } from './hooks/useAssessment';
-import { appTypes } from './data/assessmentData';
 import './styles/variables.css';
 import './styles/global.css';
 
@@ -22,22 +22,15 @@ function App() {
     updateGTMResponse,
     updateUXResponse,
     getReadinessSections,
-    resetReadiness
+    resetReadiness,
+    getStepStatus
   } = useReadiness();
 
   const {
     selectedAppType,
     setSelectedAppType,
     currentCategory,
-    currentStep,
-    completedSteps,
     responses,
-    showResults,
-    setShowResults,
-    handleStepChange,
-    getItemsForCategory,
-    calculateCategoryScore,
-    calculateOverallScore,
     handleResponse,
     resetAssessment,
     nextCategory,
@@ -45,16 +38,24 @@ function App() {
     goToCategory,
     isFirstCategory,
     isLastCategory,
+    getItemsForCategory,
+    calculateCategoryScore,
   } = useAssessment();
 
-  const handleViewChange = (view: 'overview' | 'data' | 'ux' | 'gtm' | 'review') => {
-    setCurrentView(view);
-    
-    // Handle UX assessment initialization
-    if (view === 'ux' && !selectedAppType) {
-      // If no app type selected, we need to handle this in UX assessment
-      setSelectedAppType('web'); // Default to web for now
+  const handleStepClick = (stepId: 'overview' | 'data' | 'ux' | 'gtm' | 'review') => {
+    const stepStatus = getStepStatus(stepId);
+    if (stepStatus !== 'locked') {
+      setCurrentView(stepId);
+      
+      // Handle UX assessment initialization
+      if (stepId === 'ux' && !selectedAppType) {
+        setSelectedAppType('web'); // Default to web
+      }
     }
+  };
+
+  const handleLogoClick = () => {
+    setCurrentView('overview');
   };
 
   const handleProductCreate = (name: string, pmName?: string, pmEmail?: string) => {
@@ -89,14 +90,24 @@ function App() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#f9fafb' }}>
-      <ReadinessNavigation
-        currentView={currentView}
-        onViewChange={handleViewChange}
-        productName={readinessState.product?.name}
-      />
-      
-      <div style={{ paddingTop: '100px' }}>
-        {renderCurrentView()}
+      <div style={{ display: 'flex', maxWidth: '1980px', margin: '0 auto', minHeight: '100vh' }}>
+        {/* Left-Hand Stepper */}
+        <LeftStepper
+          currentStep={currentView}
+          onStepClick={handleStepClick}
+          getStepStatus={getStepStatus}
+        />
+        
+        {/* Main Content Area */}
+        <div style={{ flex: 1, paddingLeft: '72px', paddingRight: '72px' }}>
+          {/* Top Header (scrolls with content) */}
+          <TopHeader onLogoClick={handleLogoClick} />
+          
+          {/* Content */}
+          <div style={{ paddingTop: '40px' }}>
+            {renderCurrentView()}
+          </div>
+        </div>
       </div>
     </div>
   );

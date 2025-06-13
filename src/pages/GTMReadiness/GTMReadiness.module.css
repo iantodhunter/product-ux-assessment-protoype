@@ -1,11 +1,10 @@
 .container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: var(--spacing-xl);
+  max-width: 100%;
+  padding: 0;
 }
 
 .header {
-  text-align: center;
+  text-align: left;
   margin-bottom: var(--spacing-xxxl);
 }
 
@@ -89,7 +88,7 @@
 
 .actions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding-top: var(--spacing-lg);
   border-top: 1px solid var(--color-border);
 }
@@ -117,10 +116,6 @@
 }
 
 @media (max-width: 768px) {
-  .container {
-    padding: var(--spacing-md);
-  }
-  
   .form {
     padding: var(--spacing-lg);
   }
