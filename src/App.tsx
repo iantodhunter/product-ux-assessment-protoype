@@ -1,6 +1,8 @@
 import React from 'react';
 import { LeftStepper } from './components/LeftStepper/LeftStepper';
 import { TopHeader } from './components/TopHeader/TopHeader';
+import { Modal } from './components/Modal/Modal';
+import { AppTypeSelector } from './components/AppTypeSelector/AppTypeSelector';
 import { ProductOverview } from './pages/ProductOverview/ProductOverview';
 import { DataReadiness } from './pages/DataReadiness/DataReadiness';
 import { UXAssessment } from './components/UXAssessment/UXAssessment';
@@ -12,6 +14,8 @@ import './styles/variables.css';
 import './styles/global.css';
 
 function App() {
+  const [showAppTypeModal, setShowAppTypeModal] = React.useState(false);
+  
   const {
     readinessState,
     currentView,
@@ -49,7 +53,7 @@ function App() {
       
       // Handle UX assessment initialization
       if (stepId === 'ux' && !selectedAppType) {
-        setSelectedAppType('web'); // Default to web
+        setShowAppTypeModal(true);
       }
     }
   };
@@ -78,8 +82,22 @@ function App() {
     setCurrentView('gtm');
   };
 
+  const handleAppTypeSelect = (appType: any) => {
+    setSelectedAppType(appType);
+    setShowAppTypeModal(false);
+  };
+
+  const handleChangeAppType = () => {
+    setShowAppTypeModal(true);
+  };
+
   const handleSectionClick = (sectionId: 'data' | 'ux' | 'gtm') => {
     setCurrentView(sectionId);
+    
+    // Show app type modal if going to UX and no type selected
+    if (sectionId === 'ux' && !selectedAppType) {
+      setShowAppTypeModal(true);
+    }
   };
 
   const handleStartNew = () => {
@@ -87,9 +105,23 @@ function App() {
     resetAssessment();
     setCurrentView('overview');
   };
+  // Show app type modal on UX page load if no type selected
+  React.useEffect(() => {
+    if (currentView === 'ux' && !selectedAppType) {
+      setShowAppTypeModal(true);
+    }
+  }, [currentView, selectedAppType]);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#f9fafb' }}>
+      <Modal 
+        isOpen={showAppTypeModal} 
+        onClose={() => setShowAppTypeModal(false)}
+        title="Select Application Type"
+      >
+        <AppTypeSelector onSelectAppType={handleAppTypeSelect} />
+      </Modal>
+      
       <div style={{ display: 'flex', maxWidth: '1980px', margin: '0 auto', minHeight: '100vh' }}>
         {/* Left-Hand Stepper */}
         <LeftStepper
@@ -150,6 +182,7 @@ function App() {
             onPrevious={previousCategory}
             onNext={nextCategory}
             onComplete={handleUXComplete}
+            onChangeAppType={handleChangeAppType}
             isFirstCategory={isFirstCategory}
             isLastCategory={isLastCategory}
             getItemsForCategory={getItemsForCategory}

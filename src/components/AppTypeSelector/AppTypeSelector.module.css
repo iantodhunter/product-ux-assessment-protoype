@@ -51,7 +51,7 @@
 }
 
 .appTypeIcon {
-  color: var(--color-primary-600);
+  font-size: 4rem;
   margin-bottom: var(--spacing-sm);
 }
 

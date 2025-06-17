@@ -22,13 +22,14 @@
 }
 
 .levelsContainer {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--spacing-lg);
   margin-bottom: var(--spacing-xxxl);
 }
 
 .levelCard {
+  position: relative;
   background: var(--color-surface);
   border: 2px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -46,6 +47,22 @@
   border-color: var(--color-primary-600);
   background: var(--color-primary-50);
   box-shadow: 0 4px 12px rgba(0, 151, 186, 0.15);
+}
+
+.levelIndicator {
+  position: absolute;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  font-size: 120px;
+  font-weight: 800;
+  color: var(--color-neutral-200);
+  line-height: 1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.levelCard.selected .levelIndicator {
+  color: var(--color-primary-200);
 }
 
 .levelHeader {
@@ -112,12 +129,12 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: calc(var(--spacing-sm) * 1.15) calc(var(--spacing-md) * 1.15);
   background: var(--color-primary-600);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
-  font-size: var(--font-size-bodyS);
+  font-size: calc(var(--font-size-bodyS) * 1.1);
   font-weight: var(--font-weight-button);
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -269,6 +286,10 @@
 }
 
 @media (max-width: 768px) {
+  .levelsContainer {
+    grid-template-columns: 1fr;
+  }
+  
   .levelCard {
     padding: var(--spacing-lg);
   }

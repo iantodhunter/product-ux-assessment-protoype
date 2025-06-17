@@ -73,6 +73,7 @@ export const DataReadiness: React.FC<DataReadinessProps> = ({
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
+              <div className={styles.levelIndicator}>{level.id}</div>
               <div className={styles.levelHeader}>
                 <div className={styles.radioButton}>
                   <input

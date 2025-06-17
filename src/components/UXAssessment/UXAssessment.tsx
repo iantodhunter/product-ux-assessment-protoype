@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { AppTypeSelector } from '../AppTypeSelector/AppTypeSelector';
 import { AssessmentCategory } from '../AssessmentCategory/AssessmentCategory';
 import { NavigationButtons } from '../NavigationButtons/NavigationButtons';
 import { categories } from '../../data/assessmentData';
@@ -15,6 +14,7 @@ interface UXAssessmentProps {
   onPrevious: () => void;
   onNext: () => void;
   onComplete: () => void;
+  onChangeAppType: () => void;
   isFirstCategory: boolean;
   isLastCategory: boolean;
   getItemsForCategory: (categoryId: string) => Array<{
@@ -35,6 +35,7 @@ export const UXAssessment: React.FC<UXAssessmentProps> = ({
   onPrevious,
   onNext,
   onComplete,
+  onChangeAppType,
   isFirstCategory,
   isLastCategory,
   getItemsForCategory,
@@ -85,34 +86,9 @@ export const UXAssessment: React.FC<UXAssessmentProps> = ({
         <p className={styles.description}>
           Evaluate your application's user experience readiness across key categories.
         </p>
-      </div>
-
-      {/* Application Type Selector */}
-      <div className={styles.appTypeSelector}>
-        <h3 className={styles.appTypeSelectorTitle}>Select Application Type</h3>
-        <div className={styles.appTypeCards}>
-          <button
-            onClick={() => {/* Handle web app selection */}}
-            className={`${styles.appTypeCard} ${selectedAppType === 'web' ? styles.selected : ''}`}
-          >
-            <span className={styles.appTypeIcon}>🌐</span>
-            <span className={styles.appTypeLabel}>Web App</span>
-          </button>
-          <button
-            onClick={() => {/* Handle desktop app selection */}}
-            className={`${styles.appTypeCard} ${selectedAppType === 'desktop' ? styles.selected : ''}`}
-          >
-            <span className={styles.appTypeIcon}>💻</span>
-            <span className={styles.appTypeLabel}>Desktop Application</span>
-          </button>
-          <button
-            onClick={() => {/* Handle device/hardware selection */}}
-            className={`${styles.appTypeCard} ${selectedAppType === 'other' ? styles.selected : ''}`}
-          >
-            <span className={styles.appTypeIcon}>🏭</span>
-            <span className={styles.appTypeLabel}>Device/Hardware</span>
-          </button>
-        </div>
+        <button onClick={onChangeAppType} className={styles.changeAppTypeButton}>
+          Change App Type
+        </button>
       </div>
 
       {/* Category Navigation */}

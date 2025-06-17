@@ -1,13 +1,12 @@
 import React from 'react';
-import { Monitor, Globe, Factory } from 'lucide-react';
 import { AppType } from '../../types/assessment';
 import { appTypes } from '../../data/assessmentData';
 import styles from './AppTypeSelector.module.css';
 
 const iconMap = {
-  web: Globe,
-  desktop: Monitor,
-  other: Factory,
+  web: '🌐',
+  desktop: '💻',
+  other: '🏭',
 };
 
 interface AppTypeSelectorProps {
@@ -23,14 +22,14 @@ export const AppTypeSelector: React.FC<AppTypeSelectorProps> = ({ onSelectAppTyp
       
       <div className={styles.grid}>
         {appTypes.map(type => {
-          const Icon = iconMap[type.id as keyof typeof iconMap];
+          const icon = iconMap[type.id as keyof typeof iconMap];
           return (
             <button
               key={type.id}
               onClick={() => onSelectAppType(type.id)}
               className={styles.appTypeCard}
             >
-              <Icon className={styles.appTypeIcon} size={64} />
+              <span className={styles.appTypeIcon}>{icon}</span>
               <h3 className={styles.appTypeTitle}>{type.title}</h3>
               <p className={styles.appTypeDescription}>{type.description}</p>
             </button>

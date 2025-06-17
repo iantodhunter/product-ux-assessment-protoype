@@ -22,7 +22,8 @@
 }
 
 .logoIcon {
-  color: var(--color-primary-600);
+  width: 24px;
+  height: 24px;
   transition: transform 0.2s ease;
 }
 
