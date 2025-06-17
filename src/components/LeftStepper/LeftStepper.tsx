@@ -1,11 +1,16 @@
 import React from 'react';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Settings } from 'lucide-react';
+import { categories } from '../../data/assessmentData';
 import styles from './LeftStepper.module.css';
 
 interface LeftStepperProps {
   currentStep: string;
+  currentUXCategory?: number;
   onStepClick: (stepId: 'overview' | 'data' | 'ux' | 'gtm' | 'review') => void;
+  onUXCategoryClick?: (categoryIndex: number) => void;
+  onChangeAppType?: () => void;
   getStepStatus: (stepId: string) => 'complete' | 'current' | 'available' | 'locked';
+  calculateCategoryScore?: (categoryId: string) => number;
 }
 
 const steps = [
@@ -18,8 +23,12 @@ const steps = [
 
 export const LeftStepper: React.FC<LeftStepperProps> = ({
   currentStep,
+  currentUXCategory = 0,
   onStepClick,
-  getStepStatus
+  onUXCategoryClick,
+  onChangeAppType,
+  getStepStatus,
+  calculateCategoryScore
 }) => {
   return (
     <div className={styles.stepper}>
@@ -27,6 +36,8 @@ export const LeftStepper: React.FC<LeftStepperProps> = ({
         {steps.map((step, index) => {
           const status = getStepStatus(step.id);
           const isClickable = status !== 'locked';
+          const isUXStep = step.id === 'ux';
+          const isUXActive = currentStep === 'ux';
           
           return (
             <div key={step.id} className={styles.stepContainer}>
@@ -44,6 +55,42 @@ export const LeftStepper: React.FC<LeftStepperProps> = ({
                 </div>
                 <span className={styles.stepLabel}>{step.label}</span>
               </button>
+              
+              {/* UX Sub-steps */}
+              {isUXStep && isUXActive && (
+                <div className={styles.subSteps}>
+                  {categories.map((category, categoryIndex) => (
+                    <button
+                      key={category.id}
+                      onClick={() => onUXCategoryClick?.(categoryIndex)}
+                      className={`${styles.subStep} ${currentUXCategory === categoryIndex ? styles.subStepActive : ''}`}
+                    >
+                      <div className={styles.subStepIndicator}>
+                        <div className={styles.subStepDot} />
+                      </div>
+                      <div className={styles.subStepContent}>
+                        <span className={styles.subStepLabel}>{category.title}</span>
+                        {calculateCategoryScore && (
+                          <span className={styles.subStepScore}>
+                            {calculateCategoryScore(category.id)}%
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                  
+                  {/* Change App Type Button */}
+                  <button
+                    onClick={onChangeAppType}
+                    className={styles.changeAppTypeButton}
+                  >
+                    <div className={styles.subStepIndicator}>
+                      <Settings size={16} className={styles.settingsIcon} />
+                    </div>
+                    <span className={styles.subStepLabel}>Change App Type</span>
+                  </button>
+                </div>
+              )}
               
               {index < steps.length - 1 && (
                 <div className={`${styles.connector} ${status === 'complete' ? styles.connectorComplete : ''}`} />

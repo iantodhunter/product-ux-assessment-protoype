@@ -36,71 +36,7 @@ export const AssessmentItem: React.FC<AssessmentItemProps> = ({
 
   return (
     <div className={`${styles.itemCard} ${isAnimated ? styles.visible : styles.hidden}`}>
-      <div className={styles.itemHeader}>
-        <h4 className={styles.itemTitle}>{item.title}</h4>
-        
-        {/* Rich Media Section */}
-        {item.mediaUrl && (
-          <div className={styles.mediaContainer}>
-            {isVideo ? (
-              <div className={styles.videoPlaceholder}>
-                <Play size={24} className={styles.playIcon} />
-                <video
-                  src={item.mediaUrl}
-                  className={styles.mediaElement}
-                  muted
-                  loop
-                  onMouseEnter={(e) => e.currentTarget.play()}
-                  onMouseLeave={(e) => e.currentTarget.pause()}
-                />
-              </div>
-            ) : (
-              <img
-                src={item.mediaUrl}
-                alt={`${item.title} example`}
-                className={styles.mediaElement}
-              />
-            )}
-          </div>
-        )}
-        
-        {item.details.length > 0 && (
-          <div className={styles.itemDetails}>
-            {isExpanded ? (
-              <ul className={styles.detailsList}>
-                {item.details.map((detail, idx) => (
-                  <li key={idx}>{detail}</li>
-                ))}
-              </ul>
-            ) : (
-              <div>
-                <ul className={styles.detailsList}>
-                  {item.details.slice(0, 3).map((detail, idx) => (
-                    <li key={idx}>{detail}</li>
-                  ))}
-                </ul>
-                {item.details.length > 3 && (
-                  <button
-                    onClick={() => setIsExpanded(true)}
-                    className={styles.expandButton}
-                  >
-                    Show more ({item.details.length - 3} more items)
-                  </button>
-                )}
-              </div>
-            )}
-            {isExpanded && item.details.length > 3 && (
-              <button
-                onClick={() => setIsExpanded(false)}
-                className={styles.expandButton}
-              >
-                Show less
-              </button>
-            )}
-          </div>
-        )}
-      </div>
-      
+      {/* Status Buttons at Top */}
       <div className={styles.statusButtons}>
         {statusOptions.map(option => (
           <StatusButton
@@ -111,6 +47,71 @@ export const AssessmentItem: React.FC<AssessmentItemProps> = ({
           />
         ))}
       </div>
+
+      {/* Large Question Title */}
+      <h2 className={styles.itemTitle}>{item.title}</h2>
+      
+      {/* Rich Media Section */}
+      {item.mediaUrl && (
+        <div className={styles.mediaContainer}>
+          {isVideo ? (
+            <div className={styles.videoPlaceholder}>
+              <Play size={32} className={styles.playIcon} />
+              <video
+                src={item.mediaUrl}
+                className={styles.mediaElement}
+                muted
+                loop
+                onMouseEnter={(e) => e.currentTarget.play()}
+                onMouseLeave={(e) => e.currentTarget.pause()}
+              />
+            </div>
+          ) : (
+            <img
+              src={item.mediaUrl}
+              alt={`${item.title} example`}
+              className={styles.mediaElement}
+            />
+          )}
+        </div>
+      )}
+      
+      {/* Details Section */}
+      {item.details.length > 0 && (
+        <div className={styles.itemDetails}>
+          {isExpanded ? (
+            <ul className={styles.detailsList}>
+              {item.details.map((detail, idx) => (
+                <li key={idx}>{detail}</li>
+              ))}
+            </ul>
+          ) : (
+            <div>
+              <ul className={styles.detailsList}>
+                {item.details.slice(0, 3).map((detail, idx) => (
+                  <li key={idx}>{detail}</li>
+                ))}
+              </ul>
+              {item.details.length > 3 && (
+                <button
+                  onClick={() => setIsExpanded(true)}
+                  className={styles.expandButton}
+                >
+                  Show more ({item.details.length - 3} more items)
+                </button>
+              )}
+            </div>
+          )}
+          {isExpanded && item.details.length > 3 && (
+            <button
+              onClick={() => setIsExpanded(false)}
+              className={styles.expandButton}
+            >
+              Show less
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

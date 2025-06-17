@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AssessmentCategory } from '../AssessmentCategory/AssessmentCategory';
+import { AssessmentItem } from '../AssessmentItem/AssessmentItem';
 import { NavigationButtons } from '../NavigationButtons/NavigationButtons';
 import { categories } from '../../data/assessmentData';
 import { AppType, AssessmentResponse } from '../../types/assessment';
@@ -81,42 +81,26 @@ export const UXAssessment: React.FC<UXAssessmentProps> = ({
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>UX Readiness Assessment</h1>
-        <p className={styles.description}>
-          Evaluate your application's user experience readiness across key categories.
-        </p>
-        <button onClick={onChangeAppType} className={styles.changeAppTypeButton}>
-          Change App Type
-        </button>
-      </div>
-
-      {/* Category Navigation */}
-      <div className={styles.categoryTabs}>
-        {categories.map((category, index) => (
-          <button
-            key={category.id}
-            onClick={() => onCategoryChange(index)}
-            className={`${styles.categoryTab} ${currentCategory === index ? styles.active : ''}`}
-          >
-            <div className={styles.tabContent}>
-              <span className={styles.tabTitle}>{category.title}</span>
-              <span className={styles.tabScore}>{calculateCategoryScore(category.id)}%</span>
-            </div>
-          </button>
+      {/* Assessment Items */}
+      <div className={styles.itemsList}>
+        {itemsToShow.map((item, index) => (
+          <AssessmentItem
+            key={item.id}
+            item={item}
+            response={responses[item.id]}
+            onResponse={handleResponse}
+            isVisible={true}
+            animationDelay={index * 100}
+          />
         ))}
       </div>
 
-      {/* Current Category Assessment */}
-      <AssessmentCategory
-        title={currentCat.title}
-        items={itemsToShow}
-        responses={responses}
-        categoryScore={categoryScore}
-        onResponse={handleResponse}
-        visibleItemsCount={visibleItemsCount}
-        totalItemsCount={allItems.length}
-      />
+      {/* Progress Info */}
+      <div className={styles.progressInfo}>
+        <span className={styles.progressText}>
+          {visibleItemsCount}/{allItems.length} items • {categoryScore}% complete
+        </span>
+      </div>
 
       {/* Navigation */}
       <NavigationButtons

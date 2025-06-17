@@ -1,6 +1,6 @@
 import React from 'react';
+import { AppBar } from './components/AppBar/AppBar';
 import { LeftStepper } from './components/LeftStepper/LeftStepper';
-import { TopHeader } from './components/TopHeader/TopHeader';
 import { Modal } from './components/Modal/Modal';
 import { AppTypeSelector } from './components/AppTypeSelector/AppTypeSelector';
 import { ProductOverview } from './pages/ProductOverview/ProductOverview';
@@ -62,10 +62,6 @@ function App() {
     setCurrentView('overview');
   };
 
-  const handleProductCreate = (name: string, pmName?: string, pmEmail?: string) => {
-    createProduct(name, pmName, pmEmail);
-  };
-
   const handleDataLevelSelect = (level: 0 | 1 | 2) => {
     setDataLevel(level);
   };
@@ -105,6 +101,7 @@ function App() {
     resetAssessment();
     setCurrentView('overview');
   };
+
   // Show app type modal on UX page load if no type selected
   React.useEffect(() => {
     if (currentView === 'ux' && !selectedAppType) {
@@ -114,6 +111,10 @@ function App() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#f9fafb' }}>
+      {/* Fixed App Bar */}
+      <AppBar onLogoClick={handleLogoClick} />
+      
+      {/* App Type Modal */}
       <Modal 
         isOpen={showAppTypeModal} 
         onClose={() => setShowAppTypeModal(false)}
@@ -126,19 +127,23 @@ function App() {
         {/* Left-Hand Stepper */}
         <LeftStepper
           currentStep={currentView}
+          currentUXCategory={currentCategory}
           onStepClick={handleStepClick}
+          onUXCategoryClick={goToCategory}
+          onChangeAppType={handleChangeAppType}
           getStepStatus={getStepStatus}
+          calculateCategoryScore={calculateCategoryScore}
         />
         
         {/* Main Content Area */}
-        <div style={{ flex: 1, paddingLeft: '72px', paddingRight: '72px' }}>
-          {/* Top Header (scrolls with content) */}
-          <TopHeader onLogoClick={handleLogoClick} />
-          
-          {/* Content */}
-          <div style={{ paddingTop: '40px' }}>
-            {renderCurrentView()}
-          </div>
+        <div style={{ 
+          flex: 1, 
+          paddingLeft: '72px', 
+          paddingRight: '72px',
+          paddingTop: '120px', // Account for fixed app bar
+          paddingBottom: '40px'
+        }}>
+          {renderCurrentView()}
         </div>
       </div>
     </div>

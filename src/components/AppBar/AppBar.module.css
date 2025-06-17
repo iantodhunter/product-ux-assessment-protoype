@@ -17,302 +17,49 @@
   padding: 0 var(--spacing-lg);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-lg);
 }
 
-.titleContainer {
+.logoButton {
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-}
-
-.backButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.backButton:hover {
-  background: var(--color-surface-hover);
-  border-color: var(--color-primary-300);
-  color: var(--color-text-primary);
-}
-
-.dropdown {
-  position: relative;
-}
-
-.titleSection {
-  flex-shrink: 0;
-  min-width: 200px;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-h5);
-  font-weight: var(--font-weight-h5);
-  color: var(--color-text-primary);
-  margin: 0;
   background: none;
   border: none;
   cursor: pointer;
   padding: var(--spacing-sm);
   border-radius: var(--radius-sm);
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
-.title:hover {
+.logoButton:hover {
   background: var(--color-surface-hover);
+  transform: translateY(-1px);
 }
 
-.chevron {
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  color: var(--color-primary-600);
   transition: transform 0.2s ease;
 }
 
-.dropdownMenu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 100;
-  min-width: 200px;
-  margin-top: var(--spacing-xs);
+.logoButton:hover .logoIcon {
+  transform: rotate(15deg);
 }
 
-.dropdownItem {
-  display: block;
-  width: 100%;
-  padding: var(--spacing-md);
-  text-align: left;
-  background: none;
-  border: none;
-  font-size: var(--font-size-body);
+.logoText {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-h5);
   color: var(--color-text-primary);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.dropdownItem:hover {
-  background: var(--color-surface-hover);
-}
-
-.dropdownItem:first-child {
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-}
-
-.dropdownItem:last-child {
-  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-}
-
-.stepperSection {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  overflow-x: auto;
-  padding: 0 var(--spacing-md);
-}
-
-.stepper {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  min-width: max-content;
-}
-
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-xs);
-  padding: var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
-  min-width: 120px;
-  text-align: center;
-}
-
-.step.clickable {
-  cursor: pointer;
-}
-
-.step.clickable:hover {
-  background: var(--color-surface-hover);
-}
-
-.stepIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: var(--font-size-bodyS);
-  font-weight: var(--font-weight-button);
-  border: 2px solid;
-  transition: all 0.2s ease;
-}
-
-.stepLabel {
-  font-size: var(--font-size-caption);
-  font-weight: var(--font-weight-button);
-  line-height: 1.2;
-  max-width: 100px;
-}
-
-/* Step States */
-.step.active .stepIcon {
-  background: var(--color-primary-600);
-  border-color: var(--color-primary-600);
-  color: white;
-}
-
-.step.active .stepLabel {
-  color: var(--color-primary-600);
-}
-
-.step.completed .stepIcon {
-  background: var(--color-success-600);
-  border-color: var(--color-success-600);
-  color: white;
-}
-
-.step.completed .stepLabel {
-  color: var(--color-success-600);
-}
-
-.step.available .stepIcon {
-  background: var(--color-surface);
-  border-color: var(--color-neutral-300);
-  color: var(--color-text-secondary);
-}
-
-.step.available .stepLabel {
-  color: var(--color-text-secondary);
-}
-
-.step.disabled .stepIcon {
-  background: var(--color-surface);
-  border-color: var(--color-neutral-200);
-  color: var(--color-neutral-400);
-}
-
-.step.disabled .stepLabel {
-  color: var(--color-neutral-400);
-}
-
-.connector {
-  width: 24px;
-  height: 2px;
-  background: var(--color-neutral-200);
-  transition: background-color 0.2s ease;
-}
-
-.connector.completed {
-  background: var(--color-success-600);
-}
-
-.progressSection {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--spacing-xs);
-  min-width: 120px;
-}
-
-.progressText {
-  font-size: var(--font-size-caption);
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-button);
-}
-
-.resetButton {
-  font-size: var(--font-size-caption);
-  color: var(--color-text-secondary);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  text-decoration: underline;
-}
-
-.resetButton:hover {
-  color: var(--color-text-primary);
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .container {
-    padding: 0 var(--spacing-md);
-    gap: var(--spacing-md);
-  }
-  
-  .titleSection {
-    min-width: 150px;
-  }
-  
-  .title {
-    font-size: var(--font-size-subtitle1);
-  }
-  
-  .stepperSection {
-    overflow-x: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  
-  .stepperSection::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .step {
-    min-width: 100px;
-  }
-  
-  .stepLabel {
-    font-size: 10px;
-    max-width: 80px;
-  }
 }
 
 @media (max-width: 768px) {
-  .appBar {
-    height: 100px;
+  .logoText {
+    font-size: var(--font-size-h6);
   }
   
-  .container {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-sm) var(--spacing-md);
-  }
-  
-  .titleSection,
-  .progressSection {
-    min-width: auto;
-  }
-  
-  .stepperSection {
-    width: 100%;
-    padding: 0;
-  }
-  
-  .progressSection {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+  .logoIcon {
+    width: 28px;
+    height: 28px;
   }
 }
