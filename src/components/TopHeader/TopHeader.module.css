@@ -22,18 +22,10 @@
 }
 
 .logoIcon {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   color: var(--color-primary-600);
   transition: transform 0.2s ease;
-}
-
-.fallbackIcon {
-  display: none;
-}
-
-.fallbackIcon.fallback-visible {
-  display: block;
 }
 
 .logoButton:hover .logoIcon {
