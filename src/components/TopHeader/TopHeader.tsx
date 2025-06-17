@@ -11,7 +11,7 @@ export const TopHeader: React.FC<TopHeaderProps> = ({ onLogoClick }) => {
       <button onClick={onLogoClick} className={styles.logoButton}>
         <img 
           src="/Hexagon_logomark_black.svg" 
-          alt="Nexus Logo" 
+          alt="Hexagon Logo" 
           className={styles.logoIcon}
         />
         <span className={styles.logoText}>Nexus Readiness</span>
