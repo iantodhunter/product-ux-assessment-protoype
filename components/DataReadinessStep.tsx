@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { VideoPreview } from './VideoPreview';
-import { RadioButtonIcon } from './icons/AppTypeIcons';
+import { RadioButtonIcon, CheckIcon, ArrowForwardIcon } from './icons/AppTypeIcons';
 
 interface DataReadinessStepProps {
   onComplete: (currentLevel: string, goalLevel: string) => void;
@@ -108,8 +108,8 @@ function LevelCard({
                               {example}
                             </span>
                           </li>
-                        ))}
-                      </ul>
+                    <div className="text-white text-[12px]">
+                      <CheckIcon />
                     </div>
                   </div>
                 </div>
@@ -330,9 +330,9 @@ export function DataReadinessStep({
         />
         
         {/* Arrow */}
-        <span className="material-symbols-outlined text-[40px] text-[#646e78] transition-colors duration-300">
-          arrow_forward
-        </span>
+        <div className="text-[#646e78] transition-colors duration-300">
+          <ArrowForwardIcon />
+        </div>
         
         {/* Goal Level Card */}
         <StepperCard

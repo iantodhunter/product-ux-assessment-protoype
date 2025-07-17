@@ -86,9 +86,9 @@ export function StepNavigationDropdown({
                 </span>
                 
                 {isCompleted && (
-                  <span className="material-symbols-outlined text-[16px] text-green-500">
-                    check
-                  </span>
+                  <div className="text-green-500 text-[16px]">
+                    <CheckIcon />
+                  </div>
                 )}
                 
                 {isCurrent && !isCompleted && (

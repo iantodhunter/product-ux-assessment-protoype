@@ -9,13 +9,13 @@ export const WebAppIcon = () => (
 
 export const DesktopAppIcon = () => (
   <span className="material-symbols-outlined text-[64px] text-[#646e78]">
-    desktop_landscape
+    desktop_windows
   </span>
 );
 
 export const DeviceIcon = () => (
   <span className="material-symbols-outlined text-[64px] text-[#646e78]">
-    assistant_device
+    devices
   </span>
 );
 
@@ -37,5 +37,33 @@ export const RadioButtonIcon = ({ isSelected }: { isSelected: boolean }) => (
 export const PlayIcon = () => (
   <span className="material-symbols-outlined text-[32px]">
     play_circle
+  </span>
+);
+
+// Check icon
+export const CheckIcon = () => (
+  <span className="material-symbols-outlined text-[16px]">
+    check
+  </span>
+);
+
+// Close icon
+export const CloseIcon = () => (
+  <span className="material-symbols-outlined text-[16px]">
+    close
+  </span>
+);
+
+// Schedule icon
+export const ScheduleIcon = () => (
+  <span className="material-symbols-outlined text-[16px]">
+    schedule
+  </span>
+);
+
+// Arrow forward icon
+export const ArrowForwardIcon = () => (
+  <span className="material-symbols-outlined text-[40px]">
+    arrow_forward
   </span>
 );

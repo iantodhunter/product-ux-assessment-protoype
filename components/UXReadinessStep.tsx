@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { CheckIcon, CloseIcon, ScheduleIcon } from './icons/AppTypeIcons';
 
 interface UXReadinessStepProps {
   onComplete: (responses: Record<string, ResponseValue>) => void;
@@ -37,11 +38,11 @@ function ThreeOptionButton({
   const getIcon = () => {
     switch (option) {
       case 'yes':
-        return <span className="material-symbols-outlined text-[16px]">check</span>;
+        return <CheckIcon />;
       case 'no':
-        return <span className="material-symbols-outlined text-[16px]">close</span>;
+        return <CloseIcon />;
       case 'planned':
-        return <span className="material-symbols-outlined text-[16px]">schedule</span>;
+        return <ScheduleIcon />;
     }
   };
 
