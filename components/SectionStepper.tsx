@@ -46,7 +46,7 @@ export function SectionStepper({ appType, currentSection, completedSections }: S
 
   return (
     <div className="bg-white rounded-lg p-4 border border-[#e9ecef] shadow-sm">
-      <h4 className="font-hexagon text-[14px] text-[#474f5f] font-medium mb-3">
+      <h4 className="font-hexagon text-[18px] text-[#474f5f] font-medium mb-3">
         UX Assessment Sections
       </h4>
       <div className="space-y-2">
@@ -63,7 +63,7 @@ export function SectionStepper({ appType, currentSection, completedSections }: S
                 }
               `} />
               <span className={`
-                font-opensans text-[12px] transition-colors
+                font-hexagon text-[18px] transition-colors
                 ${completedSections.includes(section.id) 
                   ? 'text-[#4caf50]' 
                   : currentSection === section.id 
@@ -77,7 +77,7 @@ export function SectionStepper({ appType, currentSection, completedSections }: S
             {section.subSections && section.subSections.map((subSection) => (
               <div key={subSection} className="flex items-center gap-2 ml-4 mt-1">
                 <div className="w-1 h-1 rounded-full bg-[#bbb]" />
-                <span className="font-opensans text-[11px] text-[#888]">
+                <span className="font-hexagon text-[16px] text-[#888]">
                   {subSection}
                 </span>
               </div>

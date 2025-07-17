@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { Check, X, Calendar } from 'lucide-react';
 
 interface UXReadinessStepProps {
   onComplete: (responses: Record<string, ResponseValue>) => void;
@@ -38,11 +37,11 @@ function ThreeOptionButton({
   const getIcon = () => {
     switch (option) {
       case 'yes':
-        return <Check className="w-4 h-4" />;
+        return <span className="material-symbols-outlined text-[16px]">check</span>;
       case 'no':
-        return <X className="w-4 h-4" />;
+        return <span className="material-symbols-outlined text-[16px]">close</span>;
       case 'planned':
-        return <Calendar className="w-4 h-4" />;
+        return <span className="material-symbols-outlined text-[16px]">schedule</span>;
     }
   };
 

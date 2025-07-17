@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { VideoPreview } from './VideoPreview';
-import { ArrowRight, Check } from 'lucide-react';
 import { RadioButtonIcon } from './icons/AppTypeIcons';
 
 interface DataReadinessStepProps {
@@ -64,7 +63,9 @@ function LevelCard({
                   <div className="box-border content-stretch flex flex-row items-center justify-center max-h-10 max-w-10 min-h-10 min-w-10 p-[8px] relative shrink-0">
                     {isCurrentLevel ? (
                       <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
-                        <Check className="w-3 h-3 text-white" />
+                        <span className="material-symbols-outlined text-[12px] text-white">
+                          check
+                        </span>
                       </div>
                     ) : (
                       <div className={isSelected ? "text-blue-500" : "text-gray-500"}>
@@ -93,17 +94,17 @@ function LevelCard({
                     </div>
                   </div>
                   <div className="box-border content-stretch flex flex-col font-hexagon items-start justify-start leading-[0] not-italic p-0 relative shrink-0 text-[16px] text-left w-full">
-                    <div className="flex flex-col justify-center relative shrink-0 text-[#646e78] w-full">
+                    <div className="flex flex-col justify-center relative shrink-0 text-[#474f5f] w-full">
                       <p className="block leading-[24px]">
                         {description}
                       </p>
                     </div>
-                    <div className="flex flex-col justify-center relative shrink-0 text-[#000000] w-full">
+                    <div className="flex flex-col justify-center relative shrink-0 text-[#474f5f] w-full">
                       <p className="block leading-[24px] mb-0">Examples:</p>
                       <ul className="css-ed5n1g list-disc">
                         {examples.map((example, index) => (
                           <li key={index} className="mb-0 ms-6">
-                            <span className="leading-[24px]">
+                            <span className="leading-[24px] text-[#474f5f]">
                               {example}
                             </span>
                           </li>
@@ -186,7 +187,11 @@ function StepperCard({
         <div className={`font-hexagon text-[18px] font-medium transition-colors ${isActive ? 'text-[#1976d2]' : 'text-[#646e78]'}`}>
           {label}
         </div>
-        {isCompleted && <Check className={`w-5 h-5 ${getIconColor()}`} />}
+        {isCompleted && (
+          <span className={`material-symbols-outlined text-[20px] ${getIconColor()}`}>
+            check
+          </span>
+        )}
         {isActive && !isCompleted && (
           <div className="w-5 h-5 border-2 border-[#2196f3] rounded-full flex items-center justify-center">
             <div className="w-2 h-2 bg-[#2196f3] rounded-full animate-pulse"></div>
@@ -325,7 +330,9 @@ export function DataReadinessStep({
         />
         
         {/* Arrow */}
-        <ArrowRight className="w-10 h-10 text-[#646e78] transition-colors duration-300" />
+        <span className="material-symbols-outlined text-[40px] text-[#646e78] transition-colors duration-300">
+          arrow_forward
+        </span>
         
         {/* Goal Level Card */}
         <StepperCard
