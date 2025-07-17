@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Check } from 'lucide-react';
 import { ChevronDownIcon } from './icons/AppTypeIcons';
 
 interface StepNavigationDropdownProps {
@@ -87,7 +86,9 @@ export function StepNavigationDropdown({
                 </span>
                 
                 {isCompleted && (
-                  <Check className="w-4 h-4 text-green-500" />
+                  <span className="material-symbols-outlined text-[16px] text-green-500">
+                    check
+                  </span>
                 )}
                 
                 {isCurrent && !isCompleted && (
