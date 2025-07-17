@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { VideoPreview } from './VideoPreview';
 import { ArrowRight, Check } from 'lucide-react';
-import { StepNavigationDropdown } from './StepNavigationDropdown';
-import { StepDescription } from './StepDescription';
 import { RadioButtonIcon } from './icons/AppTypeIcons';
 
 interface DataReadinessStepProps {
@@ -221,9 +219,7 @@ export function DataReadinessStep({
   onComplete, 
   onBack, 
   initialCurrentLevel, 
-  initialGoalLevel, 
-  onStepSelect, 
-  completedSteps = [] 
+  initialGoalLevel
 }: DataReadinessStepProps) {
   const [currentLevel, setCurrentLevel] = useState<string | null>(initialCurrentLevel);
   const [goalLevel, setGoalLevel] = useState<string | null>(initialGoalLevel);
@@ -314,110 +310,85 @@ export function DataReadinessStep({
   };
 
   return (
-    <div
-      className="bg-[#f8fafd] relative size-full"
-      data-name="Nexus Readiness Example"
-    >
-      {/* Header */}
-      <div className="absolute font-hexagon leading-[0] left-[30px] not-italic text-[#000000] text-[18px] text-left text-nowrap top-6">
-        <p className="block leading-[27px] whitespace-pre">Nexus Readiness</p>
-      </div>
+    <div className="flex flex-col items-center justify-center w-full h-full p-16">
       
-      {/* Step Navigation */}
-      <div className="absolute left-[30px] top-[70px]">
-        <StepNavigationDropdown 
-          currentStep={3}
-          onStepSelect={onStepSelect}
-          completedSteps={completedSteps}
+      {/* Stepper Progress - Always visible */}
+      <div className="flex items-center gap-8 mb-12 fade-in-up">
+        {/* Current Level Card */}
+        <StepperCard
+          type="current"
+          level={getCurrentLevelData()?.level}
+          subtitle={getCurrentLevelData()?.subtitle}
+          isCompleted={!!currentLevel}
+          isActive={!currentLevel}
+          onClick={currentLevel ? handleCurrentLevelEdit : undefined}
+        />
+        
+        {/* Arrow */}
+        <ArrowRight className="w-10 h-10 text-[#646e78] transition-colors duration-300" />
+        
+        {/* Goal Level Card */}
+        <StepperCard
+          type="goal"
+          level={getGoalLevelData()?.level}
+          subtitle={getGoalLevelData()?.subtitle}
+          isCompleted={!!goalLevel}
+          isActive={!!currentLevel && !goalLevel}
         />
       </div>
       
-      {/* Step Description */}
-      <StepDescription>
-        Assess your current data integration level and set your goal for this product.
-      </StepDescription>
-      
-      {/* Centered Main Content */}
-      <div className="flex flex-col items-center justify-center min-h-screen pt-32 pb-16">
-        
-        {/* Stepper Progress - Always visible */}
-        <div className="flex items-center gap-8 mb-12 fade-in-up">
-          {/* Current Level Card */}
-          <StepperCard
-            type="current"
-            level={getCurrentLevelData()?.level}
-            subtitle={getCurrentLevelData()?.subtitle}
-            isCompleted={!!currentLevel}
-            isActive={!currentLevel}
-            onClick={currentLevel ? handleCurrentLevelEdit : undefined}
-          />
-          
-          {/* Arrow */}
-          <ArrowRight className="w-10 h-10 text-[#646e78] transition-colors duration-300" />
-          
-          {/* Goal Level Card */}
-          <StepperCard
-            type="goal"
-            level={getGoalLevelData()?.level}
-            subtitle={getGoalLevelData()?.subtitle}
-            isCompleted={!!goalLevel}
-            isActive={!!currentLevel && !goalLevel}
-          />
-        </div>
-        
-        {/* Dynamic Instruction Text */}
-        <div className="h-12 mb-8">
-          <div className="flex flex-row items-center justify-center relative size-full">
-            <div className="box-border content-stretch flex flex-row gap-2 h-12 items-center justify-center p-[8px] relative w-full">
-              <div className="font-hexagon leading-[0] not-italic text-[#474f5f] text-[18px] text-center">
-                <p className="block leading-[27px] whitespace-pre">{getHeadingText()}</p>
-              </div>
+      {/* Dynamic Instruction Text */}
+      <div className="h-12 mb-8">
+        <div className="flex flex-row items-center justify-center relative size-full">
+          <div className="box-border content-stretch flex flex-row gap-2 h-12 items-center justify-center p-[8px] relative w-full">
+            <div className="font-hexagon leading-[0] not-italic text-[#474f5f] text-[18px] text-center">
+              <p className="block leading-[27px] whitespace-pre">{getHeadingText()}</p>
             </div>
           </div>
         </div>
-        
-        {/* Level Cards - Hide when both selections are complete */}
-        {(!currentLevel || !goalLevel) && (
-          <div className="box-border content-stretch flex flex-row gap-6 items-start justify-center p-0 max-w-7xl">
-            {levels.map((level) => (
-              <LevelCard
-                key={level.id}
-                level={level.level}
-                subtitle={level.subtitle}
-                description={level.description}
-                examples={level.examples}
-                isSelected={
-                  !currentLevel 
-                    ? false 
-                    : goalLevel === level.id
-                }
-                isCurrentLevel={currentLevel === level.id}
-                isDisabled={false}
-                onClick={() => {
-                  if (!currentLevel) {
-                    handleCurrentLevelSelect(level.id);
-                  } else {
-                    handleGoalLevelSelect(level.id);
-                  }
-                }}
-                videoId={level.videoId}
-              />
-            ))}
-          </div>
-        )}
-        
-        {/* Complete Button */}
-        {currentLevel && goalLevel && (
-          <div className="flex justify-center mt-8 fade-in-up">
-            <button
-              onClick={handleComplete}
-              className="bg-[#00718c] text-white px-12 py-4 rounded-xl font-hexagon text-[18px] font-medium hover:bg-[#005a6b] transition-all duration-200 hover:scale-105 shadow-lg"
-            >
-              Continue to UX Assessment
-            </button>
-          </div>
-        )}
       </div>
+      
+      {/* Level Cards - Hide when both selections are complete */}
+      {(!currentLevel || !goalLevel) && (
+        <div className="box-border content-stretch flex flex-row gap-6 items-start justify-center p-0 max-w-7xl">
+          {levels.map((level) => (
+            <LevelCard
+              key={level.id}
+              level={level.level}
+              subtitle={level.subtitle}
+              description={level.description}
+              examples={level.examples}
+              isSelected={
+                !currentLevel 
+                  ? false 
+                  : goalLevel === level.id
+              }
+              isCurrentLevel={currentLevel === level.id}
+              isDisabled={false}
+              onClick={() => {
+                if (!currentLevel) {
+                  handleCurrentLevelSelect(level.id);
+                } else {
+                  handleGoalLevelSelect(level.id);
+                }
+              }}
+              videoId={level.videoId}
+            />
+          ))}
+        </div>
+      )}
+      
+      {/* Complete Button */}
+      {currentLevel && goalLevel && (
+        <div className="flex justify-center mt-8 fade-in-up">
+          <button
+            onClick={handleComplete}
+            className="bg-[#00718c] text-white px-12 py-4 rounded-xl font-hexagon text-[18px] font-medium hover:bg-[#005a6b] transition-all duration-200 hover:scale-105 shadow-lg"
+          >
+            Continue to UX Assessment
+          </button>
+        </div>
+      )}
     </div>
   );
 }

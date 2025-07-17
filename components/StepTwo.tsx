@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { StepNavigationDropdown } from './StepNavigationDropdown';
-import { StepDescription } from './StepDescription';
 
 interface StepTwoProps {
   onComplete: (productName: string, productManagerName: string) => void;
@@ -11,15 +9,11 @@ interface StepTwoProps {
   completedSteps?: number[];
 }
 
-
-
 export function StepTwo({ 
   onComplete, 
   onBack, 
   initialProductName, 
-  initialProductManagerName, 
-  onStepSelect, 
-  completedSteps = [] 
+  initialProductManagerName
 }: StepTwoProps) {
   const [productName, setProductName] = useState(initialProductName);
   const [productManagerName, setProductManagerName] = useState(initialProductManagerName);
@@ -35,31 +29,8 @@ export function StepTwo({
   const canProceed = productName.trim() !== '' && productManagerName.trim() !== '';
 
   return (
-    <div
-      className="bg-[#f8fafd] relative size-full"
-      data-name="Nexus Readiness Example"
-    >
-      {/* Header */}
-      <div className="absolute font-hexagon leading-[0] left-[30px] not-italic text-[#000000] text-[18px] text-left text-nowrap top-6">
-        <p className="block leading-[27px] whitespace-pre">Nexus Readiness</p>
-      </div>
-      
-      {/* Step Navigation */}
-      <div className="absolute left-[30px] top-[70px]">
-        <StepNavigationDropdown 
-          currentStep={2}
-          onStepSelect={onStepSelect}
-          completedSteps={completedSteps}
-        />
-      </div>
-      
-      {/* Step Description */}
-      <StepDescription>
-        Please provide some basic information about your product.
-      </StepDescription>
-      
-      {/* Centered Main Content */}
-      <div className="flex flex-col items-center justify-center h-full max-w-md mx-auto">
+    <div className="flex flex-col items-center justify-center w-full h-full">
+      <div className="flex flex-col items-center justify-center max-w-md w-full">
         {/* Product Name */}
         <div className="box-border content-stretch flex flex-col gap-4 items-center justify-start p-0 mb-8 w-full">
           <div className="font-hexagon leading-[0] not-italic text-[#474f5f] text-[18px] text-center">
@@ -146,8 +117,6 @@ export function StepTwo({
           </button>
         </div>
       </div>
-      
-
     </div>
   );
 }

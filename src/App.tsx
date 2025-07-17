@@ -3,6 +3,7 @@ import { StepOne } from '../components/StepOne';
 import { StepTwo } from '../components/StepTwo';
 import { DataReadinessStep } from '../components/DataReadinessStep';
 import { UXReadinessStep } from '../components/UXReadinessStep';
+import { SideNavigation } from '../components/SideNavigation';
 
 type ResponseValue = 'yes' | 'no' | 'planned';
 
@@ -26,6 +27,10 @@ export default function App() {
     goalDataReadinessLevel: null,
     uxReadinessResponses: {}
   });
+
+  // UX Readiness specific state
+  const [uxCurrentSection, setUxCurrentSection] = useState('general');
+  const [uxCompletedSections, setUxCompletedSections] = useState<string[]>([]);
 
   const handleStepNavigation = (step: number) => {
     // Only allow navigation to completed steps or the current step
@@ -76,6 +81,10 @@ export default function App() {
       ...appData, 
       uxReadinessResponses: responses 
     });
+  };
+
+  const handleUxSectionChange = (section: string) => {
+    setUxCurrentSection(section);
   };
 
   const handleBackToStepOne = () => {
@@ -132,6 +141,9 @@ export default function App() {
             initialResponses={appData.uxReadinessResponses}
             onStepSelect={handleStepNavigation}
             completedSteps={completedSteps}
+            currentSection={uxCurrentSection}
+            completedSections={uxCompletedSections}
+            onSectionChange={handleUxSectionChange}
           />
         );
       default:
@@ -140,8 +152,21 @@ export default function App() {
   };
 
   return (
-    <div className="size-full">
-      {renderCurrentStep()}
+    <div className="h-screen flex bg-[#f8fafd]">
+      {/* Side Navigation */}
+      <SideNavigation 
+        currentStep={currentStep}
+        completedSteps={completedSteps}
+        onStepSelect={handleStepNavigation}
+        appType={appData.appType}
+        uxCurrentSection={uxCurrentSection}
+        uxCompletedSections={uxCompletedSections}
+      />
+      
+      {/* Main Content Area */}
+      <div className="flex-1 ml-[280px] flex flex-col items-center justify-center overflow-auto">
+        {renderCurrentStep()}
+      </div>
     </div>
   );
 }

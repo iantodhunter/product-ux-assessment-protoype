@@ -1,7 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { StepNavigationDropdown } from './StepNavigationDropdown';
-import { StepDescription } from './StepDescription';
-import { SectionStepper } from './SectionStepper';
 import { Check, X, Calendar } from 'lucide-react';
 
 interface UXReadinessStepProps {
@@ -11,6 +8,9 @@ interface UXReadinessStepProps {
   initialResponses: Record<string, ResponseValue>;
   onStepSelect?: (step: number) => void;
   completedSteps?: number[];
+  currentSection: string;
+  completedSections: string[];
+  onSectionChange: (section: string) => void;
 }
 
 type ResponseValue = 'yes' | 'no' | 'planned';
@@ -245,26 +245,12 @@ export function UXReadinessStep({
   onComplete, 
   onBack, 
   appType, 
-  initialResponses, 
-  onStepSelect, 
-  completedSteps = [] 
+  initialResponses,
+  currentSection,
+  completedSections,
+  onSectionChange
 }: UXReadinessStepProps) {
   const [responses, setResponses] = useState<Record<string, ResponseValue>>(initialResponses);
-  const [currentSection, setCurrentSection] = useState('general');
-  const [completedSections, setCompletedSections] = useState<string[]>([]);
-
-  const getAppTypeName = () => {
-    switch (appType) {
-      case 'web':
-        return 'Web App';
-      case 'desktop':
-        return 'Desktop App';
-      case 'device':
-        return 'Device or Mixed';
-      default:
-        return 'Application';
-    }
-  };
 
   const questionCategories: QuestionCategory[] = [
     {
@@ -317,43 +303,11 @@ export function UXReadinessStep({
   };
 
   return (
-    <div
-      className="bg-[#f8fafd] relative size-full overflow-auto"
-      data-name="Nexus Readiness Example"
-    >
-      {/* Fixed Header */}
-      <div className="fixed font-hexagon leading-[0] left-[30px] not-italic text-[#000000] text-[18px] text-left text-nowrap top-6 z-50 bg-[#f8fafd] px-4 py-2 rounded-lg">
-        <p className="block leading-[27px] whitespace-pre">Nexus Readiness</p>
-      </div>
-      
-      {/* Fixed Step Navigation */}
-      <div className="fixed left-[30px] top-[70px] z-50">
-        <StepNavigationDropdown 
-          currentStep={4}
-          onStepSelect={onStepSelect}
-          completedSteps={completedSteps}
-        />
-      </div>
-      
-      {/* Step Description */}
-      <StepDescription>
-        <span>{`Looks like you're building a `}</span>
-        <span className="font-medium">{getAppTypeName()}</span>
-        <span>{`. Let's review what UX you've got in place.`}</span>
-      </StepDescription>
-      
-      {/* Section Stepper */}
-      <SectionStepper 
-        appType={appType}
-        currentSection={currentSection}
-        completedSections={completedSections}
-      />
-      
-      {/* Main Content */}
-      <div className="pt-[130px] pb-16 pl-[380px]">
+    <div className="w-full h-full overflow-auto">
+      <div className="flex flex-col items-center justify-start w-full min-h-full py-16">
         {/* Question Categories */}
         {questionCategories.map((category, categoryIndex) => (
-          <div key={categoryIndex} className="mb-48">
+          <div key={categoryIndex} className="mb-48 w-full flex flex-col items-center">
             {/* Questions with increased spacing for zoom effect */}
             <div className="flex flex-col gap-64 w-full items-center px-8">
               {category.questions.map((question) => (
