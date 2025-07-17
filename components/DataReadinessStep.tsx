@@ -3,7 +3,7 @@ import { VideoPreview } from './VideoPreview';
 import { ArrowRight, Check } from 'lucide-react';
 import { StepNavigationDropdown } from './StepNavigationDropdown';
 import { StepDescription } from './StepDescription';
-import svgPaths from "../imports/svg-ap37xalq9c";
+import { RadioButtonIcon } from './icons/AppTypeIcons';
 
 interface DataReadinessStepProps {
   onComplete: (currentLevel: string, goalLevel: string) => void;
@@ -12,37 +12,6 @@ interface DataReadinessStepProps {
   initialGoalLevel: string | null;
   onStepSelect?: (step: number) => void;
   completedSteps?: number[];
-}
-
-
-
-function RadioButtonUnchecked({ isSelected }: { isSelected: boolean }) {
-  return (
-    <div
-      className="relative shrink-0 size-6"
-      data-name="radio_button_unchecked"
-    >
-      <svg
-        className="block size-full"
-        fill="none"
-        preserveAspectRatio="none"
-        viewBox="0 0 24 24"
-      >
-        <g id="radio_button_unchecked">
-          <path
-            d={svgPaths.pe775900}
-            fill={isSelected ? "var(--fill-0, #2196F3)" : "var(--fill-0, #00718C)"}
-            id="Vector"
-          />
-        </g>
-      </svg>
-      {isSelected && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-2 h-2 bg-[#2196F3] rounded-full"></div>
-        </div>
-      )}
-    </div>
-  );
 }
 
 function LevelCard({ 
@@ -100,7 +69,9 @@ function LevelCard({
                         <Check className="w-3 h-3 text-white" />
                       </div>
                     ) : (
-                      <RadioButtonUnchecked isSelected={isSelected} />
+                      <div className={isSelected ? "text-blue-500" : "text-gray-500"}>
+                        <RadioButtonIcon isSelected={isSelected} />
+                      </div>
                     )}
                   </div>
                 </div>

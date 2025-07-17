@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ChevronDown, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
+import { ChevronDownIcon } from './icons/AppTypeIcons';
 
 interface StepNavigationDropdownProps {
   currentStep: number;
@@ -48,9 +49,9 @@ export function StepNavigationDropdown({
         
         {/* Right side - Chevron */}
         <div className="flex items-center justify-center p-2 rounded-r-xl w-[40px]">
-          <ChevronDown 
-            className={`w-6 h-6 text-[#121623] transition-transform ${isOpen ? 'rotate-180' : ''}`} 
-          />
+          <div className={`text-[#121623] transition-transform ${isOpen ? 'rotate-180' : ''}`}>
+            <ChevronDownIcon />
+          </div>
         </div>
       </button>
 

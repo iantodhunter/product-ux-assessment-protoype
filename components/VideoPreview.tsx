@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play } from 'lucide-react';
+import { PlayIcon } from './icons/AppTypeIcons';
 
 interface VideoPreviewProps {
   videoId: string;
@@ -37,7 +37,9 @@ export function VideoPreview({ videoId, title, thumbnail, className = "" }: Vide
       {/* Play Button Overlay */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="bg-black/70 rounded-full p-3 transition-all duration-200 group-hover:bg-black/80 group-hover:scale-110">
-          <Play className="w-6 h-6 text-white fill-white" />
+          <div className="text-white">
+            <PlayIcon />
+          </div>
         </div>
       </div>
       

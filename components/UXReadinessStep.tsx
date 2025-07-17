@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
 import { StepNavigationDropdown } from './StepNavigationDropdown';
 import { StepDescription } from './StepDescription';
 import { SectionStepper } from './SectionStepper';
 import { Check, X, Calendar } from 'lucide-react';
-import exampleImage from 'figma:asset/e0d2c2de2bc40ecabc3a9f73dfebf3700ff62bfc.png';
 
 interface UXReadinessStepProps {
   onComplete: (responses: Record<string, ResponseValue>) => void;

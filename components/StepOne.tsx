@@ -1,75 +1,12 @@
-import svgPaths from "../imports/svg-wc80d85xst";
 import { StepNavigationDropdown } from './StepNavigationDropdown';
 import { StepDescription } from './StepDescription';
+import { WebAppIcon, DesktopAppIcon, DeviceIcon } from './icons/AppTypeIcons';
 
 interface StepOneProps {
   onComplete: (appType: string) => void;
   selectedAppType: string | null;
   onStepSelect?: (step: number) => void;
   completedSteps?: number[];
-}
-
-function Tabs() {
-  return (
-    <div className="relative shrink-0 size-16" data-name="tabs">
-      <svg
-        className="block size-full"
-        fill="none"
-        preserveAspectRatio="none"
-        viewBox="0 0 64 64"
-      >
-        <g id="tabs">
-          <path
-            d={svgPaths.p10553b80}
-            fill="var(--fill-0, #646E78)"
-            id="Vector"
-          />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function JamboardKiosk() {
-  return (
-    <div className="relative shrink-0 size-16" data-name="jamboard_kiosk">
-      <svg
-        className="block size-full"
-        fill="none"
-        preserveAspectRatio="none"
-        viewBox="0 0 64 64"
-      >
-        <g id="jamboard_kiosk">
-          <path
-            d={svgPaths.p30775180}
-            fill="var(--fill-0, #646E78)"
-            id="Vector"
-          />
-        </g>
-      </svg>
-    </div>
-  );
-}
-
-function TvRemote() {
-  return (
-    <div className="relative shrink-0 size-16" data-name="tv_remote">
-      <svg
-        className="block size-full"
-        fill="none"
-        preserveAspectRatio="none"
-        viewBox="0 0 64 64"
-      >
-        <g id="tv_remote">
-          <path
-            d={svgPaths.pc3d1f00}
-            fill="var(--fill-0, #646E78)"
-            id="Vector"
-          />
-        </g>
-      </svg>
-    </div>
-  );
 }
 
 function SelectAppType({ 
@@ -149,19 +86,19 @@ export function StepOne({
         {/* App Type Selection Cards */}
         <div className="box-border content-stretch flex flex-row gap-6 items-center justify-center">
           <SelectAppType
-            icon={<Tabs />}
+            icon={<WebAppIcon />}
             label="A web app"
             isSelected={selectedAppType === 'web'}
             onClick={() => handleAppTypeSelect('web')}
           />
           <SelectAppType
-            icon={<JamboardKiosk />}
+            icon={<DesktopAppIcon />}
             label="A desktop app"
             isSelected={selectedAppType === 'desktop'}
             onClick={() => handleAppTypeSelect('desktop')}
           />
           <SelectAppType
-            icon={<TvRemote />}
+            icon={<DeviceIcon />}
             label="Device or mixed"
             isSelected={selectedAppType === 'device'}
             onClick={() => handleAppTypeSelect('device')}
