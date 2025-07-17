@@ -108,6 +108,9 @@ function LevelCard({
                               {example}
                             </span>
                           </li>
+                        ))}
+                      </ul>
+                    </div>
                     <div className="text-white text-[12px]">
                       <CheckIcon />
                     </div>
