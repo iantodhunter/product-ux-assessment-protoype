@@ -7,8 +7,6 @@ interface SideNavigationProps {
   completedSteps: number[];
   onStepSelect?: (step: number) => void;
   appType: string | null;
-  // UX Readiness specific props
-  uxCurrentSection?: string;
 }
 
 export function SideNavigation({
@@ -16,7 +14,6 @@ export function SideNavigation({
   completedSteps,
   onStepSelect,
   appType,
-  uxCurrentSection,
 }: SideNavigationProps) {
   const getStepDescription = () => {
     switch (currentStep) {

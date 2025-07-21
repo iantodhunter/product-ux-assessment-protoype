@@ -229,7 +229,7 @@ function QuestionItem({
         <ThreeOptionSegmentedButton value={response} onChange={onChange} />
         
         {/* Mockup Image */}
-        <MockupImage type={question.mockupType} />
+        <MockupImage />
       </div>
     </div>
   );

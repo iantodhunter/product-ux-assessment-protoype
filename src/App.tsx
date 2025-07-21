@@ -28,9 +28,6 @@ export default function App() {
     uxReadinessResponses: {}
   });
 
-  // UX Readiness specific state
-  const [uxCurrentSection, setUxCurrentSection] = useState('general');
-
   const handleStepNavigation = (step: number) => {
     // Only allow navigation to completed steps or the current step
     if (completedSteps.includes(step) || step <= Math.max(currentStep, Math.max(...completedSteps, 0))) {
@@ -82,20 +79,12 @@ export default function App() {
     });
   };
 
-  const handleUxSectionChange = (section: string) => {
-    setUxCurrentSection(section);
-  };
-
   const handleBackToStepOne = () => {
     setCurrentStep(1);
   };
 
   const handleBackToStepTwo = () => {
     setCurrentStep(2);
-  };
-
-  const handleBackToStepThree = () => {
-    setCurrentStep(3);
   };
 
   const renderCurrentStep = () => {

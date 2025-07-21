@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PlayIcon } from './icons/AppTypeIcons';
 
 interface VideoPreviewProps {
