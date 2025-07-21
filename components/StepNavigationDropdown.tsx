@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDownIcon } from './icons/AppTypeIcons';
+import { ChevronDownIcon, CheckIcon } from './icons/AppTypeIcons';
 
 interface StepNavigationDropdownProps {
   currentStep: number;
