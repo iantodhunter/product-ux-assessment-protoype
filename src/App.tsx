@@ -142,7 +142,6 @@ export default function App() {
         completedSteps={completedSteps}
         onStepSelect={handleStepNavigation}
         appType={appData.appType}
-        uxCurrentSection={uxCurrentSection}
       />
       
       {/* Main Content Area */}

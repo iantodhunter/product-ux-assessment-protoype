@@ -69,7 +69,7 @@ export function SideNavigation({
         <div className="px-6">
           <SectionStepper 
             appType={appType}
-            currentSection={uxCurrentSection || 'general'}
+            currentSection="general"
             completedSections={[]}
           />
         </div>
