@@ -141,7 +141,6 @@ export default function App() {
         currentStep={currentStep}
         completedSteps={completedSteps}
         onStepSelect={handleStepNavigation}
-        appType={appData.appType}
       />
       
       {/* Main Content Area */}
