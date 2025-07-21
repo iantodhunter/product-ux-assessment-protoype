@@ -47,7 +47,7 @@ export function SectionStepper({ appType, currentSection, completedSections }: S
   return (
     <div className="bg-white rounded-lg p-4 border border-[#e9ecef] shadow-sm">
       <h4 className="font-hexagon text-[18px] text-[#474f5f] font-medium mb-3">
-        UX Assessment Sections
+        {getAppTypeLabel()} UX Assessment Sections
       </h4>
       <div className="space-y-2">
         {sections.map((section) => (

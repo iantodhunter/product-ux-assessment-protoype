@@ -3,14 +3,9 @@ import { CheckIcon, CloseIcon, ScheduleIcon } from './icons/AppTypeIcons';
 
 interface UXReadinessStepProps {
   onComplete: (responses: Record<string, ResponseValue>) => void;
-  onBack: () => void;
-  appType: string | null;
   initialResponses: Record<string, ResponseValue>;
   onStepSelect?: (step: number) => void;
   completedSteps?: number[];
-  currentSection: string;
-  completedSections: string[];
-  onSectionChange: (section: string) => void;
 }
 
 type ResponseValue = 'yes' | 'no' | 'planned';
@@ -18,7 +13,6 @@ type ResponseValue = 'yes' | 'no' | 'planned';
 interface Question {
   id: string;
   text: string;
-  mockupType: 'login' | 'navigation' | 'account' | 'settings' | 'help';
 }
 
 interface QuestionCategory {
@@ -129,7 +123,7 @@ function ThreeOptionSegmentedButton({
   );
 }
 
-function MockupImage({ type }: { type: string }) {
+function MockupImage() {
   // Create wireframe shapes similar to the provided design
   return (
     <div className="bg-white rounded-2xl p-8 flex flex-col items-center justify-center min-h-[240px] w-full max-w-[380px] border border-[#e0e0e0]">
@@ -243,12 +237,7 @@ function QuestionItem({
 
 export function UXReadinessStep({ 
   onComplete, 
-  onBack, 
-  appType, 
   initialResponses,
-  currentSection,
-  completedSections,
-  onSectionChange
 }: UXReadinessStepProps) {
   const [responses, setResponses] = useState<Record<string, ResponseValue>>(initialResponses);
 
@@ -259,27 +248,22 @@ export function UXReadinessStep({
         {
           id: 'nexus_auth',
           text: 'Uses Nexus authentication',
-          mockupType: 'login'
         },
         {
           id: 'account_dropdown',
           text: 'Users can access their Account information using the account dropdown',
-          mockupType: 'account'
         },
         {
           id: 'navigation_consistent',
           text: 'Has consistent navigation patterns throughout the application',
-          mockupType: 'navigation'
         },
         {
           id: 'settings_accessible',
           text: 'Application settings are easily accessible to users',
-          mockupType: 'settings'
         },
         {
           id: 'help_support',
           text: 'Help and support resources are readily available',
-          mockupType: 'help'
         }
       ]
     }

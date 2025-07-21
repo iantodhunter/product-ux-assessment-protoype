@@ -320,6 +320,19 @@ export function DataReadinessStep({
   return (
     <div className="flex flex-col items-center justify-center w-full h-full p-16">
       
+      {/* Back Button */}
+      <div className="self-start mb-4">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 px-4 py-2 text-[#00718c] hover:text-[#005a6b] transition-colors font-hexagon text-[16px]"
+        >
+          <span className="material-symbols-outlined text-[20px]">
+            arrow_back
+          </span>
+          Back
+        </button>
+      </div>
+      
       {/* Stepper Progress - Always visible */}
       <div className="flex items-center gap-8 mb-12 fade-in-up">
         {/* Current Level Card */}

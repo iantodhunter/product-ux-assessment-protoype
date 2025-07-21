@@ -30,7 +30,6 @@ export default function App() {
 
   // UX Readiness specific state
   const [uxCurrentSection, setUxCurrentSection] = useState('general');
-  const [uxCompletedSections, setUxCompletedSections] = useState<string[]>([]);
 
   const handleStepNavigation = (step: number) => {
     // Only allow navigation to completed steps or the current step
@@ -136,14 +135,9 @@ export default function App() {
         return (
           <UXReadinessStep 
             onComplete={handleUXReadinessComplete}
-            onBack={handleBackToStepThree}
-            appType={appData.appType}
             initialResponses={appData.uxReadinessResponses}
             onStepSelect={handleStepNavigation}
             completedSteps={completedSteps}
-            currentSection={uxCurrentSection}
-            completedSections={uxCompletedSections}
-            onSectionChange={handleUxSectionChange}
           />
         );
       default:
@@ -160,7 +154,6 @@ export default function App() {
         onStepSelect={handleStepNavigation}
         appType={appData.appType}
         uxCurrentSection={uxCurrentSection}
-        uxCompletedSections={uxCompletedSections}
       />
       
       {/* Main Content Area */}

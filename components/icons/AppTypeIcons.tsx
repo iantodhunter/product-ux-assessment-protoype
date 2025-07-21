@@ -1,5 +1,3 @@
-import React from 'react';
-
 // Google Material Icons components
 export const WebAppIcon = () => (
   <span className="material-symbols-outlined text-[64px] text-[#646e78]">

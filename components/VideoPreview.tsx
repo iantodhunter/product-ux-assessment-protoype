@@ -9,10 +9,7 @@ interface VideoPreviewProps {
 }
 
 export function VideoPreview({ videoId, title, thumbnail, className = "" }: VideoPreviewProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-
   const handlePlayClick = () => {
-    setIsPlaying(true);
     // In a real implementation, this would open a modal or navigate to video
     console.log(`Playing video: ${videoId} - ${title}`);
   };

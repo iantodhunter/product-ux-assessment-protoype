@@ -1,4 +1,3 @@
-import React from 'react';
 import { StepNavigationDropdown } from './StepNavigationDropdown';
 import { StepDescription } from './StepDescription';
 import { SectionStepper } from './SectionStepper';
@@ -10,7 +9,6 @@ interface SideNavigationProps {
   appType: string | null;
   // UX Readiness specific props
   uxCurrentSection?: string;
-  uxCompletedSections?: string[];
 }
 
 export function SideNavigation({
@@ -19,7 +17,6 @@ export function SideNavigation({
   onStepSelect,
   appType,
   uxCurrentSection,
-  uxCompletedSections
 }: SideNavigationProps) {
   const getStepDescription = () => {
     switch (currentStep) {
@@ -76,7 +73,7 @@ export function SideNavigation({
           <SectionStepper 
             appType={appType}
             currentSection={uxCurrentSection || 'general'}
-            completedSections={uxCompletedSections || []}
+            completedSections={[]}
           />
         </div>
       )}
