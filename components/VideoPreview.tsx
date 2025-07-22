@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { PlayIcon } from './icons/AppTypeIcons';
 
 interface VideoPreviewProps {
@@ -7,85 +6,22 @@ interface VideoPreviewProps {
   thumbnail?: string;
   videoUrl?: string;
   className?: string;
+  onPlayClick: (videoUrl: string, title: string) => void;
 }
 
-interface VideoModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  videoUrl: string;
-  title: string;
-}
-
-function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps) {
-  if (!isOpen) return null;
-
-  return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      {/* Modal Content - 75% of screen */}
-      <div className="relative bg-white rounded-2xl p-6 w-[75vw] h-[75vh] flex flex-col shadow-2xl">
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors z-10 bg-white/90 rounded-full p-2 hover:bg-white/100"
-        >
-          <span className="material-symbols-outlined text-[24px]">
-            close
-          </span>
-        </button>
-        
-        {/* Video Title */}
-        <h3 className="font-hexagon text-[28px] text-[#121623] font-medium mb-4 pr-16">
-          {title}
-        </h3>
-        
-        {/* Video Player - Takes remaining space */}
-        <div className="flex-1 bg-black rounded-xl overflow-hidden">
-          {videoUrl && !videoUrl.includes('example.com') ? (
-            <video 
-              controls 
-              autoPlay
-              className="w-full h-full object-contain"
-              poster=""
-            >
-              <source src={videoUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-white">
-              <div className="text-center">
-                <span className="material-symbols-outlined text-[64px] mb-4 block">
-                  construction
-                </span>
-                <div className="font-hexagon text-[32px]">Coming Soon</div>
-                <div className="font-hexagon text-[18px] text-gray-300 mt-2">
-                  Video content is being prepared
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function VideoPreview({ videoId, title, thumbnail, videoUrl, className = "" }: VideoPreviewProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export function VideoPreview({ 
+  videoId, 
+  title, 
+  thumbnail, 
+  videoUrl, 
+  className = "",
+  onPlayClick 
+}: VideoPreviewProps) {
 
   const handlePlayClick = (e: React.MouseEvent) => {
-    e.preventDefault();
     e.stopPropagation(); // Prevent card selection when clicking video
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+    e.preventDefault();
+    onPlayClick(videoUrl || '', title);
   };
 
   // Create a proper thumbnail display
@@ -117,36 +53,26 @@ export function VideoPreview({ videoId, title, thumbnail, videoUrl, className = 
   };
 
   return (
-    <>
-      <div 
-        className={`relative cursor-pointer group ${className}`}
-        onClick={handlePlayClick}
-      >
-        {/* Video Thumbnail */}
-        <div className="bg-[#e6eaf0] h-[162.516px] w-[270px] rounded-xl overflow-hidden">
-          {renderThumbnail()}
-        </div>
-        
-        {/* Play Button Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-black/70 rounded-full p-3 transition-all duration-200 group-hover:bg-black/80 group-hover:scale-110">
-            <div className="text-white">
-              <PlayIcon />
-            </div>
+    <div 
+      className={`relative cursor-pointer group ${className}`}
+      onClick={handlePlayClick}
+    >
+      {/* Video Thumbnail */}
+      <div className="bg-[#e6eaf0] h-[162.516px] w-[270px] rounded-xl overflow-hidden">
+        {renderThumbnail()}
+      </div>
+      
+      {/* Play Button Overlay */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="bg-black/70 rounded-full p-3 transition-all duration-200 group-hover:bg-black/80 group-hover:scale-110">
+          <div className="text-white">
+            <PlayIcon />
           </div>
         </div>
-        
-        {/* Hover Effect */}
-        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl" />
       </div>
-
-      {/* Video Modal - Rendered at DOM level */}
-      <VideoModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        videoUrl={videoUrl || ''}
-        title={title}
-      />
-    </>
+      
+      {/* Hover Effect */}
+      <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl" />
+    </div>
   );
 }

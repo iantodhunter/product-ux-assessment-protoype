@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { VideoPreview } from './VideoPreview';
+import { VideoModal } from './VideoModal';
 import { DataReadinessLevel } from '../src/services/contentService';
 import { RadioButtonIcon, CheckIcon, ArrowForwardIcon } from './icons/AppTypeIcons';
 
@@ -121,6 +122,7 @@ function LevelCard({
             title={`${level} Data Readiness Example`}
             videoUrl={levelData.videoUrl}
             thumbnail={levelData.videoThumbnail}
+            onPlayClick={handleVideoPlayClick}
             className="relative shrink-0"
           />
         </div>
@@ -229,6 +231,21 @@ export function DataReadinessStep({
 }: DataReadinessStepProps) {
   const [currentLevel, setCurrentLevel] = useState<string | null>(initialCurrentLevel);
   const [goalLevel, setGoalLevel] = useState<string | null>(initialGoalLevel);
+  const [modalVideoUrl, setModalVideoUrl] = useState<string>('');
+  const [modalVideoTitle, setModalVideoTitle] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleVideoPlayClick = (videoUrl: string, title: string) => {
+    setModalVideoUrl(videoUrl);
+    setModalVideoTitle(title);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalVideoUrl('');
+    setModalVideoTitle('');
+  };
 
   const handleCurrentLevelSelect = (level: string) => {
     setCurrentLevel(level);
@@ -284,6 +301,14 @@ export function DataReadinessStep({
         </button>
       </div>
       
+
+    {/* Video Modal */}
+    <VideoModal
+      isOpen={isModalOpen}
+      onClose={handleCloseModal}
+      videoUrl={modalVideoUrl}
+      title={modalVideoTitle}
+    />
       {/* Stepper Progress - Always visible */}
       <div className="flex items-center gap-8 mb-12 fade-in-up">
         {/* Current Level Card */}
