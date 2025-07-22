@@ -14,6 +14,7 @@ export interface UXQuestion {
   text: string;
   subheading?: string;
   mockupImage?: string;
+  appTypeSpecific?: 'web' | 'desktop' | 'device';
 }
 
 export interface UXCategory {

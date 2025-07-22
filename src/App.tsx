@@ -167,6 +167,7 @@ export default function App() {
             initialResponses={appData.uxReadinessResponses}
             onStepSelect={handleStepNavigation}
             completedSteps={completedSteps}
+            selectedAppType={appData.appType}
           />
         );
       case 5:

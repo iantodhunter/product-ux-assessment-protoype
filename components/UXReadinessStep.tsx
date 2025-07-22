@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { UXCategory, UXQuestion } from '../src/services/contentService';
 import { CheckIcon, CloseIcon, ScheduleIcon } from './icons/AppTypeIcons';
+import { Badge } from './ui/badge';
 
 interface UXReadinessStepProps {
   questionCategories: UXCategory[];
@@ -9,6 +10,7 @@ interface UXReadinessStepProps {
   initialResponses: Record<string, ResponseValue>;
   onStepSelect?: (step: number) => void;
   completedSteps?: number[];
+  selectedAppType: string | null;
 }
 
 type ResponseValue = 'yes' | 'no' | 'planned';
@@ -156,12 +158,14 @@ function QuestionItem({
   question, 
   mockupImage,
   response, 
-  onChange 
+  onChange,
+  selectedAppType
 }: { 
   question: UXQuestion; 
   mockupImage?: string;
   response: ResponseValue | null; 
-  onChange: (value: ResponseValue) => void; 
+  onChange: (value: ResponseValue) => void;
+  selectedAppType: string | null;
 }) {
   const [scale, setScale] = useState(1);
   const questionRef = useRef<HTMLDivElement>(null);
@@ -203,15 +207,35 @@ function QuestionItem({
     };
   }, []);
 
+  const getAppTypeLabel = (appType: 'web' | 'desktop' | 'device') => {
+    switch (appType) {
+      case 'web': return 'Web-specific';
+      case 'desktop': return 'Desktop-specific';
+      case 'device': return 'Device-specific';
+    }
+  };
+
   return (
     <div 
       ref={questionRef}
-      className="w-full max-w-[780px] bg-[#f8f9fa] rounded-3xl p-8 border border-[#e9ecef] transition-all duration-500 ease-out shadow-md"
+      className="w-full max-w-[780px] bg-[#f8f9fa] rounded-3xl p-8 border border-[#e9ecef] transition-all duration-500 ease-out shadow-md relative"
       style={{
         transform: `scale(${scale})`,
         boxShadow: scale > 1 ? '0 25px 50px rgba(0, 0, 0, 0.15)' : '0 4px 6px rgba(0, 0, 0, 0.05)'
       }}
     >
+      {/* App-specific chip */}
+      {question.appTypeSpecific && (
+        <div className="absolute top-4 right-4 z-10">
+          <Badge 
+            variant="outline" 
+            className="bg-white text-xs font-medium text-[#646e78] border-[#e0e0e0]"
+          >
+            {getAppTypeLabel(question.appTypeSpecific)}
+          </Badge>
+        </div>
+      )}
+      
       <div className="flex flex-col items-center gap-8">
         {/* Question Title */}
         <div className="text-center">
@@ -250,8 +274,10 @@ export function UXReadinessStep({
   onComplete, 
   onBack,
   initialResponses,
+  selectedAppType,
 }: UXReadinessStepProps) {
   const [responses, setResponses] = useState<Record<string, ResponseValue>>(initialResponses);
+  const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
 
   const handleResponseChange = (questionId: string, value: ResponseValue) => {
     setResponses(prev => ({
@@ -260,9 +286,49 @@ export function UXReadinessStep({
     }));
   };
 
+  const currentCategory = questionCategories[currentCategoryIndex];
+  const isLastCategory = currentCategoryIndex === questionCategories.length - 1;
+  const isFirstCategory = currentCategoryIndex === 0;
+
+  // Check if all questions in current category are answered
+  const currentCategoryAnswered = currentCategory.questions.every(question => 
+    responses[question.id] !== undefined
+  );
+
+  // Check if all questions across all categories are answered
   const allQuestionsAnswered = questionCategories.every(category =>
     category.questions.every(question => responses[question.id] !== undefined)
   );
+
+  const handleContinue = () => {
+    if (isLastCategory) {
+      if (allQuestionsAnswered) {
+        onComplete(responses);
+      }
+    } else {
+      setCurrentCategoryIndex(prev => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (isFirstCategory) {
+      onBack();
+    } else {
+      setCurrentCategoryIndex(prev => prev - 1);
+    }
+  };
+
+  const getNextCategoryName = () => {
+    if (isLastCategory) return '';
+    return questionCategories[currentCategoryIndex + 1]?.title || '';
+  };
+
+  const getContinueButtonText = () => {
+    if (isLastCategory) {
+      return 'Complete UX Assessment';
+    }
+    return `Continue to ${getNextCategoryName()}`;
+  };
 
   const handleComplete = () => {
     if (allQuestionsAnswered) {
@@ -277,44 +343,54 @@ export function UXReadinessStep({
         {/* Back Button */}
         <div className="self-start mb-4 ml-16">
           <button
-            onClick={onBack}
+            onClick={handleBack}
             className="flex items-center gap-2 px-4 py-2 text-[#00718c] hover:text-[#005a6b] transition-colors font-hexagon text-[16px]"
           >
             <span className="material-symbols-outlined text-[20px]">
               arrow_back
             </span>
-            Back
+            {isFirstCategory ? 'Back' : `Back to ${questionCategories[currentCategoryIndex - 1]?.title}`}
           </button>
         </div>
-        {/* Question Categories */}
-        {questionCategories.map((category, categoryIndex) => (
-          <div key={categoryIndex} className="mb-48 w-full flex flex-col items-center">
-            {/* Questions with increased spacing for zoom effect */}
-            <div className="flex flex-col gap-64 w-full items-center px-8">
-              {category.questions.map((question) => (
-                <QuestionItem
-                  key={question.id}
-                  question={question}
-                  mockupImage={question.mockupImage}
-                  response={responses[question.id] ?? null}
-                  onChange={(value) => handleResponseChange(question.id, value)}
-                />
-              ))}
-            </div>
+        
+        {/* Category Title */}
+        <div className="mb-12">
+          <h2 className="font-hexagon text-[28px] text-[#121623] font-medium text-center">
+            {currentCategory.title}
+          </h2>
+        </div>
+        
+        {/* Current Category Questions */}
+        <div className="mb-48 w-full flex flex-col items-center">
+          {/* Questions with increased spacing for zoom effect */}
+          <div className="flex flex-col gap-64 w-full items-center px-8">
+            {currentCategory.questions.map((question) => (
+              <QuestionItem
+                key={question.id}
+                question={question}
+                mockupImage={question.mockupImage}
+                response={responses[question.id] ?? null}
+                onChange={(value) => handleResponseChange(question.id, value)}
+                selectedAppType={selectedAppType}
+              />
+            ))}
           </div>
-        ))}
+        </div>
 
-        {/* Complete Button */}
-        {allQuestionsAnswered && (
-          <div className="flex justify-center mt-32 mb-16">
-            <button
-              onClick={handleComplete}
-              className="bg-[#00718c] text-white px-8 py-3 rounded-xl font-hexagon text-[16px] font-medium hover:bg-[#005a6b] transition-colors"
-            >
-              Complete UX Assessment
-            </button>
-          </div>
-        )}
+        {/* Continue Button */}
+        <div className="flex justify-center mt-32 mb-16">
+          <button
+            onClick={handleContinue}
+            disabled={!currentCategoryAnswered || (isLastCategory && !allQuestionsAnswered)}
+            className={`px-8 py-3 rounded-xl font-hexagon text-[16px] font-medium transition-colors ${
+              currentCategoryAnswered && (!isLastCategory || allQuestionsAnswered)
+                ? 'bg-[#00718c] text-white hover:bg-[#005a6b]' 
+                : 'bg-[#ccc] text-[#888] cursor-not-allowed'
+            }`}
+          >
+            {getContinueButtonText()}
+          </button>
+        </div>
       </div>
     </div>
   );

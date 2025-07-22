@@ -1,7 +1,7 @@
 {
   "categories": [
     {
-      "title": "General User Experiences",
+      "title": "General UX",
       "id": "general",
       "questions": [
         {
@@ -32,6 +32,99 @@
           "id": "help_support",
           "text": "Help and support resources are readily available",
           "mockupImage": "https://images.pexels.com/photos/3183151/pexels-photo-3183151.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        }
+      ]
+    },
+    {
+      "title": "UI",
+      "id": "ui",
+      "questions": [
+        {
+          "id": "responsive_design",
+          "text": "It's usable on tablets",
+          "subheading": "The interface adapts well to tablet screen sizes and touch interactions.",
+          "appTypeSpecific": "web",
+          "mockupImage": "https://images.pexels.com/photos/3183152/pexels-photo-3183152.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "touch_friendly",
+          "text": "Has touch-friendly interface elements",
+          "subheading": "Buttons and interactive elements are appropriately sized for touch interaction.",
+          "appTypeSpecific": "web",
+          "mockupImage": "https://images.pexels.com/photos/3183155/pexels-photo-3183155.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "native_controls",
+          "text": "Uses native OS controls and patterns",
+          "subheading": "Follows platform-specific design guidelines and user interface conventions.",
+          "appTypeSpecific": "desktop",
+          "mockupImage": "https://images.pexels.com/photos/3183156/pexels-photo-3183156.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "accessibility_standards",
+          "text": "Meets accessibility standards (WCAG 2.1)",
+          "subheading": "Includes proper contrast, keyboard navigation, and screen reader compatibility.",
+          "mockupImage": "https://images.pexels.com/photos/3183157/pexels-photo-3183157.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        }
+      ]
+    },
+    {
+      "title": "Content",
+      "id": "content",
+      "questions": [
+        {
+          "id": "content_localization",
+          "text": "Content supports multiple languages",
+          "subheading": "Text can be translated and displayed in different languages based on user preference.",
+          "mockupImage": "https://images.pexels.com/photos/3183158/pexels-photo-3183158.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "error_messages",
+          "text": "Provides clear and helpful error messages",
+          "subheading": "Error messages are informative, specific, and guide users toward resolution.",
+          "mockupImage": "https://images.pexels.com/photos/3183159/pexels-photo-3183159.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "loading_states",
+          "text": "Shows appropriate loading and progress indicators",
+          "subheading": "Users receive visual feedback during data loading and processing operations.",
+          "mockupImage": "https://images.pexels.com/photos/3183160/pexels-photo-3183160.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "empty_states",
+          "text": "Handles empty states gracefully",
+          "subheading": "Provides helpful messaging and guidance when no data or content is available.",
+          "mockupImage": "https://images.pexels.com/photos/3183161/pexels-photo-3183161.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        }
+      ]
+    },
+    {
+      "title": "Analytics",
+      "id": "analytics",
+      "questions": [
+        {
+          "id": "user_tracking",
+          "text": "Implements user behavior tracking",
+          "subheading": "Collects data on how users interact with the application for improvement insights.",
+          "mockupImage": "https://images.pexels.com/photos/3183162/pexels-photo-3183162.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "performance_monitoring",
+          "text": "Monitors application performance metrics",
+          "subheading": "Tracks load times, response times, and other performance indicators.",
+          "mockupImage": "https://images.pexels.com/photos/3183163/pexels-photo-3183163.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "error_reporting",
+          "text": "Has automated error reporting and logging",
+          "subheading": "Automatically captures and reports application errors for debugging and improvement.",
+          "mockupImage": "https://images.pexels.com/photos/3183164/pexels-photo-3183164.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
+        },
+        {
+          "id": "usage_analytics",
+          "text": "Collects feature usage analytics",
+          "subheading": "Tracks which features are used most frequently to inform product decisions.",
+          "mockupImage": "https://images.pexels.com/photos/3183165/pexels-photo-3183165.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
         }
       ]
     }
