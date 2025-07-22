@@ -78,9 +78,7 @@ function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps) {
 export function VideoPreview({ videoId, title, thumbnail, videoUrl, className = "" }: VideoPreviewProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handlePlayClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handlePlayClick = () => {
     setIsModalOpen(true);
   };
 
@@ -118,14 +116,17 @@ export function VideoPreview({ videoId, title, thumbnail, videoUrl, className = 
 
   return (
     <>
-      <div className={`relative cursor-pointer group ${className}`} onClick={handlePlayClick}>
+      <div className={`relative cursor-pointer group ${className}`}>
         {/* Video Thumbnail */}
         <div className="bg-[#e6eaf0] h-[162.516px] w-[270px] rounded-xl overflow-hidden">
           {renderThumbnail()}
         </div>
         
         {/* Play Button Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div 
+          className="absolute inset-0 flex items-center justify-center"
+          onClick={handlePlayClick}
+        >
           <div className="bg-black/70 rounded-full p-3 transition-all duration-200 group-hover:bg-black/80 group-hover:scale-110">
             <div className="text-white">
               <PlayIcon />
