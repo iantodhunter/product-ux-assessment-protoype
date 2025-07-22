@@ -3,6 +3,8 @@ import { StepOne } from '../components/StepOne';
 import { StepTwo } from '../components/StepTwo';
 import { DataReadinessStep } from '../components/DataReadinessStep';
 import { UXReadinessStep } from '../components/UXReadinessStep';
+import { GTMReadinessStep } from '../components/GTMReadinessStep';
+import { AssessmentResults } from '../components/AssessmentResults';
 import { SideNavigation } from '../components/SideNavigation';
 import useContent from './hooks/useContent';
 import { LoadingScreen } from '../components/LoadingScreen';
@@ -76,11 +78,25 @@ export default function App() {
       uxReadinessResponses: responses 
     }));
     markStepCompleted(4);
-    // Complete the flow - could navigate to results page or show completion
-    console.log('Assessment complete:', { 
-      ...appData, 
-      uxReadinessResponses: responses 
+    setCurrentStep(5);
+  };
+
+  const handleGTMReadinessComplete = () => {
+    markStepCompleted(5);
+    setCurrentStep(6);
+  };
+
+  const handleRestartAssessment = () => {
+    setAppData({
+      appType: null,
+      productName: '',
+      productManagerName: '',
+      currentDataReadinessLevel: null,
+      goalDataReadinessLevel: null,
+      uxReadinessResponses: {}
     });
+    setCompletedSteps([]);
+    setCurrentStep(1);
   };
 
   const handleBackToStepOne = () => {
@@ -89,6 +105,18 @@ export default function App() {
 
   const handleBackToStepTwo = () => {
     setCurrentStep(2);
+  };
+
+  const handleBackToStepThree = () => {
+    setCurrentStep(3);
+  };
+
+  const handleBackToStepFour = () => {
+    setCurrentStep(4);
+  };
+
+  const handleBackToStepFive = () => {
+    setCurrentStep(5);
   };
 
   const renderCurrentStep = () => {
@@ -135,9 +163,27 @@ export default function App() {
           <UXReadinessStep 
             questionCategories={content.uxCategories}
             onComplete={handleUXReadinessComplete}
+            onBack={handleBackToStepThree}
             initialResponses={appData.uxReadinessResponses}
             onStepSelect={handleStepNavigation}
             completedSteps={completedSteps}
+          />
+        );
+      case 5:
+        return (
+          <GTMReadinessStep 
+            onComplete={handleGTMReadinessComplete}
+            onBack={handleBackToStepFour}
+            onStepSelect={handleStepNavigation}
+            completedSteps={completedSteps}
+          />
+        );
+      case 6:
+        return (
+          <AssessmentResults 
+            appData={appData}
+            onRestart={handleRestartAssessment}
+            onBack={handleBackToStepFive}
           />
         );
       default:

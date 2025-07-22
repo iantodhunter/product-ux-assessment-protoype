@@ -5,6 +5,7 @@ import { CheckIcon, CloseIcon, ScheduleIcon } from './icons/AppTypeIcons';
 interface UXReadinessStepProps {
   questionCategories: UXCategory[];
   onComplete: (responses: Record<string, ResponseValue>) => void;
+  onBack: () => void;
   initialResponses: Record<string, ResponseValue>;
   onStepSelect?: (step: number) => void;
   completedSteps?: number[];
@@ -217,6 +218,11 @@ function QuestionItem({
           <h3 className="font-hexagon text-[20px] text-[#212529] font-medium">
             {question.text}
           </h3>
+          {question.subheading && (
+            <p className="font-hexagon text-[14px] text-[#6c757d] mt-2 leading-[21px] max-w-md mx-auto">
+              {question.subheading}
+            </p>
+          )}
         </div>
         
         {/* Three Option Buttons */}
@@ -242,6 +248,7 @@ function QuestionItem({
 export function UXReadinessStep({ 
   questionCategories,
   onComplete, 
+  onBack,
   initialResponses,
 }: UXReadinessStepProps) {
   const [responses, setResponses] = useState<Record<string, ResponseValue>>(initialResponses);
@@ -266,6 +273,19 @@ export function UXReadinessStep({
   return (
     <div className="w-full h-full overflow-auto">
       <div className="flex flex-col items-center justify-start w-full min-h-full py-16">
+        
+        {/* Back Button */}
+        <div className="self-start mb-4 ml-16">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 px-4 py-2 text-[#00718c] hover:text-[#005a6b] transition-colors font-hexagon text-[16px]"
+          >
+            <span className="material-symbols-outlined text-[20px]">
+              arrow_back
+            </span>
+            Back
+          </button>
+        </div>
         {/* Question Categories */}
         {questionCategories.map((category, categoryIndex) => (
           <div key={categoryIndex} className="mb-48 w-full flex flex-col items-center">

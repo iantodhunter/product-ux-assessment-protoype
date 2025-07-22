@@ -2,11 +2,22 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { CheckCircle, AlertCircle, XCircle, RotateCcw } from 'lucide-react';
-import { AssessmentData } from '../App';
+
+type ResponseValue = 'yes' | 'no' | 'planned';
+
+export interface AppData {
+  appType: string | null;
+  productName: string;
+  productManagerName: string;
+  currentDataReadinessLevel: string | null;
+  goalDataReadinessLevel: string | null;
+  uxReadinessResponses: Record<string, ResponseValue>;
+}
 
 interface AssessmentResultsProps {
-  assessmentData: AssessmentData;
+  appData: AppData;
   onRestart: () => void;
+  onBack: () => void;
 }
 
 function calculateReadinessScore(appType: string, responses: Record<string, any>): {
@@ -17,51 +28,22 @@ function calculateReadinessScore(appType: string, responses: Record<string, any>
   let score = 70; // Base score
   const recommendations: string[] = [];
 
-  // Web app specific scoring
+  // Count UX responses
+  const uxResponses = Object.values(responses);
+  const yesCount = uxResponses.filter(r => r === 'yes').length;
+  const plannedCount = uxResponses.filter(r => r === 'planned').length;
+  const noCount = uxResponses.filter(r => r === 'no').length;
+
+  // Score based on UX readiness
+  score += yesCount * 5; // +5 for each "yes"
+  score += plannedCount * 2; // +2 for each "planned"
+  // no points for "no" responses
+
+  // App type specific adjustments
   if (appType === 'web') {
-    if (responses.hosting === 'cloud') score += 10;
-    if (responses.hosting === 'unsure') {
-      score -= 5;
-      recommendations.push('Consider cloud hosting for better scalability and reliability');
-    }
-    
-    if (responses.users === 'enterprise') score += 15;
-    if (responses.users === 'small') score += 5;
-    
-    if (responses.framework === 'react') score += 10;
-    if (responses.framework === 'other') {
-      score -= 5;
-      recommendations.push('Consider using established frameworks for better ecosystem support');
-    }
-    
-    if (responses.database === 'unsure') {
-      score -= 10;
-      recommendations.push('Define your data storage strategy early in development');
-    }
-  }
-  
-  // Desktop app specific scoring
-  if (appType === 'desktop') {
-    if (responses.platform === 'cross-platform') score += 15;
-    if (responses.framework === 'electron') score += 10;
-    if (responses.distribution === 'multiple') score += 10;
-    if (responses.performance === 'realtime') {
-      score += 5;
-      recommendations.push('Consider native technologies for real-time performance requirements');
-    }
-  }
-  
-  // Device specific scoring
-  if (appType === 'device') {
-    if (responses.connectivity === 'multiple') score += 10;
-    if (responses.power === 'battery') {
-      score += 5;
-      recommendations.push('Optimize for power efficiency in battery-powered devices');
-    }
-    if (responses.environment === 'industrial') {
-      score += 15;
-      recommendations.push('Ensure robust testing for harsh industrial environments');
-    }
+    score += 5; // Web apps generally have more mature tooling
+  } else if (appType === 'device') {
+    score += 10; // Device integration is more complex, bonus for attempting
   }
 
   // Determine readiness level
@@ -70,23 +52,28 @@ function calculateReadinessScore(appType: string, responses: Record<string, any>
   else if (score >= 70) level = 'medium';
   else level = 'low';
 
-  // Add general recommendations based on score
-  if (level === 'low') {
-    recommendations.push('Consider additional planning and risk assessment before proceeding');
-    recommendations.push('Evaluate if current technology choices align with project requirements');
+  // Generate recommendations
+  if (noCount > yesCount) {
+    recommendations.push('Focus on implementing missing UX components before proceeding');
+  }
+  if (plannedCount > 0) {
+    recommendations.push('Complete planned UX elements to improve readiness score');
+  }
+  if (level === 'high') {
+    recommendations.push('Excellent readiness! You\'re well-prepared for Nexus integration');
   } else if (level === 'medium') {
-    recommendations.push('Address identified gaps to improve project success probability');
+    recommendations.push('Good foundation. Address key gaps to optimize integration success');
   } else {
-    recommendations.push('Your project shows strong readiness indicators');
+    recommendations.push('Consider strengthening UX foundation before Nexus integration');
   }
 
   return { score, level, recommendations };
 }
 
-export function AssessmentResults({ assessmentData, onRestart }: AssessmentResultsProps) {
+export function AssessmentResults({ appData, onRestart, onBack }: AssessmentResultsProps) {
   const { score, level, recommendations } = calculateReadinessScore(
-    assessmentData.appType || '', 
-    assessmentData.responses
+    appData.appType || '', 
+    appData.uxReadinessResponses
   );
 
   const getScoreColor = (level: string) => {
@@ -116,100 +103,161 @@ export function AssessmentResults({ assessmentData, onRestart }: AssessmentResul
     }
   };
 
+  const getAppTypeLabel = () => {
+    switch (appData.appType) {
+      case 'web': return 'Web App';
+      case 'desktop': return 'Desktop App'; 
+      case 'device': return 'Device or Mixed';
+      default: return 'Application';
+    }
+  };
+
   return (
-    <div className="bg-[#f8fafd] size-full flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-[#b4bac4]">
-        <div className="font-['Hexagon_Akkurat:Regular',_sans-serif] text-[18px] text-[#000000]">
-          Nexus Readiness - Assessment Results
-        </div>
-        <Button variant="outline" onClick={onRestart} className="flex items-center gap-2">
-          <RotateCcw className="w-4 h-4" />
-          Start Over
-        </Button>
+    <div className="flex flex-col items-center justify-start w-full h-full overflow-auto py-16 px-8">
+      
+      {/* Back Button */}
+      <div className="self-start mb-4">
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 px-4 py-2 text-[#00718c] hover:text-[#005a6b] transition-colors font-hexagon text-[16px]"
+        >
+          <span className="material-symbols-outlined text-[20px]">
+            arrow_back
+          </span>
+          Back
+        </button>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-4xl space-y-6">
-          
-          {/* Score Card */}
-          <Card className="text-center">
-            <CardHeader>
-              <div className="flex items-center justify-center mb-4">
-                {getScoreIcon(level)}
-              </div>
-              <CardTitle className="text-[32px]">
-                Your Nexus Readiness Score
-              </CardTitle>
-              <div className={`text-[48px] font-bold ${getScoreColor(level)}`}>
-                {score}/100
-              </div>
-              <div className="flex justify-center">
-                {getLevelBadge(level)}
-              </div>
-            </CardHeader>
-            <CardContent>
-              <p className="text-[16px] text-[#646e78]">
-                Based on your {assessmentData.appType} app assessment
-              </p>
-            </CardContent>
-          </Card>
+      <div className="w-full max-w-4xl space-y-6">
+        
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="font-hexagon text-[32px] text-[#121623] font-medium mb-2">
+            Nexus Readiness Assessment Complete
+          </h1>
+          <p className="font-hexagon text-[18px] text-[#646e78]">
+            Review your assessment results and recommendations
+          </p>
+        </div>
+        
+        {/* Score Card */}
+        <Card className="text-center">
+          <CardHeader>
+            <div className="flex items-center justify-center mb-4">
+              {getScoreIcon(level)}
+            </div>
+            <CardTitle className="text-[32px] font-hexagon">
+              Your Nexus Readiness Score
+            </CardTitle>
+            <div className={`text-[48px] font-bold ${getScoreColor(level)}`}>
+              {score}/100
+            </div>
+            <div className="flex justify-center">
+              {getLevelBadge(level)}
+            </div>
+          </CardHeader>
+        </Card>
 
-          {/* Recommendations */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-[24px]">
-                Recommendations
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {recommendations.map((recommendation, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-[#2196f3] rounded-full mt-2 shrink-0" />
-                    <p className="text-[16px] text-[#474f5f]">
-                      {recommendation}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Assessment Summary */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-[24px]">
-                Assessment Summary
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Assessment Summary */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[24px] font-hexagon">
+              Assessment Summary
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
                 <div>
-                  <div className="font-medium text-[16px] mb-2">App Type</div>
-                  <div className="text-[14px] text-[#646e78] capitalize">
-                    {assessmentData.appType} application
+                  <div className="font-hexagon font-medium text-[16px] mb-2">Product Information</div>
+                  <div className="text-[14px] text-[#646e78] space-y-1">
+                    <div><strong>Product:</strong> {appData.productName}</div>
+                    <div><strong>Product Manager:</strong> {appData.productManagerName}</div>
+                    <div><strong>App Type:</strong> {getAppTypeLabel()}</div>
                   </div>
                 </div>
+                
                 <div>
-                  <div className="font-medium text-[16px] mb-2">Responses</div>
-                  <div className="text-[14px] text-[#646e78]">
-                    {Object.keys(assessmentData.responses).length} questions answered
+                  <div className="font-hexagon font-medium text-[16px] mb-2">Data Readiness</div>
+                  <div className="text-[14px] text-[#646e78] space-y-1">
+                    <div><strong>Current Level:</strong> Level {appData.currentDataReadinessLevel?.replace('level', '') || 'Unknown'}</div>
+                    <div><strong>Goal Level:</strong> Level {appData.goalDataReadinessLevel?.replace('level', '') || 'Unknown'}</div>
                   </div>
                 </div>
               </div>
               
-              <div className="mt-6 p-4 bg-[#edf0f3] rounded-lg">
-                <div className="font-medium text-[16px] mb-2">Next Steps</div>
-                <p className="text-[14px] text-[#474f5f]">
-                  Review the recommendations above and consider addressing any identified gaps. 
-                  Contact our team for detailed guidance on improving your Nexus readiness.
-                </p>
+              <div className="space-y-4">
+                <div>
+                  <div className="font-hexagon font-medium text-[16px] mb-2">UX Readiness</div>
+                  <div className="text-[14px] text-[#646e78] space-y-1">
+                    <div><strong>Total Questions:</strong> {Object.keys(appData.uxReadinessResponses).length}</div>
+                    <div><strong>Yes:</strong> {Object.values(appData.uxReadinessResponses).filter(r => r === 'yes').length}</div>
+                    <div><strong>Planned:</strong> {Object.values(appData.uxReadinessResponses).filter(r => r === 'planned').length}</div>
+                    <div><strong>No:</strong> {Object.values(appData.uxReadinessResponses).filter(r => r === 'no').length}</div>
+                  </div>
+                </div>
+                
+                <div>
+                  <div className="font-hexagon font-medium text-[16px] mb-2">GTM Readiness</div>
+                  <div className="text-[14px] text-[#646e78]">
+                    Checklist reviewed
+                  </div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Recommendations */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[24px] font-hexagon">
+              Recommendations
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {recommendations.map((recommendation, index) => (
+                <div key={index} className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#2196f3] rounded-full mt-2 shrink-0" />
+                  <p className="text-[16px] text-[#474f5f] leading-[24px]">
+                    {recommendation}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Next Steps */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[24px] font-hexagon">
+              Next Steps
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-[#f8f9fa] rounded-lg p-6">
+              <div className="font-hexagon font-medium text-[18px] mb-3">Ready to proceed?</div>
+              <p className="text-[16px] text-[#474f5f] leading-[24px] mb-4">
+                Based on your assessment results, we recommend connecting with our integration team 
+                to discuss your Nexus readiness and plan your next steps.
+              </p>
+              <div className="flex gap-4">
+                <Button 
+                  className="bg-[#2196f3] text-white hover:bg-[#1976d2]"
+                  onClick={() => window.open('mailto:nexus-support@example.com', '_blank')}
+                >
+                  Contact Integration Team
+                </Button>
+                <Button variant="outline" onClick={onRestart} className="flex items-center gap-2">
+                  <RotateCcw className="w-4 h-4" />
+                  Start New Assessment
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

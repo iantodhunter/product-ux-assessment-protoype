@@ -34,6 +34,10 @@ export function SideNavigation({
             <span>{`. Let's review what UX you've got in place.`}</span>
           </>
         );
+      case 5:
+        return "Review your Go-to-Market readiness before completing the assessment.";
+      case 6:
+        return "Review your complete Nexus readiness assessment and get personalized recommendations.";
       default:
         return "Complete your Nexus readiness assessment.";
     }
@@ -65,7 +69,7 @@ export function SideNavigation({
       </div>
       
       {/* Section Stepper - Only for UX Readiness */}
-      {currentStep === 4 && (
+      {currentStep === 4 && appType && (
         <div className="px-6">
           <SectionStepper 
             appType={appType}

@@ -7,21 +7,25 @@
         {
           "id": "nexus_auth",
           "text": "Uses Nexus authentication",
+          "subheading": "Users can sign in with their Nexus credentials and maintain single sign-on across the platform.",
           "mockupImage": "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
         },
         {
           "id": "account_dropdown",
           "text": "Users can access their Account information using the account dropdown",
+          "subheading": "A user menu or dropdown in the header allows quick access to profile settings, preferences, and account management.",
           "mockupImage": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
         },
         {
           "id": "navigation_consistent",
           "text": "Has consistent navigation patterns throughout the application",
+          "subheading": "Whether the main navigation is at the top of the app, in a drawer on the left-hand side, or in a hamburger menu, it is consistent. Main navigation is NOT needed on second level pages if there is a back button.",
           "mockupImage": "https://images.pexels.com/photos/3183144/pexels-photo-3183144.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
         },
         {
           "id": "settings_accessible",
           "text": "Application settings are easily accessible to users",
+          "subheading": "Users can find and modify application preferences, display options, and configuration settings without difficulty.",
           "mockupImage": "https://images.pexels.com/photos/3183146/pexels-photo-3183146.jpeg?auto=compress&cs=tinysrgb&w=380&h=240"
         },
         {

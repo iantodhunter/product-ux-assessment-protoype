@@ -12,6 +12,7 @@ export interface DataReadinessLevel {
 export interface UXQuestion {
   id: string;
   text: string;
+  subheading?: string;
   mockupImage?: string;
 }
 
