@@ -279,6 +279,24 @@ export function UXReadinessStep({
   const [responses, setResponses] = useState<Record<string, ResponseValue>>(initialResponses);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
 
+  // Filter and sort questions for current category
+  const getFilteredQuestions = (category: UXCategory) => {
+    const filteredQuestions = category.questions.filter(question => 
+      !question.appTypeSpecific || question.appTypeSpecific === selectedAppType
+    );
+    
+    // Sort so universal questions (no appTypeSpecific) come first
+    return filteredQuestions.sort((a, b) => {
+      if (!a.appTypeSpecific && b.appTypeSpecific) return -1;
+      if (a.appTypeSpecific && !b.appTypeSpecific) return 1;
+      return 0;
+    });
+  };
+
+  // Scroll to top when category changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentCategoryIndex]);
   const handleResponseChange = (questionId: string, value: ResponseValue) => {
     setResponses(prev => ({
       ...prev,
@@ -287,18 +305,20 @@ export function UXReadinessStep({
   };
 
   const currentCategory = questionCategories[currentCategoryIndex];
+  const currentFilteredQuestions = getFilteredQuestions(currentCategory);
   const isLastCategory = currentCategoryIndex === questionCategories.length - 1;
   const isFirstCategory = currentCategoryIndex === 0;
 
-  // Check if all questions in current category are answered
-  const currentCategoryAnswered = currentCategory.questions.every(question => 
+  // Check if all filtered questions in current category are answered
+  const currentCategoryAnswered = currentFilteredQuestions.every(question => 
     responses[question.id] !== undefined
   );
 
-  // Check if all questions across all categories are answered
-  const allQuestionsAnswered = questionCategories.every(category =>
-    category.questions.every(question => responses[question.id] !== undefined)
-  );
+  // Check if all filtered questions across all categories are answered
+  const allQuestionsAnswered = questionCategories.every(category => {
+    const filteredQuestions = getFilteredQuestions(category);
+    return filteredQuestions.every(question => responses[question.id] !== undefined);
+  });
 
   const handleContinue = () => {
     if (isLastCategory) {
@@ -364,7 +384,7 @@ export function UXReadinessStep({
         <div className="mb-48 w-full flex flex-col items-center">
           {/* Questions with increased spacing for zoom effect */}
           <div className="flex flex-col gap-64 w-full items-center px-8">
-            {currentCategory.questions.map((question) => (
+            {currentFilteredQuestions.map((question) => (
               <QuestionItem
                 key={question.id}
                 question={question}
