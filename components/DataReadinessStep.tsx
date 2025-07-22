@@ -121,10 +121,8 @@ function LevelCard({
           
           {/* Video Preview */}
           <VideoPreview
-            videoId={levelData.videoId}
             title={`${level} Data Readiness Example`}
             videoUrl={levelData.videoUrl}
-            thumbnail={levelData.videoThumbnail}
             onPlayClick={onPlayClick}
             className="relative shrink-0"
           />
