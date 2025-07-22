@@ -10,8 +10,8 @@
         "Standalone non-Nexus web apps"
       ],
       "videoId": "level0-demo",
-      "videoThumbnail": "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=270&h=163",
-      "videoUrl": "https://example.com/videos/level0-demo.mp4"
+      "videoThumbnail": "/content/Readiness-0_v2.mp4",
+      "videoUrl": "/content/Readiness-0_v2.mp4"
     },
     {
       "id": "level1",
@@ -23,8 +23,8 @@
         "Basic API connectivity to Nexus services"
       ],
       "videoId": "level1-demo",
-      "videoThumbnail": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=270&h=163",
-      "videoUrl": "https://example.com/videos/level1-demo.mp4"
+      "videoThumbnail": "/content/Readiness-1_v2.mp4",
+      "videoUrl": "/content/Readiness-1_v2.mp4"
     },
     {
       "id": "level2",
@@ -36,8 +36,8 @@
         "Advanced Nexus workflow integration"
       ],
       "videoId": "level2-demo",
-      "videoThumbnail": "https://images.pexels.com/photos/3183144/pexels-photo-3183144.jpeg?auto=compress&cs=tinysrgb&w=270&h=163",
-      "videoUrl": "https://example.com/videos/level2-demo.mp4"
+      "videoThumbnail": "/content/Readiness-2_V2.mp4",
+      "videoUrl": "/content/Readiness-2_V2.mp4"
     },
     {
       "id": "level3",
