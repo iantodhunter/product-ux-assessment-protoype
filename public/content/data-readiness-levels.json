@@ -1,0 +1,56 @@
+{
+  "levels": [
+    {
+      "id": "level0",
+      "level": "Level 0",
+      "subtitle": "No integration",
+      "description": "Basic standalone application with no Nexus integration",
+      "examples": [
+        "Traditional desktop software that saves to shared drive / Nexus Drive",
+        "Standalone non-Nexus web apps"
+      ],
+      "videoId": "level0-demo",
+      "videoThumbnail": "https://images.pexels.com/photos/3183153/pexels-photo-3183153.jpeg?auto=compress&cs=tinysrgb&w=270&h=163",
+      "videoUrl": "https://example.com/videos/level0-demo.mp4"
+    },
+    {
+      "id": "level1",
+      "level": "Level 1",
+      "subtitle": "Basic integration",
+      "description": "Application with basic Nexus data schema integration",
+      "examples": [
+        "Apps using Nexus file formats",
+        "Basic API connectivity to Nexus services"
+      ],
+      "videoId": "level1-demo",
+      "videoThumbnail": "https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=270&h=163",
+      "videoUrl": "https://example.com/videos/level1-demo.mp4"
+    },
+    {
+      "id": "level2",
+      "level": "Level 2",
+      "subtitle": "Advanced integration",
+      "description": "Application with advanced Nexus integration and real-time sync",
+      "examples": [
+        "Real-time data synchronization",
+        "Advanced Nexus workflow integration"
+      ],
+      "videoId": "level2-demo",
+      "videoThumbnail": "https://images.pexels.com/photos/3183144/pexels-photo-3183144.jpeg?auto=compress&cs=tinysrgb&w=270&h=163",
+      "videoUrl": "https://example.com/videos/level2-demo.mp4"
+    },
+    {
+      "id": "level3",
+      "level": "Level 3",
+      "subtitle": "Full integration",
+      "description": "Complete Nexus ecosystem integration with all features",
+      "examples": [
+        "Full Nexus platform integration",
+        "Native Nexus application development"
+      ],
+      "videoId": "level3-demo",
+      "videoThumbnail": "https://images.pexels.com/photos/3183146/pexels-photo-3183146.jpeg?auto=compress&cs=tinysrgb&w=270&h=163",
+      "videoUrl": "https://example.com/videos/level3-demo.mp4"
+    }
+  ]
+}

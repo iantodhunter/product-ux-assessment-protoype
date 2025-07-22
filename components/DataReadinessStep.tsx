@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { VideoPreview } from './VideoPreview';
+import { DataReadinessLevel } from '../src/services/contentService';
 import { RadioButtonIcon, CheckIcon, ArrowForwardIcon } from './icons/AppTypeIcons';
 
 interface DataReadinessStepProps {
@@ -13,24 +14,18 @@ interface DataReadinessStepProps {
 
 function LevelCard({ 
   level, 
-  subtitle, 
-  description, 
-  examples, 
+  levelData,
   isSelected, 
   isCurrentLevel,
   isDisabled,
   onClick,
-  videoId 
 }: {
   level: string;
-  subtitle: string;
-  description: string;
-  examples: string[];
+  levelData: DataReadinessLevel;
   isSelected: boolean;
   isCurrentLevel?: boolean;
   isDisabled: boolean;
   onClick: () => void;
-  videoId: string;
 }) {
   const getBackgroundColor = () => {
     if (isDisabled) return 'bg-[#f5f5f5] border border-[#e0e0e0] opacity-60';
@@ -89,20 +84,20 @@ function LevelCard({
                       style={{ width: "min-content" }}
                     >
                       <p className="[text-overflow:inherit] [text-wrap-mode:inherit]\' [white-space-collapse:inherit] block leading-[27px] overflow-inherit">
-                        {subtitle}
+                        {levelData.subtitle}
                       </p>
                     </div>
                   </div>
                   <div className="box-border content-stretch flex flex-col font-hexagon items-start justify-start leading-[0] not-italic p-0 relative shrink-0 text-[16px] text-left w-full">
                     <div className="flex flex-col justify-center relative shrink-0 text-[#474f5f] w-full">
                       <p className="block leading-[24px]">
-                        {description}
+                        {levelData.description}
                       </p>
                     </div>
                     <div className="flex flex-col justify-center relative shrink-0 text-[#474f5f] w-full">
                       <p className="block leading-[24px] mb-0">Examples:</p>
                       <ul className="css-ed5n1g list-disc">
-                        {examples.map((example, index) => (
+                        {levelData.examples.map((example, index) => (
                           <li key={index} className="mb-0 ms-6">
                             <span className="leading-[24px] text-[#474f5f]">
                               {example}
@@ -122,8 +117,9 @@ function LevelCard({
           
           {/* Video Preview */}
           <VideoPreview
-            videoId={videoId}
+            videoId={levelData.videoId}
             title={`${level} Data Readiness Example`}
+            thumbnail={levelData.videoThumbnail}
             className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0"
           />
         </div>
@@ -226,58 +222,12 @@ function StepperCard({
 export function DataReadinessStep({ 
   onComplete, 
   onBack, 
+  levels,
   initialCurrentLevel, 
   initialGoalLevel
 }: DataReadinessStepProps) {
   const [currentLevel, setCurrentLevel] = useState<string | null>(initialCurrentLevel);
   const [goalLevel, setGoalLevel] = useState<string | null>(initialGoalLevel);
-
-  const levels = [
-    {
-      id: 'level0',
-      level: 'Level 0',
-      subtitle: 'No integration',
-      description: 'Basic standalone application with no Nexus integration',
-      examples: [
-        'Traditional desktop software that saves to shared drive / Nexus Drive',
-        'Standalone non-Nexus web apps'
-      ],
-      videoId: 'level0-demo'
-    },
-    {
-      id: 'level1',
-      level: 'Level 1',
-      subtitle: 'Basic integration',
-      description: 'Application with basic Nexus data schema integration',
-      examples: [
-        'Apps using Nexus file formats',
-        'Basic API connectivity to Nexus services'
-      ],
-      videoId: 'level1-demo'
-    },
-    {
-      id: 'level2',
-      level: 'Level 2',
-      subtitle: 'Advanced integration',
-      description: 'Application with advanced Nexus integration and real-time sync',
-      examples: [
-        'Real-time data synchronization',
-        'Advanced Nexus workflow integration'
-      ],
-      videoId: 'level2-demo'
-    },
-    {
-      id: 'level3',
-      level: 'Level 3',
-      subtitle: 'Full integration',
-      description: 'Complete Nexus ecosystem integration with all features',
-      examples: [
-        'Full Nexus platform integration',
-        'Native Nexus application development'
-      ],
-      videoId: 'level3-demo'
-    }
-  ];
 
   const handleCurrentLevelSelect = (level: string) => {
     setCurrentLevel(level);
@@ -378,9 +328,7 @@ export function DataReadinessStep({
             <LevelCard
               key={level.id}
               level={level.level}
-              subtitle={level.subtitle}
-              description={level.description}
-              examples={level.examples}
+              levelData={level}
               isSelected={
                 !currentLevel 
                   ? false 
@@ -395,7 +343,6 @@ export function DataReadinessStep({
                   handleGoalLevelSelect(level.id);
                 }
               }}
-              videoId={level.videoId}
             />
           ))}
         </div>

@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { UXCategory, UXQuestion } from '../src/services/contentService';
 import { CheckIcon, CloseIcon, ScheduleIcon } from './icons/AppTypeIcons';
 
 interface UXReadinessStepProps {
+  questionCategories: UXCategory[];
   onComplete: (responses: Record<string, ResponseValue>) => void;
   initialResponses: Record<string, ResponseValue>;
   onStepSelect?: (step: number) => void;
@@ -9,16 +11,6 @@ interface UXReadinessStepProps {
 }
 
 type ResponseValue = 'yes' | 'no' | 'planned';
-
-interface Question {
-  id: string;
-  text: string;
-}
-
-interface QuestionCategory {
-  title: string;
-  questions: Question[];
-}
 
 function ThreeOptionButton({ 
   option, 
@@ -161,10 +153,12 @@ function MockupImage() {
 
 function QuestionItem({ 
   question, 
+  mockupImage,
   response, 
   onChange 
 }: { 
-  question: Question; 
+  question: UXQuestion; 
+  mockupImage?: string;
   response: ResponseValue | null; 
   onChange: (value: ResponseValue) => void; 
 }) {
@@ -229,45 +223,28 @@ function QuestionItem({
         <ThreeOptionSegmentedButton value={response} onChange={onChange} />
         
         {/* Mockup Image */}
-        <MockupImage />
+        {mockupImage ? (
+          <div className="bg-white rounded-2xl p-8 flex items-center justify-center min-h-[240px] w-full max-w-[380px] border border-[#e0e0e0]">
+            <img 
+              src={mockupImage} 
+              alt="Question mockup" 
+              className="max-w-full max-h-full object-contain rounded-lg"
+            />
+          </div>
+        ) : (
+          <MockupImage />
+        )}
       </div>
     </div>
   );
 }
 
 export function UXReadinessStep({ 
+  questionCategories,
   onComplete, 
   initialResponses,
 }: UXReadinessStepProps) {
   const [responses, setResponses] = useState<Record<string, ResponseValue>>(initialResponses);
-
-  const questionCategories: QuestionCategory[] = [
-    {
-      title: 'General User Experiences',
-      questions: [
-        {
-          id: 'nexus_auth',
-          text: 'Uses Nexus authentication',
-        },
-        {
-          id: 'account_dropdown',
-          text: 'Users can access their Account information using the account dropdown',
-        },
-        {
-          id: 'navigation_consistent',
-          text: 'Has consistent navigation patterns throughout the application',
-        },
-        {
-          id: 'settings_accessible',
-          text: 'Application settings are easily accessible to users',
-        },
-        {
-          id: 'help_support',
-          text: 'Help and support resources are readily available',
-        }
-      ]
-    }
-  ];
 
   const handleResponseChange = (questionId: string, value: ResponseValue) => {
     setResponses(prev => ({
@@ -298,6 +275,7 @@ export function UXReadinessStep({
                 <QuestionItem
                   key={question.id}
                   question={question}
+                  mockupImage={question.mockupImage}
                   response={responses[question.id] ?? null}
                   onChange={(value) => handleResponseChange(question.id, value)}
                 />

@@ -1,0 +1,22 @@
+{
+  "appTypes": [
+    {
+      "id": "web",
+      "label": "A web app",
+      "icon": "web",
+      "description": "Browser-based applications that run on web technologies"
+    },
+    {
+      "id": "desktop",
+      "label": "A desktop app", 
+      "icon": "desktop_windows",
+      "description": "Native applications that run on desktop operating systems"
+    },
+    {
+      "id": "device",
+      "label": "Device or mixed",
+      "icon": "devices", 
+      "description": "IoT devices, embedded systems, or mixed application types"
+    }
+  ]
+}

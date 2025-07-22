@@ -4,6 +4,8 @@ import { StepTwo } from '../components/StepTwo';
 import { DataReadinessStep } from '../components/DataReadinessStep';
 import { UXReadinessStep } from '../components/UXReadinessStep';
 import { SideNavigation } from '../components/SideNavigation';
+import useContent from './hooks/useContent';
+import { LoadingScreen } from '../components/LoadingScreen';
 
 type ResponseValue = 'yes' | 'no' | 'planned';
 
@@ -17,6 +19,8 @@ export interface AppData {
 }
 
 export default function App() {
+  const { content, loading, error } = useContent();
+  
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [appData, setAppData] = useState<AppData>({
@@ -88,6 +92,11 @@ export default function App() {
   };
 
   const renderCurrentStep = () => {
+    // Don't render anything if content is still loading or not available
+    if (loading || !content.dataReadinessLevels || !content.uxCategories) {
+      return null;
+    }
+
     switch (currentStep) {
       case 1:
         return (
@@ -112,6 +121,7 @@ export default function App() {
       case 3:
         return (
           <DataReadinessStep 
+            levels={content.dataReadinessLevels}
             onComplete={handleDataReadinessComplete}
             onBack={handleBackToStepTwo}
             initialCurrentLevel={appData.currentDataReadinessLevel}
@@ -123,6 +133,7 @@ export default function App() {
       case 4:
         return (
           <UXReadinessStep 
+            questionCategories={content.uxCategories}
             onComplete={handleUXReadinessComplete}
             initialResponses={appData.uxReadinessResponses}
             onStepSelect={handleStepNavigation}
@@ -133,6 +144,16 @@ export default function App() {
         return null;
     }
   };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  if (error) {
+    return <div className="h-screen flex items-center justify-center">
+      <div className="text-red-600">Error loading content: {error}</div>
+    </div>;
+  }
 
   return (
     <div className="h-screen flex bg-[#f8fafd]">
