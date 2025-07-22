@@ -297,9 +297,15 @@ export function UXReadinessStep({
 
   // Scroll to top when category changes
   useEffect(() => {
-    if (scrollContainerRef?.current) {
-      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    const scrollToTop = () => {
+      if (scrollContainerRef?.current) {
+        scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      // Also try to scroll the window in case the ref isn't working
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    
+    scrollToTop();
   }, [currentCategoryIndex, scrollContainerRef]);
   const handleResponseChange = (questionId: string, value: ResponseValue) => {
     setResponses(prev => ({

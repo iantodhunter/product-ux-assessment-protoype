@@ -2,6 +2,7 @@ import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { CheckCircle, AlertCircle, XCircle, RotateCcw } from 'lucide-react';
+import useContent from '../src/hooks/useContent';
 
 type ResponseValue = 'yes' | 'no' | 'planned';
 
@@ -20,89 +21,147 @@ interface AssessmentResultsProps {
   onBack: () => void;
 }
 
-function calculateReadinessScore(appType: string, responses: Record<string, any>): {
-  score: number;
-  level: 'high' | 'medium' | 'low';
-  recommendations: string[];
-} {
-  let score = 70; // Base score
-  const recommendations: string[] = [];
+function UXMatrix({ responses, appType }: { responses: Record<string, ResponseValue>; appType: string | null }) {
+  const { content } = useContent();
+  
+  if (!content.uxCategories) return null;
 
-  // Count UX responses
-  const uxResponses = Object.values(responses);
-  const yesCount = uxResponses.filter(r => r === 'yes').length;
-  const plannedCount = uxResponses.filter(r => r === 'planned').length;
-  const noCount = uxResponses.filter(r => r === 'no').length;
+  const getSquareColor = (response: ResponseValue | undefined) => {
+    switch (response) {
+      case 'yes': return 'bg-[#4caf50]';
+      case 'no': return 'bg-[#f44336]';
+      case 'planned': return 'bg-[#2196f3]';
+      default: return 'bg-[#e0e0e0]';
+    }
+  };
 
-  // Score based on UX readiness
-  score += yesCount * 5; // +5 for each "yes"
-  score += plannedCount * 2; // +2 for each "planned"
-  // no points for "no" responses
+  const getFilteredQuestions = (category: any) => {
+    const filteredQuestions = category.questions.filter((question: any) => 
+      !question.appTypeSpecific || question.appTypeSpecific === appType
+    );
+    
+    // Sort so universal questions come first
+    return filteredQuestions.sort((a: any, b: any) => {
+      if (!a.appTypeSpecific && b.appTypeSpecific) return -1;
+      if (a.appTypeSpecific && !b.appTypeSpecific) return 1;
+      return 0;
+    });
+  };
 
-  // App type specific adjustments
-  if (appType === 'web') {
-    score += 5; // Web apps generally have more mature tooling
-  } else if (appType === 'device') {
-    score += 10; // Device integration is more complex, bonus for attempting
-  }
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-[#4caf50] rounded"></div>
+          <span className="text-sm font-hexagon">Yes</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-[#f44336] rounded"></div>
+          <span className="text-sm font-hexagon">No</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-[#2196f3] rounded"></div>
+          <span className="text-sm font-hexagon">Planned</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-[#e0e0e0] rounded"></div>
+          <span className="text-sm font-hexagon">Not Answered</span>
+        </div>
+      </div>
+      
+      {content.uxCategories.map((category) => {
+        const filteredQuestions = getFilteredQuestions(category);
+        
+        return (
+          <div key={category.id} className="flex items-center gap-4">
+            <div className="w-32 text-right">
+              <span className="font-hexagon text-[16px] text-[#474f5f]">{category.title}</span>
+            </div>
+            <div className="flex gap-2">
+              {filteredQuestions.map((question: any) => (
+                <div
+                  key={question.id}
+                  className={`w-12 h-12 rounded ${getSquareColor(responses[question.id])}`}
+                  title={`${question.text}: ${responses[question.id] || 'Not answered'}`}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
-  // Determine readiness level
-  let level: 'high' | 'medium' | 'low';
-  if (score >= 85) level = 'high';
-  else if (score >= 70) level = 'medium';
-  else level = 'low';
+function DataReadinessSection({ currentLevel, goalLevel }: { currentLevel: string | null; goalLevel: string | null }) {
+  const { content } = useContent();
+  
+  const getCurrentLevelData = () => {
+    return content.dataReadinessLevels?.find(level => level.id === currentLevel);
+  };
 
-  // Generate recommendations
-  if (noCount > yesCount) {
-    recommendations.push('Focus on implementing missing UX components before proceeding');
-  }
-  if (plannedCount > 0) {
-    recommendations.push('Complete planned UX elements to improve readiness score');
-  }
-  if (level === 'high') {
-    recommendations.push('Excellent readiness! You\'re well-prepared for Nexus integration');
-  } else if (level === 'medium') {
-    recommendations.push('Good foundation. Address key gaps to optimize integration success');
-  } else {
-    recommendations.push('Consider strengthening UX foundation before Nexus integration');
-  }
+  const getGoalLevelData = () => {
+    return content.dataReadinessLevels?.find(level => level.id === goalLevel);
+  };
 
-  return { score, level, recommendations };
+  const currentLevelData = getCurrentLevelData();
+  const goalLevelData = getGoalLevelData();
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="space-y-3">
+        <h4 className="font-hexagon text-[18px] font-medium text-[#121623]">Current Level</h4>
+        <div className="bg-[#e8f5e8] border-2 border-[#4caf50] rounded-xl p-6">
+          <div className="font-hexagon text-[24px] font-medium text-[#2e7d32] mb-2">
+            {currentLevelData?.level || 'Unknown'}
+          </div>
+          <div className="font-hexagon text-[16px] text-[#2e7d32]">
+            {currentLevelData?.subtitle || 'No data available'}
+          </div>
+          <p className="font-hexagon text-[14px] text-[#646e78] mt-2">
+            {currentLevelData?.description || 'No description available'}
+          </p>
+        </div>
+      </div>
+      
+      <div className="space-y-3">
+        <h4 className="font-hexagon text-[18px] font-medium text-[#121623]">Goal Level</h4>
+        <div className="bg-[#e3f2fd] border-2 border-[#2196f3] rounded-xl p-6">
+          <div className="font-hexagon text-[24px] font-medium text-[#1976d2] mb-2">
+            {goalLevelData?.level || 'Unknown'}
+          </div>
+          <div className="font-hexagon text-[16px] text-[#1976d2]">
+            {goalLevelData?.subtitle || 'No data available'}
+          </div>
+          <p className="font-hexagon text-[14px] text-[#646e78] mt-2">
+            {goalLevelData?.description || 'No description available'}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function GTMSection() {
+  return (
+    <div className="bg-[#e8f5e8] border-2 border-[#4caf50] rounded-xl p-6">
+      <div className="flex items-center gap-3 mb-3">
+        <CheckCircle className="w-6 h-6 text-[#4caf50]" />
+        <h4 className="font-hexagon text-[18px] font-medium text-[#2e7d32]">
+          GTM Checklist Status
+        </h4>
+      </div>
+      <div className="font-hexagon text-[16px] text-[#2e7d32] mb-2">
+        ✓ GTM Checklist Completed
+      </div>
+      <p className="font-hexagon text-[14px] text-[#646e78]">
+        Go-to-Market checklist has been reviewed and completed, indicating readiness for market entry.
+      </p>
+    </div>
+  );
 }
 
 export function AssessmentResults({ appData, onRestart, onBack }: AssessmentResultsProps) {
-  const { score, level, recommendations } = calculateReadinessScore(
-    appData.appType || '', 
-    appData.uxReadinessResponses
-  );
-
-  const getScoreColor = (level: string) => {
-    switch (level) {
-      case 'high': return 'text-green-600';
-      case 'medium': return 'text-yellow-600';
-      case 'low': return 'text-red-600';
-      default: return 'text-gray-600';
-    }
-  };
-
-  const getScoreIcon = (level: string) => {
-    switch (level) {
-      case 'high': return <CheckCircle className="w-8 h-8 text-green-600" />;
-      case 'medium': return <AlertCircle className="w-8 h-8 text-yellow-600" />;
-      case 'low': return <XCircle className="w-8 h-8 text-red-600" />;
-      default: return null;
-    }
-  };
-
-  const getLevelBadge = (level: string) => {
-    switch (level) {
-      case 'high': return <Badge className="bg-green-100 text-green-800">High Readiness</Badge>;
-      case 'medium': return <Badge className="bg-yellow-100 text-yellow-800">Medium Readiness</Badge>;
-      case 'low': return <Badge className="bg-red-100 text-red-800">Low Readiness</Badge>;
-      default: return null;
-    }
-  };
-
   const getAppTypeLabel = () => {
     switch (appData.appType) {
       case 'web': return 'Web App';
@@ -128,104 +187,59 @@ export function AssessmentResults({ appData, onRestart, onBack }: AssessmentResu
         </button>
       </div>
 
-      <div className="w-full max-w-4xl space-y-6">
+      <div className="w-full max-w-6xl space-y-8">
         
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="font-hexagon text-[32px] text-[#121623] font-medium mb-2">
             Nexus Readiness Assessment Complete
           </h1>
-          <p className="font-hexagon text-[18px] text-[#646e78]">
-            Review your assessment results and recommendations
-          </p>
+          <div className="font-hexagon text-[18px] text-[#646e78] space-y-1">
+            <div><strong>Product:</strong> {appData.productName}</div>
+            <div><strong>Product Manager:</strong> {appData.productManagerName}</div>
+            <div><strong>App Type:</strong> {getAppTypeLabel()}</div>
+          </div>
         </div>
         
-        {/* Score Card */}
-        <Card className="text-center">
-          <CardHeader>
-            <div className="flex items-center justify-center mb-4">
-              {getScoreIcon(level)}
-            </div>
-            <CardTitle className="text-[32px] font-hexagon">
-              Your Nexus Readiness Score
-            </CardTitle>
-            <div className={`text-[48px] font-bold ${getScoreColor(level)}`}>
-              {score}/100
-            </div>
-            <div className="flex justify-center">
-              {getLevelBadge(level)}
-            </div>
-          </CardHeader>
-        </Card>
-
-        {/* Assessment Summary */}
+        {/* Data Readiness Section */}
         <Card>
           <CardHeader>
             <CardTitle className="text-[24px] font-hexagon">
-              Assessment Summary
+              Data Readiness Assessment
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div>
-                  <div className="font-hexagon font-medium text-[16px] mb-2">Product Information</div>
-                  <div className="text-[14px] text-[#646e78] space-y-1">
-                    <div><strong>Product:</strong> {appData.productName}</div>
-                    <div><strong>Product Manager:</strong> {appData.productManagerName}</div>
-                    <div><strong>App Type:</strong> {getAppTypeLabel()}</div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="font-hexagon font-medium text-[16px] mb-2">Data Readiness</div>
-                  <div className="text-[14px] text-[#646e78] space-y-1">
-                    <div><strong>Current Level:</strong> Level {appData.currentDataReadinessLevel?.replace('level', '') || 'Unknown'}</div>
-                    <div><strong>Goal Level:</strong> Level {appData.goalDataReadinessLevel?.replace('level', '') || 'Unknown'}</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="space-y-4">
-                <div>
-                  <div className="font-hexagon font-medium text-[16px] mb-2">UX Readiness</div>
-                  <div className="text-[14px] text-[#646e78] space-y-1">
-                    <div><strong>Total Questions:</strong> {Object.keys(appData.uxReadinessResponses).length}</div>
-                    <div><strong>Yes:</strong> {Object.values(appData.uxReadinessResponses).filter(r => r === 'yes').length}</div>
-                    <div><strong>Planned:</strong> {Object.values(appData.uxReadinessResponses).filter(r => r === 'planned').length}</div>
-                    <div><strong>No:</strong> {Object.values(appData.uxReadinessResponses).filter(r => r === 'no').length}</div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="font-hexagon font-medium text-[16px] mb-2">GTM Readiness</div>
-                  <div className="text-[14px] text-[#646e78]">
-                    Checklist reviewed
-                  </div>
-                </div>
-              </div>
-            </div>
+            <DataReadinessSection 
+              currentLevel={appData.currentDataReadinessLevel}
+              goalLevel={appData.goalDataReadinessLevel}
+            />
           </CardContent>
         </Card>
 
-        {/* Recommendations */}
+        {/* UX Readiness Section */}
         <Card>
           <CardHeader>
             <CardTitle className="text-[24px] font-hexagon">
-              Recommendations
+              UX Readiness Assessment
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {recommendations.map((recommendation, index) => (
-                <div key={index} className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-[#2196f3] rounded-full mt-2 shrink-0" />
-                  <p className="text-[16px] text-[#474f5f] leading-[24px]">
-                    {recommendation}
-                  </p>
-                </div>
-              ))}
-            </div>
+            <UXMatrix 
+              responses={appData.uxReadinessResponses}
+              appType={appData.appType}
+            />
+          </CardContent>
+        </Card>
+
+        {/* GTM Readiness Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[24px] font-hexagon">
+              Go-to-Market Readiness
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <GTMSection />
           </CardContent>
         </Card>
 
