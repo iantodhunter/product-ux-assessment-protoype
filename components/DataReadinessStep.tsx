@@ -5,6 +5,7 @@ import { DataReadinessLevel } from '../src/services/contentService';
 import { RadioButtonIcon, CheckIcon, ArrowForwardIcon } from './icons/AppTypeIcons';
 
 interface DataReadinessStepProps {
+  levels: DataReadinessLevel[];
   onComplete: (currentLevel: string, goalLevel: string) => void;
   onBack: () => void;
   initialCurrentLevel: string | null;
@@ -352,7 +353,7 @@ export function DataReadinessStep({
       {/* Level Cards - Hide when both selections are complete */}
       {(!currentLevel || !goalLevel) && (
         <div className="box-border content-stretch flex flex-row gap-6 items-start justify-center p-0 max-w-7xl">
-          {levels.map((level) => (
+          {levels.map((level: DataReadinessLevel) => (
             <LevelCard
               key={level.id}
               level={level.level}

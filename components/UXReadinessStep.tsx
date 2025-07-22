@@ -160,13 +160,11 @@ function QuestionItem({
   mockupImage,
   response, 
   onChange,
-  selectedAppType
 }: { 
   question: UXQuestion; 
   mockupImage?: string;
   response: ResponseValue | null; 
   onChange: (value: ResponseValue) => void;
-  selectedAppType: string | null;
 }) {
   const [scale, setScale] = useState(1);
   const questionRef = useRef<HTMLDivElement>(null);
@@ -360,12 +358,6 @@ export function UXReadinessStep({
     return `Continue to ${getNextCategoryName()}`;
   };
 
-  const handleComplete = () => {
-    if (allQuestionsAnswered) {
-      onComplete(responses);
-    }
-  };
-
   return (
     <div className="w-full h-full overflow-auto">
       <div className="flex flex-col items-center justify-start w-full min-h-full py-16">
@@ -401,7 +393,6 @@ export function UXReadinessStep({
                 mockupImage={question.mockupImage}
                 response={responses[question.id] ?? null}
                 onChange={(value) => handleResponseChange(question.id, value)}
-                selectedAppType={selectedAppType}
               />
             ))}
           </div>

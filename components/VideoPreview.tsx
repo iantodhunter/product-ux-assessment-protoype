@@ -1,18 +1,14 @@
 import { PlayIcon } from './icons/AppTypeIcons';
 
 interface VideoPreviewProps {
-  videoId: string;
   title: string;
-  thumbnail?: string;
   videoUrl?: string;
   className?: string;
   onPlayClick: (videoUrl: string, title: string) => void;
 }
 
 export function VideoPreview({ 
-  videoId, 
   title, 
-  thumbnail, 
   videoUrl, 
   className = "",
   onPlayClick 
