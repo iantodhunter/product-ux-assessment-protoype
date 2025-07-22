@@ -11,6 +11,7 @@ interface UXReadinessStepProps {
   onStepSelect?: (step: number) => void;
   completedSteps?: number[];
   selectedAppType: string | null;
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
 }
 
 type ResponseValue = 'yes' | 'no' | 'planned';
@@ -275,6 +276,7 @@ export function UXReadinessStep({
   onBack,
   initialResponses,
   selectedAppType,
+  scrollContainerRef,
 }: UXReadinessStepProps) {
   const [responses, setResponses] = useState<Record<string, ResponseValue>>(initialResponses);
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
@@ -295,8 +297,10 @@ export function UXReadinessStep({
 
   // Scroll to top when category changes
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [currentCategoryIndex]);
+    if (scrollContainerRef?.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [currentCategoryIndex, scrollContainerRef]);
   const handleResponseChange = (questionId: string, value: ResponseValue) => {
     setResponses(prev => ({
       ...prev,

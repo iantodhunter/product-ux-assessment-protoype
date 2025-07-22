@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { StepOne } from '../components/StepOne';
 import { StepTwo } from '../components/StepTwo';
 import { DataReadinessStep } from '../components/DataReadinessStep';
@@ -22,6 +22,7 @@ export interface AppData {
 
 export default function App() {
   const { content, loading, error } = useContent();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -168,6 +169,7 @@ export default function App() {
             onStepSelect={handleStepNavigation}
             completedSteps={completedSteps}
             selectedAppType={appData.appType}
+            scrollContainerRef={scrollContainerRef}
           />
         );
       case 5:
@@ -213,7 +215,7 @@ export default function App() {
       />
       
       {/* Main Content Area */}
-      <div className="flex-1 ml-[280px] flex flex-col items-center justify-center overflow-auto">
+      <div ref={scrollContainerRef} className="flex-1 ml-[280px] flex flex-col items-center justify-center overflow-auto">
         {renderCurrentStep()}
       </div>
     </div>
