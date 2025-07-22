@@ -70,9 +70,9 @@ function ThreeOptionButton({
       case 'yes':
         return 'rounded-l-xl';
       case 'no':
-        return 'rounded-r-xl';
-      case 'planned':
         return '';
+      case 'planned':
+        return 'rounded-r-xl';
     }
   };
 
