@@ -20,37 +20,37 @@ function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
       
-      {/* Modal Content */}
-      <div className="relative bg-white rounded-2xl p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-auto">
+      {/* Modal Content - 75% of screen */}
+      <div className="relative bg-white rounded-2xl p-6 w-[75vw] h-[75vh] flex flex-col shadow-2xl">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors z-10"
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors z-10 bg-white/90 rounded-full p-2 hover:bg-white/100"
         >
-          <span className="material-symbols-outlined text-[32px]">
+          <span className="material-symbols-outlined text-[24px]">
             close
           </span>
         </button>
         
         {/* Video Title */}
-        <h3 className="font-hexagon text-[24px] text-[#121623] font-medium mb-4 pr-12">
+        <h3 className="font-hexagon text-[28px] text-[#121623] font-medium mb-4 pr-16">
           {title}
         </h3>
         
-        {/* Video Player */}
-        <div className="aspect-video bg-black rounded-xl overflow-hidden">
+        {/* Video Player - Takes remaining space */}
+        <div className="flex-1 bg-black rounded-xl overflow-hidden">
           {videoUrl && !videoUrl.includes('example.com') ? (
             <video 
               controls 
               autoPlay
-              className="w-full h-full"
+              className="w-full h-full object-contain"
               poster=""
             >
               <source src={videoUrl} type="video/mp4" />
@@ -62,8 +62,8 @@ function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps) {
                 <span className="material-symbols-outlined text-[64px] mb-4 block">
                   construction
                 </span>
-                <div className="font-hexagon text-[24px]">Coming Soon</div>
-                <div className="font-hexagon text-[16px] text-gray-300 mt-2">
+                <div className="font-hexagon text-[32px]">Coming Soon</div>
+                <div className="font-hexagon text-[18px] text-gray-300 mt-2">
                   Video content is being prepared
                 </div>
               </div>
@@ -78,7 +78,9 @@ function VideoModal({ isOpen, onClose, videoUrl, title }: VideoModalProps) {
 export function VideoPreview({ videoId, title, thumbnail, videoUrl, className = "" }: VideoPreviewProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handlePlayClick = () => {
+  const handlePlayClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setIsModalOpen(true);
   };
 
@@ -135,7 +137,7 @@ export function VideoPreview({ videoId, title, thumbnail, videoUrl, className = 
         <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl" />
       </div>
 
-      {/* Video Modal */}
+      {/* Video Modal - Rendered at DOM level */}
       <VideoModal
         isOpen={isModalOpen}
         onClose={closeModal}
