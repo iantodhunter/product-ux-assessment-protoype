@@ -28,9 +28,9 @@ function UXMatrix({ responses, appType }: { responses: Record<string, ResponseVa
 
   const getSquareColor = (response: ResponseValue | undefined) => {
     switch (response) {
-      case 'yes': return 'bg-[#4caf50]';
-      case 'no': return 'bg-[#f44336]';
-      case 'planned': return 'bg-[#2196f3]';
+      case 'yes': return 'bg-[#81c784]';
+      case 'no': return 'bg-[#ef5350]';
+      case 'planned': return 'bg-[#64b5f6]';
       default: return 'bg-[#e0e0e0]';
     }
   };
@@ -48,19 +48,26 @@ function UXMatrix({ responses, appType }: { responses: Record<string, ResponseVa
     });
   };
 
+  const calculateCategoryPercentage = (category: any) => {
+    const filteredQuestions = getFilteredQuestions(category);
+    const yesResponses = filteredQuestions.filter((question: any) => responses[question.id] === 'yes').length;
+    if (filteredQuestions.length === 0) return 0;
+    return Math.round((yesResponses / filteredQuestions.length) * 100);
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#4caf50] rounded"></div>
+          <div className="w-4 h-4 bg-[#81c784] rounded"></div>
           <span className="text-sm font-hexagon">Yes</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#f44336] rounded"></div>
+          <div className="w-4 h-4 bg-[#ef5350] rounded"></div>
           <span className="text-sm font-hexagon">No</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-[#2196f3] rounded"></div>
+          <div className="w-4 h-4 bg-[#64b5f6] rounded"></div>
           <span className="text-sm font-hexagon">Planned</span>
         </div>
         <div className="flex items-center gap-2">
@@ -71,10 +78,14 @@ function UXMatrix({ responses, appType }: { responses: Record<string, ResponseVa
       
       {content.uxCategories.map((category) => {
         const filteredQuestions = getFilteredQuestions(category);
+        const percentage = calculateCategoryPercentage(category);
         
         return (
-          <div key={category.id} className="flex items-center gap-4">
-            <div className="w-32 text-right">
+          <div key={category.id} className="flex items-center gap-6">
+            <div className="w-8 text-center">
+              <span className="font-hexagon text-[14px] text-[#666] font-medium">{percentage}%</span>
+            </div>
+            <div className="w-28 text-right">
               <span className="font-hexagon text-[16px] text-[#474f5f]">{category.title}</span>
             </div>
             <div className="flex gap-2">
@@ -82,7 +93,7 @@ function UXMatrix({ responses, appType }: { responses: Record<string, ResponseVa
                 <div
                   key={question.id}
                   className={`w-12 h-12 rounded ${getSquareColor(responses[question.id])}`}
-                  title={`${question.text}: ${responses[question.id] || 'Not answered'}`}
+                  title={question.text}
                 />
               ))}
             </div>
