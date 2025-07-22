@@ -119,6 +119,7 @@ function LevelCard({
           <VideoPreview
             videoId={levelData.videoId}
             title={`${level} Data Readiness Example`}
+            videoUrl={levelData.videoUrl}
             thumbnail={levelData.videoThumbnail}
             className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0"
           />
