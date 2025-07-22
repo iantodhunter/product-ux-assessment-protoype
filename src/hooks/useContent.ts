@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import contentService, { ContentData } from '../services/contentService';
 
-export function useContent() {
+function useContent() {
   const [content, setContent] = useState<ContentData>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

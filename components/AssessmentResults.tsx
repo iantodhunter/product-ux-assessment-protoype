@@ -5,7 +5,7 @@ import { CheckCircle, AlertCircle, XCircle, RotateCcw } from 'lucide-react';
 
 type ResponseValue = 'yes' | 'no' | 'planned';
 
-export interface AppData {
+interface AppData {
   appType: string | null;
   productName: string;
   productManagerName: string;

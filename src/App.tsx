@@ -11,7 +11,7 @@ import { LoadingScreen } from '../components/LoadingScreen';
 
 type ResponseValue = 'yes' | 'no' | 'planned';
 
-export interface AppData {
+interface AppData {
   appType: string | null;
   productName: string;
   productManagerName: string;

@@ -23,7 +23,7 @@ export interface UXCategory {
   questions: UXQuestion[];
 }
 
-export interface AppType {
+interface AppType {
   id: string;
   label: string;
   icon: string;
@@ -108,5 +108,5 @@ class ContentService {
   }
 }
 
-export const contentService = new ContentService();
+const contentService = new ContentService();
 export default contentService;
