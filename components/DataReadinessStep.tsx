@@ -20,6 +20,7 @@ function LevelCard({
   isCurrentLevel,
   isDisabled,
   onClick,
+  onPlayClick,
 }: {
   level: string;
   levelData: DataReadinessLevel;
@@ -27,6 +28,7 @@ function LevelCard({
   isCurrentLevel?: boolean;
   isDisabled: boolean;
   onClick: () => void;
+  onPlayClick: (videoUrl: string, title: string) => void;
 }) {
   const getBackgroundColor = () => {
     if (isDisabled) return 'bg-[#f5f5f5] border border-[#e0e0e0] opacity-60';
@@ -122,7 +124,7 @@ function LevelCard({
             title={`${level} Data Readiness Example`}
             videoUrl={levelData.videoUrl}
             thumbnail={levelData.videoThumbnail}
-            onPlayClick={handleVideoPlayClick}
+            onPlayClick={onPlayClick}
             className="relative shrink-0"
           />
         </div>
@@ -362,6 +364,7 @@ export function DataReadinessStep({
               }
               isCurrentLevel={currentLevel === level.id}
               isDisabled={false}
+              onPlayClick={handleVideoPlayClick}
               onClick={() => {
                 if (!currentLevel) {
                   handleCurrentLevelSelect(level.id);
