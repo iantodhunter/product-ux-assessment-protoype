@@ -23,13 +23,13 @@ function SelectAppType({
       className={`box-border content-stretch flex flex-col gap-4 items-center justify-start min-w-[220px] p-[16px] relative rounded-lg shrink-0 w-[220px] transition-all duration-200 hover:scale-105 ${
         isSelected 
           ? 'bg-[#e3f2fd] border-2 border-[#2196f3]' 
-          : 'bg-[#edf0f3] border border-[#b4bac4]'
+          : 'bg-[#e8f5e8] border border-[#4caf50]'
       }`}
       data-name="Select App type"
       onClick={onClick}
     >
       <div className={`absolute border border-solid inset-0 pointer-events-none rounded-lg ${
-        isSelected ? 'border-[#2196f3]' : 'border-[#b4bac4]'
+        isSelected ? 'border-[#2196f3]' : 'border-[#4caf50]'
       }`} />
       {icon}
       <div
