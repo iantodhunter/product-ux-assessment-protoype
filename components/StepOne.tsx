@@ -29,7 +29,6 @@ function SelectAppType({
       onClick={onClick}
     >
       <div className={`absolute border border-solid inset-0 pointer-events-none rounded-lg ${
-        isSelected ? 'border-[#2196f3]' : 'border-[#4caf50]'
         isSelected ? 'border-[#2196f3]' : 'border-[#b4bac4]'
       }`} />
       {icon}
